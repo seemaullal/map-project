@@ -23,9 +23,9 @@ class User(db.Model):
     phone_num = db.Column(db.Integer, nullable=False)
 
     routes = db.relationship("Route", back_populates="user")
-    spots = db.relationship("Spot", back_populates="user")
+    stops = db.relationship("Stop", back_populates="user")
     reviews = db.relationship("Review", back_populates="user")
-    favorite_spots = db.relationship("Favorite_spot", back_populates="user")
+    favorite_stops = db.relationship("Favorite_stop", back_populates="user")
 
     def __repr__(self):
         return f'<User user_id={self.user_id} email={self.email}>'
@@ -39,7 +39,7 @@ class Route(db.Model):
     route_id = db.Column(db.Integer,
                         autoincrement=True,
                         primary_key=True)
-    num_spots = db.Column(db.Integer, nullable=False)
+    num_stops = db.Column(db.Integer, nullable=False)
     total_miles = db.Column(db.Integer, nullable=False)
     total_time = db.Column(db.DateTime, nullable=False)
     start_lat = db.Column(db.Float, nullable=False)
@@ -50,70 +50,70 @@ class Route(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"))
 
     reviews = db.relationship("Review", back_populates="route")
-    spot_on_route = db.relationship("Spot_on_route", back_populates="route")
+    stops_on_route = db.relationship("Stop_on_route", back_populates="route")
 
     def __repr__(self):
-        return f'<User user_id={self.route_id}>'
+        return f'<Route route_id={self.route_id}>'
 
 
-class Spot_on_route(db.Model):
-    """A Spot On a Route."""
+class Stop_on_route(db.Model):
+    """A Stop On a Route."""
 
-    __tablename__ = "spot_on_route"
+    __tablename__ = "stops_on_route"
 
-    spot_on_route_id = db.Column(db.Integer,
+    stop_on_route_id = db.Column(db.Integer,
                         autoincrement=True,
                         primary_key=True)
     route_id = db.Column(db.Integer, db.ForeignKey("routes.route_id"))
-    spot_id = db.Column(db.Integer, db.ForeignKey("spots.spot_id"))
+    stop_id = db.Column(db.Integer, db.ForeignKey("stops.stop_id"))
 
-    routes = db.relationship("Route", back_populates="spot_on_route")
-    spots = db.relationship("Spot", back_populates="spot_on_route")
+    routes = db.relationship("Route", back_populates="stop_on_route")
+    stops = db.relationship("Stop", back_populates="stop_on_route")
 
     def __repr__(self):
-        return f'<Spot_on_route spot_on_route_id={self.spot_on_route_id}>'
+        return f'<Stop_on_route stop_on_route_id={self.stop_on_route_id}>'
 
 
-class Spot(db.Model):
-    """A Spot."""
+class Stop(db.Model):
+    """A Stop."""
 
-    __tablename__ = "spots"
+    __tablename__ = "stops"
 
-    spot_id = db.Column(db.Integer,
+    stop_id = db.Column(db.Integer,
                         autoincrement=True,
                         primary_key=True)
     miles_from_path = db.Column(db.Integer, nullable=False)
     time_from_path = db.Column(db.DateTime, nullable=False)
-    spot_lat = db.Column(db.Float, nullable=False)
-    spot_lng= db.Column(db.Float, nullable=False)
+    stop_lat = db.Column(db.Float, nullable=False)
+    stop_lng= db.Column(db.Float, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"))
-    spot_category_id = db.Column(db.Integer, db.ForeignKey("spot_category.spot_category_id"))
+    stop_category_id = db.Column(db.Integer, db.ForeignKey("stop_categories.stop_category_id"))
 
-    users = db.relationship("User", back_populates="spot")
-    spot_categories = db.relationship("Spot_category", back_populates="spot")
+    users = db.relationship("User", back_populates="stop")
+    stop_categories = db.relationship("Stop_category", back_populates="stop")
 
     def __repr__(self):
-        return f'<Spot_on_route spot_on_route_id={self.spot_on_route_id}>'
+        return f'<Stop stop_id={self.stop_id}>'
 
 
-class Spot_category(db.Model):
-    """A spot category."""
+class Stop_category(db.Model):
+    """A Stop Category."""
 
-    __tablename__ = "spot_categories"
+    __tablename__ = "stop_categories"
 
-    spot_category_id = db.Column(db.Integer,
+    stop_category_id = db.Column(db.Integer,
                         autoincrement=True,
                         primary_key=True)
-    category_name = db.Column(db.String, nullable=False)
+    stop_category_name = db.Column(db.String, nullable=False)
 
-    spots = db.relationship("Spot", back_populates="spot_category")
+    stops = db.relationship("Stop", back_populates="stop_category")
 
     def __repr__(self):
-        return f'<Spot_category_id={self.spot_category_id}>'
+        return f'<Stop_category stop_category_id={self.stop_category_id} stop_category_name={self.stop_category_name}>'
 
 
 class Review(db.Model):
-    """A review."""
+    """A Review."""
 
     __tablename__ = "reviews"
 
@@ -124,32 +124,32 @@ class Review(db.Model):
     review_content = db.Column(db.Text, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"))
     route_id = db.Column(db.Integer, db.ForeignKey("routes.route_id"))
-    spot_id = db.Column(db.Integer, db.ForeignKey("spots.spot_id"))
+    stop_id = db.Column(db.Integer, db.ForeignKey("stops.stop_id"))
 
     users = db.relationship("User", back_populates="review")
     routes = db.relationship("Route", back_populates="review")
-    spots = db.relationship("Spot", back_populates="review")
+    stops = db.relationship("Stop", back_populates="review")
 
     def __repr__(self):
         return f'<Review review_id={self.review_id}>'
 
 
-class Favorite_spot(db.Model):
-    """A user's favorite spot."""
+class Favorite_stop(db.Model):
+    """A User's Favorite Stops."""
 
-    __tablename__ = "favorite_spots"
+    __tablename__ = "favorite_stops"
 
-    favorite_spot_id = db.Column(db.Integer,
+    favorite_stop_id = db.Column(db.Integer,
                         autoincrement=True,
                         primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"))
-    spot_id = db.Column(db.Integer, db.ForeignKey("spots.spot_id"))
+    stop_id = db.Column(db.Integer, db.ForeignKey("stops.stop_id"))
 
-    users = db.relationship("User", back_populates="favorite_spot")
-    spots = db.relationship("Spot", back_populates="favorite_spot")
+    users = db.relationship("User", back_populates="favorite_stop")
+    stops = db.relationship("Stop", back_populates="favorite_stop")
 
     def __repr__(self):
-        return f'<favorite_spot_id={self.favorite_spot_id}>'
+        return f'<Favorite_stop favorite_stop_id={self.favorite_stop_id}>'
 
 
 
