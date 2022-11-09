@@ -6,7 +6,6 @@ from datetime import datetime
 db = SQLAlchemy()
 
 #Q: how do you decide which attributes to list in the repr?
-#Q: 
 
 class User(db.Model):
     """A User."""
@@ -152,7 +151,7 @@ class Favorite_spot(db.Model):
     def __repr__(self):
         return f'<favorite_spot_id={self.favorite_spot_id}>'
 
-        
+
 
 def connect_to_db(flask_app, db_uri="postgresql:///roadtrip_database", echo=True):
     flask_app.config["SQLALCHEMY_DATABASE_URI"] = db_uri
