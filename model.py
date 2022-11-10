@@ -18,12 +18,12 @@ class User(db.Model):
     user_id = db.Column(db.Integer,
                         autoincrement=True,
                         primary_key=True)
-    fname = db.Column(db.String, nullable=False)
-    lname = db.Column(db.String, nullable=False)
-    email = db.Column(db.String, nullable=False, unique=True)
-    username = db.Column(db.String, nullable=False, unique=True)
-    password = db.Column(db.String, nullable=False)
-    phone_num = db.Column(db.Integer, nullable=False)
+    fname = db.Column(db.String(25), nullable=False)
+    lname = db.Column(db.String(25), nullable=False)
+    email = db.Column(db.String(50), nullable=False, unique=True)
+    username = db.Column(db.String(25), nullable=False, unique=True)
+    password = db.Column(db.String(50), nullable=False)
+    phone_num = db.Column(db.String(10), nullable=False)
 
     routes = db.relationship("Route", back_populates="user")
     stops = db.relationship("Stop", back_populates="user")
