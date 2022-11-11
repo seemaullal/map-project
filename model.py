@@ -6,9 +6,6 @@ from datetime import datetime
 
 db = SQLAlchemy()
 
-#Q: how do you decide which attributes to list in the repr?
-#Q: double check the relationship between stop_on_route/stop
-# and favorite_stop/stop
 
 class User(db.Model):
     """A User."""
@@ -43,20 +40,20 @@ class Route(db.Model):
                         autoincrement=True,
                         primary_key=True)
     num_stops = db.Column(db.Integer, nullable=False)
-    total_miles = db.Column(db.Integer, nullable=False)
+    route_name = db.Column(db.String(50), nullable=False)
+    total_miles = db.Column(db.Float, nullable=False)
     total_time = db.Column(db.DateTime, nullable=False)
     start_lat = db.Column(db.Float, nullable=False)
     start_lng = db.Column(db.Float, nullable=False)
     end_lat = db.Column(db.Float, nullable=False)
     end_lng = db.Column(db.Float, nullable=False)
-    miles_from_path = db.Column(db.Integer, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"))
 
     user = db.relationship("User", back_populates="routes")
     stops_on_route = db.relationship("Stop_on_route", back_populates="route")
 
     def __repr__(self):
-        return f'<Route route_id={self.route_id}>'
+        return f'<Route route_id={self.route_id} route_name={self.route_name}>'
 
 
 class Stop_on_route(db.Model):
@@ -85,7 +82,8 @@ class Stop(db.Model):
     stop_id = db.Column(db.Integer,
                         autoincrement=True,
                         primary_key=True)
-    miles_from_path = db.Column(db.Integer, nullable=False)
+    stop_name = db.Column(db.String(50), nullable=False)
+    miles_from_path = db.Column(db.Float, nullable=False)
     time_from_path = db.Column(db.DateTime, nullable=False)
     stop_lat = db.Column(db.Float, nullable=False)
     stop_lng= db.Column(db.Float, nullable=False)
@@ -98,7 +96,7 @@ class Stop(db.Model):
     favorite_stops = db.relationship("Favorite_stop", back_populates="stop")
 
     def __repr__(self):
-        return f'<Stop stop_id={self.stop_id}>'
+        return f'<Stop stop_id={self.stop_id} stop_name={self.stop_name}>'
 
 
 class Stop_category(db.Model):
@@ -109,7 +107,7 @@ class Stop_category(db.Model):
     stop_category_id = db.Column(db.Integer,
                         autoincrement=True,
                         primary_key=True)
-    stop_category_name = db.Column(db.String, nullable=False)
+    stop_category_name = db.Column(db.String(50), nullable=False)
     stop_id = db.Column(db.Integer, db.ForeignKey("stops.stop_id"))
 
     stop = db.relationship("Stop", back_populates="stop_categories")
@@ -127,7 +125,7 @@ class Review(db.Model):
                         autoincrement=True,
                         primary_key=True)
     rating = db.Column(db.Integer, nullable=False)
-    review_content = db.Column(db.Text, nullable=False)
+    review_content = db.Column(db.Text(1000), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"))
     stop_id = db.Column(db.Integer, db.ForeignKey("stops.stop_id"))
 
