@@ -13,6 +13,13 @@ app.jinja_env.undefined = StrictUndefined
 def index():
     return render_template("index.html")
 
+# @app.route("/api/v1/user, METHODS=[POST]")
+# notation for making a route that calls an api, to delete this account,
+# methods would be DELETE instead of POST
+# use javascript to fetch these routes on the frontend
+# 1.16.00 is this process outlined
+
+
 
 
 if __name__ == "__main__":

@@ -125,7 +125,7 @@ class Review(db.Model):
                         autoincrement=True,
                         primary_key=True)
     rating = db.Column(db.Integer, nullable=False)
-    review_content = db.Column(db.Text(1000), nullable=False)
+    review_content = db.Column(db.Text, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"))
     stop_id = db.Column(db.Integer, db.ForeignKey("stops.stop_id"))
 
