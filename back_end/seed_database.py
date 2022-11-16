@@ -5,8 +5,8 @@ import json
 from random import choice, randint
 from datetime import datetime
 
-import crud
-import model
+import crud as crud
+import model as model
 import server
 
 os.system("dropdb roadtrip_database")
