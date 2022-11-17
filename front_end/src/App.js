@@ -1,7 +1,11 @@
-import Navbar from './Navbar';
+import Navbar from './NavBar';
 import Homepage from './Homepage';
+import ProfilePage from './ProfilePage';
+import CreateAccountPage from './CreateAccountPage';
 import { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link} from 'react-router-dom';
+import LoginPage from './LoginPage';
+import CreateStopPage from './CreateStop';
 
 
 function App() {
@@ -19,7 +23,13 @@ function App() {
         <p>{ message }</p>
         <Navbar />
         <div className="content">
-          <Homepage />
+          <Routes>
+            <Route path="/" element={<Homepage />} /> 
+            <Route path="/create-account" element={<CreateAccountPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/create-stop" element={<CreateStopPage />} />
+          </Routes>
         </div>
       </div>
     </Router>
@@ -27,3 +37,5 @@ function App() {
 }
 
 export default App;
+
+
