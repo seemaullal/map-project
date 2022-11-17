@@ -1,5 +1,6 @@
 // passing in e as a param shows a bunch of attributes
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom';
 import StopList from './StopList';
 
 const Homepage = () => {
@@ -36,7 +37,11 @@ const Homepage = () => {
     //only dependencies change with this!
     return ( 
         <div className="hompage">
-            <h2>Homepage</h2>
+            <h2>Homepage</h2>  
+            <div className="links">
+                <Link to="/login">Login</Link> <br />
+                <Link to="/create-account">Create Account</Link>
+            </div>
             <p>{ name } is { age } years old</p>
             <button onClick={handleClick}>Click Me</button>
 
