@@ -12,16 +12,10 @@ function App() {
   const [message, setMessage] = useState("")
 
   useEffect (() => {
-    fetch("/users")
+    fetch("/test")
       .then(response => response.json())
       .then(data => {setMessage(data.hello)})
   }, [])
-
-  // useEffect (() => {
-  //   fetch("/test")
-  //     .then(response => response.json())
-  //     .then(data => {setMessage(data.hello)})
-  // }, [])
 
   return (
     <Router>

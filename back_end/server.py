@@ -28,27 +28,21 @@ def nested_route(path, code):
 
     return render_template('index.html')
 
-@app.route('/users')
-def all_users():
-    """View all users."""
+@app.route('/test')
+def test_me():
+    """Make sure front and back end servers are connected."""
 
     return jsonify({'hello': 'im here'})
 
-# @app.route('/test')
-# def test_servers():
-#     """Make sure front and back end servers are connected."""
+@app.route('/users')
+def every_users():
+    """View all users."""
 
-#     return jsonify({'hello': 'im here'})
+    users = User.query.all()
+    for user in users:
+        print(user)
 
-# @app.route('/users')
-# def all_users():
-#     """View all users."""
-
-#     users = User.query.all()
-#     for user in users:
-#         print(user)
-
-#     return jsonify({user.user_id: user.create_user_dict() for user in users})
+    return jsonify({user.user_id: user.create_user_dict() for user in users})
 
 
 
