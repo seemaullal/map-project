@@ -40,6 +40,7 @@ class User(db.Model):
                 'phone_num': self.phone_num}
 
 
+
 class Route(db.Model):
     """A Route."""
 

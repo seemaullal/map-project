@@ -9,12 +9,19 @@ import CreateStopPage from './CreateStop';
 
 
 function App() {
-  const [message, setMessage] = useState("")
+  const [message, setMessage] = useState("");
+  const [users, setUsers] = useState("");
 
   useEffect (() => {
     fetch("/test")
       .then(response => response.json())
       .then(data => {setMessage(data.hello)})
+  }, [])
+
+  useEffect (() => {
+    fetch("/profile")
+      .then(response => response.json())
+      .then(data => {setUsers(data)})
   }, [])
 
   return (
@@ -27,7 +34,7 @@ function App() {
             <Route path="/" element={<Homepage />} /> 
             <Route path="create-account" element={<CreateAccountPage />} />
             <Route path="login" element={<LoginPage />} />
-            <Route path="profile" element={<ProfilePage />} />
+            <Route path="profile" element={<ProfilePage users={users} />} />
             <Route path="create-stop" element={<CreateStopPage />} />
           </Routes>
         </div>

@@ -5,7 +5,7 @@ from flask import (Flask, render_template, request, flash, session,
 from model import connect_to_db, db
 from model import User
 from jinja2 import StrictUndefined
-# import crud
+import crud
 
 app = Flask(__name__)
 app.secret_key = "dev"
@@ -34,18 +34,21 @@ def test_me():
 
     return jsonify({'hello': 'im here'})
 
-@app.route('/users')
+# create a user route
+
+# get all users route
+@app.route('/api/users')
 def all_users():
     """View all users."""
 
-    users = User.query.all()
+    users = crud.get_users()
+    print(type(users))
     for user in users:
         print(user)
 
     return jsonify({user.user_id: user.create_user_dict() for user in users})
 
-
-
+# get a user route
 
 
 

@@ -16,7 +16,7 @@ model.connect_to_db(server.app)
 model.db.create_all()
 
 # Load user data from JSON file
-with open("data/users.json") as f:
+with open("users.json") as f:
     user_data = json.loads(f.read())
 
 # Create users, store them in list so we can use them

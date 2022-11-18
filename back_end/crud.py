@@ -16,6 +16,11 @@ def create_user(fname, lname, email, username, password, phone_num):
 
     return user
 
+def get_users():
+    """Return all users."""
+
+    return User.query.all()
+
 
 def create_route(user, num_stops, route_name, total_miles, total_time, 
 start_lat, start_lng, end_lat, end_lng):
@@ -61,10 +66,7 @@ def create_review(user, stop, rating, review_content):
 
     return review
 
-def get_users():
-    """Return all users."""
 
-    return User.query.all()
 
 if __name__ == "__main__":
     from server import app
