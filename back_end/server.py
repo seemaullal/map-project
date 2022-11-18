@@ -46,9 +46,16 @@ def all_users():
     for user in users:
         print(user)
 
-    return jsonify({user.user_id: user.create_user_dict() for user in users})
+    return jsonify({user.user_id: user.to_dict() for user in users})
 
 # get a user route
+@app.route('/api/user/<user_id>')
+def a_user(user_id):
+    """View a user."""
+
+    user = User.query.get(user_id)
+
+    return jsonify(user.to_dict())
 
 
 
