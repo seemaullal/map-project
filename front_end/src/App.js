@@ -16,6 +16,12 @@ function App() {
       .then(data => {setMessage(data.hello)})
   }, [])
 
+  // useEffect (() => {
+  //   fetch("/test")
+  //     .then(response => response.json())
+  //     .then(data => {setMessage(data.hello)})
+  // }, [])
+
   return (
     <Router>
       <div className="App">

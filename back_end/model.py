@@ -30,6 +30,15 @@ class User(db.Model):
     def __repr__(self):
         return f'<User user_id={self.user_id} email={self.email}>'
 
+    def create_user_dict(self):
+        return {'user_id': self.user_id,
+                'fname': self.fname,
+                'lname': self.lname,
+                'email': self.email,
+                'username': self.username,
+                'password': self.password,
+                'phone_num': self.phone_num}
+
 
 class Route(db.Model):
     """A Route."""

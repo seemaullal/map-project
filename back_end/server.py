@@ -5,7 +5,7 @@ from flask import (Flask, render_template, request, flash, session,
 from model import connect_to_db, db
 from model import User
 from jinja2 import StrictUndefined
-import crud
+# import crud
 
 app = Flask(__name__)
 app.secret_key = "dev"
@@ -32,17 +32,24 @@ def nested_route(path, code):
 def all_users():
     """View all users."""
 
-    users = crud.get_users()
-
     return jsonify({'hello': 'im here'})
 
-# @app.route('/api/users')
+# @app.route('/test')
+# def test_servers():
+#     """Make sure front and back end servers are connected."""
+
+#     return jsonify({'hello': 'im here'})
+
+# @app.route('/users')
 # def all_users():
-#    """View all users."""
+#     """View all users."""
 
-#     users = crud.get_users()
+#     users = User.query.all()
+#     for user in users:
+#         print(user)
 
-#     return jsonify({melon.melon_code: melon.to_dict() for melon in melons})
+#     return jsonify({user.user_id: user.create_user_dict() for user in users})
+
 
 
 
