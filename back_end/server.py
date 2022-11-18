@@ -35,7 +35,7 @@ def test_me():
     return jsonify({'hello': 'im here'})
 
 @app.route('/users')
-def every_users():
+def all_users():
     """View all users."""
 
     users = User.query.all()
