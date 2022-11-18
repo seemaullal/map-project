@@ -1,11 +1,12 @@
-import Homepage from './Homepage';
 import Navbar from './NavBar';
-import CreateAccountPage from './CreateAccountPage';
-import LoginPage from './LoginPage';
+import Homepage from './Homepage';
 import ProfilePage from './ProfilePage';
-import CreateStopPage from './CreateStop';
+import CreateAccountPage from './CreateAccountPage';
 import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link} from 'react-router-dom';
+import LoginPage from './LoginPage';
+import CreateStopPage from './CreateStop';
+
 
 function App() {
   const [message, setMessage] = useState("")
