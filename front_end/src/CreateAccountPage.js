@@ -98,7 +98,7 @@ export default function CreateAccountPage () {
     }
 
     return ( 
-        <div className="CreateAccountPage">
+        <div className="CreateAccountPage" onSubmit ={handleSubmit} >
             <h2>Create An Account</h2>
             <form className="CreateAccountForm">
                 <label>First name:</label>
@@ -149,7 +149,7 @@ export default function CreateAccountPage () {
                     value={inputs.phone_num || ""}
                     onChange={handleChange}
                 />
-                <button onClick={handleSubmit}>Submit</button>
+                <button>Submit</button>
             </form>
         </div>
      );
