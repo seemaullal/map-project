@@ -36,7 +36,7 @@ const Homepage = () => {
     //when deleting things, this wont run bc its not a dependency
     //only dependencies change with this!
     return ( 
-        <div className="hompage">
+        <div className="homepage">
             <h2>Homepage</h2>  
             <div className="links">
                 <Link to="/login">Login</Link> <br />
@@ -45,7 +45,7 @@ const Homepage = () => {
             <p>{ name } is { age } years old</p>
             <button onClick={handleClick}>Click Me</button>
 
-            <StopList stops={stops} title="All Users" handleDelete={handleDelete} />
+            <StopList stops={stops} title="All Stops" handleDelete={handleDelete} />
             <StopList stops={stops.filter((stop) => stop.user === 'Brooke')} title="Brooke's Stops" />
             <button onClick={() => setUser('Bella')}>change user's name</button>
             <p>{ user }</p>
