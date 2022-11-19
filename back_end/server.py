@@ -34,26 +34,58 @@ def test_me():
 
     return jsonify({'hello': 'im here'})
 
-# create a user route
 
-# get all users route
+# @app.route('/api/create-user', methods = ['POST'])
+# def new_user(fname, lname, email, username, password, phone_num):
+#     """Create a new user."""
+
+#     new_user = crud.create_user(fname, lname, email, username, password, phone_num)
+#     db.session.add(new_user)
+#     db.session.commit()
+
+#     return jsonify(new_user.to_dict())
+
+
 @app.route('/api/users')
 def all_users():
     """View all users."""
 
     users = crud.get_users()
-    print(type(users))
     for user in users:
         print(user)
 
     return jsonify({user.user_id: user.to_dict() for user in users})
 
-# get a user route
+@app.route('/api/users', methods = ['POST'])
+def register_user():
+    """Create a new user."""
+
+    fname = request.form['fname']
+    lname = request.form['lname']
+    email = request.form['email']
+    username = request.form['username']
+    password = request.form['password']
+    phone_num = request.form['phone_num']
+    # or email = request.form.get("email")
+
+    # or user = crud.get_user_by_email(email)
+    # if user: (line 54)
+    if crud.get_user_by_email(email):
+        flash("Cannot create account with provided email. User already exists, try again.")
+    else:
+        new_user = crud.create_user(fname, lname, email, username, password, phone_num)
+        print(new_user)
+        db.session.add(new_user)
+        db.session.commit()
+        flash("Account created succesfully, you may log in.")
+
+
 @app.route('/api/user/<user_id>')
 def a_user(user_id):
     """View a user."""
 
-    user = User.query.get(user_id)
+    user = crud.get_user_by_id(user_id)
+    print(type(user))
 
     return jsonify(user.to_dict())
 
