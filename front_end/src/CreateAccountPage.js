@@ -9,7 +9,6 @@ export default function CreateAccountPage () {
         const name = e.target.name;
         const value = e.target.value;
         setInputs(values => ({...values, [name]: value}))
-        console.log('handleChange triggered')
     }
 
     const handleSubmit = (e) => {
@@ -34,13 +33,14 @@ export default function CreateAccountPage () {
         fetch('/register', requestOptions)
             .then(response => response.json())
             .then(data =>{console.log(data)})
-            .catch(err => console.log(err))
+            .catch(error => console.log(error))
 
         
         console.log('handleSubmit triggered');
         console.log(inputs);
-        alert('Account created successfully, Please log in.')
+        alert('Account created successfully, Please log in.');
     }
+
 
     return ( 
         <div className="CreateAccountPage" onSubmit={handleSubmit}>

@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-const LoginPage = () => {
-
+export default function LoginPage () {
     const [inputs, setInputs] = useState({});
 
     const handleChange = (e) => {
@@ -13,39 +12,36 @@ const LoginPage = () => {
     }
 
     const handleSubmit = (e) => {
-        e.preventDefault();
-        // const body = {
-        //     email: inputs.email,
-        //     password: inputs.password
-        // }
+        e.preventDefault();    
 
-        // const requestOptions = {
-        //     method: 'POST',
-        //     headers: {
-        //         'content-type': 'application/json'
-        //     },
-        //     body: JSON.stringify(body)
-        // }
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(body)
+        } 
 
-        // fetch('/register', requestOptions)
-        //     .then(response => response.json())
-        //     .then(data =>{console.log(data)})
-        //     .catch(err => console.log(err))
+        fetch('/register', requestOptions)
+            .then(response => response.json())
+            .then(data =>{console.log(data)})
+            .catch(error => console.log(error))
 
         
         console.log('handleSubmit triggered');
         console.log(inputs);
+        
 
     }
     
-    const loginUser = () => {
-
-    }
+    // const loginUser = () => {
+    //     console.log(inputs);
+    // }
 
     return ( 
         <div className="LoginPage">
             <h2>Login</h2>
-            <form className="LoginForm" onSubmit={handleSubmit(loginUser)}>
+            <form className="LoginForm">
                 <label>Email:</label>
                 <input 
                     type="text" 
@@ -62,7 +58,7 @@ const LoginPage = () => {
                     value={inputs.password || ""}
                     onChange={handleChange}
                 />
-                <button>Sign In</button>
+                <button onClick={handleSubmit}>Sign In</button>
                 <br></br>
                 <small>Don't have an account? <Link to='/create-account'>Create an Account</Link></small>
             </form>
@@ -70,4 +66,3 @@ const LoginPage = () => {
      );
 }
  
-export default LoginPage;
