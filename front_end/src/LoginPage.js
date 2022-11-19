@@ -37,10 +37,15 @@ const LoginPage = () => {
         console.log(inputs);
 
     }
+    
+    const loginUser = () => {
+
+    }
+
     return ( 
         <div className="LoginPage">
             <h2>Login</h2>
-            <form className="LoginForm" onSubmit={handleSubmit}>
+            <form className="LoginForm" onSubmit={handleSubmit(loginUser)}>
                 <label>Email:</label>
                 <input 
                     type="text" 
