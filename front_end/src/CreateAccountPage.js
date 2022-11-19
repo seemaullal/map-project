@@ -1,5 +1,4 @@
 import { useState } from "react";
-// import APIService from "./APIService";
 import { Link } from "react-router-dom";
 
 // export default function CreateAccountPage () {
@@ -92,16 +91,9 @@ export default function CreateAccountPage () {
         console.log('handleChange triggered')
     }
 
-    // const insertUser = () => {
-    //     APIService.InsertUser({inputs})
-    //     .then((response) => props.insertUser(response))
-    //     .catch(error => console.log('error', error))
-    // }
-
     const handleSubmit = (e) => {
         e.preventDefault();
         // alert(inputs)
-        // insertUser()
         const body = {
             fname: inputs.fname,
             lname: inputs.lname,
