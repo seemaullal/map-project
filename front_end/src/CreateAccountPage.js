@@ -93,7 +93,6 @@ export default function CreateAccountPage () {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // alert(inputs)
         const body = {
             fname: inputs.fname,
             lname: inputs.lname,
@@ -119,6 +118,7 @@ export default function CreateAccountPage () {
         
         console.log('handleSubmit triggered');
         console.log(inputs);
+        alert('Account created successfully, Please log in.')
     }
 
     return ( 
