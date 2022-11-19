@@ -56,6 +56,12 @@ def create_new_user():
     return jsonify(new_user.to_dict())
 
 
+# @app.route('/auth/refresh', methods = ['POST'])
+# def refresh_authorization():
+#     """Refresh Authorizaton."""
+
+
+
 @app.route('/api/users')
 def all_users():
     """View all users."""
