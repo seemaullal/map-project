@@ -43,7 +43,7 @@ export default function CreateAccountPage () {
     }
 
     return ( 
-        <div className="CreateAccountPage" onSubmit ={handleSubmit} >
+        <div className="CreateAccountPage" onSubmit={handleSubmit}>
             <h2>Create An Account</h2>
             <form className="CreateAccountForm">
                 <label>First name:</label>
