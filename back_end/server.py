@@ -37,8 +37,8 @@ def test_me():
     return jsonify({'hello': 'im here'})
 
 
-@app.route('/create-user', methods = ['POST'])
-def new_user():
+@app.route('/register', methods = ['POST'])
+def create_new_user():
     """Create a new user."""
 
     fname = request.json['fname']
@@ -65,31 +65,6 @@ def all_users():
         print(user)
 
     return jsonify({user.user_id: user.to_dict() for user in users})
-
-# @app.route('/api/users', methods = ['POST'])
-# def register_user():
-#     """Create a new user."""
-
-#     fname = request.form['fname']
-#     lname = request.form['lname']
-#     email = request.form['email']
-#     username = request.form['username']
-#     password = request.form['password']
-#     phone_num = request.form['phone_num']
-#     # or email = request.form.get("email")
-
-#     # or user = crud.get_user_by_email(email)
-#     # if user: (line 54)
-#     if crud.get_user_by_email(email):
-#         flash("Cannot create account with provided email. User already exists, try again.")
-#     else:
-#         new_user = crud.create_user(fname, lname, email, username, password, phone_num)
-#         print(new_user)
-#         db.session.add(new_user)
-#         db.session.commit()
-#         flash("Account created succesfully, you may log in.")
-    
-#     return redirect('/')
 
 
 @app.route('/api/user/<user_id>')
