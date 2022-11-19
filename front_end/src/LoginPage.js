@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const LoginPage = () => {
     return ( 
         <div className="LoginPage">
@@ -14,6 +16,8 @@ const LoginPage = () => {
                     required 
                 />
                 <button>Sign In</button>
+                <br></br>
+                <small>Don't have an account? <Link to='/create-account'>Create an Account</Link></small>
             </form>
         </div>
      );

@@ -1,4 +1,6 @@
 import { useState } from "react";
+// import APIService from "./APIService";
+import { Link } from "react-router-dom";
 
 // export default function CreateAccountPage () {
 //     const initialFormData = Object.freeze({
@@ -90,11 +92,41 @@ export default function CreateAccountPage () {
         console.log('handleChange triggered')
     }
 
+    // const insertUser = () => {
+    //     APIService.InsertUser({inputs})
+    //     .then((response) => props.insertUser(response))
+    //     .catch(error => console.log('error', error))
+    // }
+
     const handleSubmit = (e) => {
         e.preventDefault();
         // alert(inputs)
-        console.log('handleSubmit triggered')
-        console.log(inputs)
+        // insertUser()
+        const body = {
+            fname: inputs.fname,
+            lname: inputs.lname,
+            email: inputs.email,
+            username: inputs.username,
+            password: inputs.password,
+            phone_num: inputs.phone_num
+        }
+
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(body)
+        }
+
+        fetch('/create-user', requestOptions)
+            .then(response => response.json())
+            .then(data =>{console.log(data)})
+            .catch(err => console.log(err))
+
+        
+        console.log('handleSubmit triggered');
+        console.log(inputs);
     }
 
     return ( 
@@ -150,6 +182,8 @@ export default function CreateAccountPage () {
                     onChange={handleChange}
                 />
                 <button>Submit</button>
+                <br></br>
+                <small>Already have an account? <Link to='/login'>Log In</Link></small>
             </form>
         </div>
      );

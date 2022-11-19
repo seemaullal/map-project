@@ -5,9 +5,11 @@ from flask import (Flask, render_template, request, flash, session,
 from model import connect_to_db, db
 from model import User
 from jinja2 import StrictUndefined
+from flask_cors import CORS
 import crud
 
 app = Flask(__name__)
+CORS(app)
 app.secret_key = "dev"
 app.jinja_env.undefined = StrictUndefined
 
