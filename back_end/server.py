@@ -10,7 +10,7 @@ import crud
 
 app = Flask(__name__)
 CORS(app)
-app.secret_key = "dev"
+app.secret_key = 'dev'
 app.jinja_env.undefined = StrictUndefined
 
 @app.route('/')
@@ -55,12 +55,25 @@ def create_new_user():
 
     return jsonify(new_user.to_dict())
 
+@app.route('/login', methods = ['POST'])
+def login_user():
+    """Log in a user."""
 
-# @app.route('/auth/refresh', methods = ['POST'])
-# def refresh_authorization():
-#     """Refresh Authorizaton."""
+    email = request.json['email']
+    password = request.json['password']
 
+    user = crud.get_user_by_email(email)
 
+    if not user:
+        print(session)
+        return jsonify({'message':'Please create an account.'})
+    elif user.password != password:
+        print(session)
+        return jsonify({'message':'Incorrect password entered, please try again.'})
+    else:
+        session['user_email'] = user.email
+        print(session)
+        return jsonify({'message': 'Login succesful.'})
 
 @app.route('/api/users')
 def all_users():
@@ -72,7 +85,6 @@ def all_users():
 
     return jsonify({user.user_id: user.to_dict() for user in users})
 
-
 @app.route('/api/user/<user_id>')
 def a_user(user_id):
     """View a user."""
@@ -81,7 +93,6 @@ def a_user(user_id):
     print(type(user))
 
     return jsonify(user.to_dict())
-
 
 
 if __name__ == "__main__":

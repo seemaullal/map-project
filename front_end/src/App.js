@@ -32,10 +32,10 @@ function App() {
         <div className="content">
           <Routes>
             <Route path="/" element={<Homepage />} /> 
-            <Route path="create-account" element={<CreateAccountPage />} />
-            <Route path="login" element={<LoginPage />} />
-            <Route path="profile" element={<ProfilePage users={users} />} />
-            <Route path="create-stop" element={<CreateStopPage />} />
+            <Route path="/create-account" element={<CreateAccountPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/profile" element={<ProfilePage users={users} />} />
+            <Route path="/create-stop" element={<CreateStopPage />} />
           </Routes>
         </div>
       </div>

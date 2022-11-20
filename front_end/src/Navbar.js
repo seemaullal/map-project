@@ -1,6 +1,4 @@
 // type sfc tab to get the following skeleton/stateless functional component
-// dont need to use an arrow function here, but we'll be using arrow funcs
-// for the components
 //shift option down to duplicate a line
 // line 12-16 shows inline styling, a dynamic value (JS object) w/ key/value pairs
 

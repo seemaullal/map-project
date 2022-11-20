@@ -12,7 +12,11 @@ export default function LoginPage () {
     }
 
     const handleSubmit = (e) => {
-        e.preventDefault();    
+        e.preventDefault();
+        const body = {
+            email: inputs.email,
+            password: inputs.password,
+        }    
 
         const requestOptions = {
             method: 'POST',
@@ -22,7 +26,7 @@ export default function LoginPage () {
             body: JSON.stringify(body)
         } 
 
-        fetch('/register', requestOptions)
+        fetch('/login', requestOptions)
             .then(response => response.json())
             .then(data =>{console.log(data)})
             .catch(error => console.log(error))
@@ -30,32 +34,26 @@ export default function LoginPage () {
         
         console.log('handleSubmit triggered');
         console.log(inputs);
-        
-
     }
-    
-    // const loginUser = () => {
-    //     console.log(inputs);
-    // }
 
     return ( 
-        <div className="LoginPage">
+        <div className='LoginPage'>
             <h2>Login</h2>
-            <form className="LoginForm">
+            <form className='LoginForm'>
                 <label>Email:</label>
                 <input 
-                    type="text" 
+                    type='text' 
                     required 
-                    name="email" 
-                    value={inputs.email || ""}
+                    name='email' 
+                    value={inputs.email || ''}
                     onChange={handleChange}
                 />
                 <label>Password:</label>
                 <input 
-                    type="text" 
+                    type='text' 
                     required 
-                    name="password" 
-                    value={inputs.password || ""}
+                    name='password' 
+                    value={inputs.password || ''}
                     onChange={handleChange}
                 />
                 <button onClick={handleSubmit}>Sign In</button>
