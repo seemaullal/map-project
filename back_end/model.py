@@ -40,7 +40,6 @@ class User(db.Model):
                 'phone_num': self.phone_num}
 
 
-
 class Route(db.Model):
     """A Route."""
 
@@ -74,6 +73,8 @@ class Stop_on_route(db.Model):
     stop_on_route_id = db.Column(db.Integer,
                         autoincrement=True,
                         primary_key=True)
+    miles_from_route = db.Column(db.Float, nullable=False)
+    time_from_route = db.Column(db.DateTime, nullable=False)
     route_id = db.Column(db.Integer, db.ForeignKey("routes.route_id"))
     stop_id = db.Column(db.Integer, db.ForeignKey("stops.stop_id"))
 
@@ -93,8 +94,6 @@ class Stop(db.Model):
                         autoincrement=True,
                         primary_key=True)
     stop_name = db.Column(db.String(50), nullable=False)
-    miles_from_path = db.Column(db.Float, nullable=False)
-    time_from_path = db.Column(db.DateTime, nullable=False)
     stop_lat = db.Column(db.Float, nullable=False)
     stop_lng= db.Column(db.Float, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"))
@@ -107,6 +106,13 @@ class Stop(db.Model):
 
     def __repr__(self):
         return f'<Stop stop_id={self.stop_id} stop_name={self.stop_name}>'
+
+    def to_dict(self):
+        return {'stop_id': self.stop_id,
+                'stop_name': self.stop_name,
+                'stop_lat': self.stop_lat,
+                'stop_lng': self.stop_lng,
+                'user_id': self.user_id}
 
 
 class Stop_category(db.Model):
@@ -162,7 +168,6 @@ class Favorite_stop(db.Model):
 
     def __repr__(self):
         return f'<Favorite_stop favorite_stop_id={self.favorite_stop_id}>'
-
 
 
 def connect_to_db(flask_app, db_uri="postgresql:///roadtrip_database", echo=True):

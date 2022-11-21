@@ -31,7 +31,21 @@ def get_user_by_email(email):
 
     return User.query.filter(User.email == email).first()
 
+def create_stop(user, stop_name, miles_from_path, time_from_path, 
+stop_lat, stop_lng):
+    """Create and return a new stop."""
 
+    stop = Stop(
+    user=user, 
+    stop_name=stop_name, 
+    miles_from_path=miles_from_path, 
+    time_from_path=time_from_path,
+    stop_lat=stop_lat,
+    stop_lng=stop_lng
+    )
+
+    return stop
+    
 def create_route(user, num_stops, route_name, total_miles, total_time, 
 start_lat, start_lng, end_lat, end_lng):
     """Create and return a new route."""
@@ -49,21 +63,6 @@ start_lat, start_lng, end_lat, end_lng):
     )
 
     return route
-
-def create_stop(user, stop_name, miles_from_path, time_from_path, 
-stop_lat, stop_lng):
-    """Create and return a new stop."""
-
-    stop = Stop(
-    user=user, 
-    stop_name=stop_name, 
-    miles_from_path=miles_from_path, 
-    time_from_path=time_from_path,
-    stop_lat=stop_lat,
-    stop_lng=stop_lng
-    )
-
-    return stop
 
 def create_review(user, stop, rating, review_content):
     """Create and return a new rating."""
