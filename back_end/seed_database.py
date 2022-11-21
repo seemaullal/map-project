@@ -61,14 +61,15 @@ with open("stops.json") as f:
 # Create stops, store them in list 
 stops_in_db = []
 for stop in stop_data:
-    user, stop_name, stop_lat, stop_lng = (
+    user, stop_category_name, stop_name, stop_lat, stop_lng = (
         stop["user"],
+        stop["stop_category_name"],
         stop["stop_name"],
         stop["stop_lat"],
         stop["stop_lng"],
     )
 
-    db_stop = crud.create_stop(user, stop_name, stop_lat, stop_lng)
+    db_stop = crud.create_stop(user, stop_category_name, stop_name, stop_lat, stop_lng)
     stops_in_db.append(db_stop)
 
 model.db.session.add_all(stops_in_db)
