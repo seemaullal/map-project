@@ -94,7 +94,7 @@ class Stop(db.Model):
     stop_id = db.Column(db.Integer,
                         autoincrement=True,
                         primary_key=True)
-    stop_name = db.Column(db.String(50), nullable=False, unique=True)
+    stop_name = db.Column(db.String(50), nullable=False)
     stop_lat = db.Column(db.Float, nullable=False)
     stop_lng= db.Column(db.Float, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"))
@@ -106,7 +106,7 @@ class Stop(db.Model):
     # favorite_stops = db.relationship("Favorite_stop", back_populates="stop")
 
     def __repr__(self):
-        return f'<Stop stop_id={self.stop_id} stop_name={self.stop_name}>'
+        return f'<Stop stop_id={self.stop_id} stop_lat={self.stop_lat}> stop_lng={self.stop_lng}'
 
     def to_dict(self):
         return {'stop_id': self.stop_id,
