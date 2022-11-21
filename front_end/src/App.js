@@ -10,7 +10,7 @@ import CreateStopPage from './CreateStop';
 
 function App() {
   const [message, setMessage] = useState("");
-  const [users, setUsers] = useState("");
+  // const [users, setUsers] = useState("");
 
   useEffect (() => {
     fetch("/test")
@@ -18,11 +18,11 @@ function App() {
       .then(data => {setMessage(data.hello)})
   }, [])
 
-  useEffect (() => {
-    fetch("/profile")
-      .then(response => response.json())
-      .then(data => {setUsers(data)})
-  }, [])
+  // useEffect (() => {
+  //   fetch("/profile")
+  //     .then(response => response.json())
+  //     .then(data => {setUsers(data)})
+  // }, [])
 
   return (
     <Router>
@@ -34,7 +34,7 @@ function App() {
             <Route path="/" element={<Homepage />} /> 
             <Route path="/create-account" element={<CreateAccountPage />} />
             <Route path="/login" element={<LoginPage />} />
-            <Route path="/profile" element={<ProfilePage users={users} />} />
+            <Route path="/profile" element={<ProfilePage />} />
             <Route path="/create-stop" element={<CreateStopPage />} />
           </Routes>
         </div>
@@ -44,5 +44,7 @@ function App() {
 }
 
 export default App;
+
+// add users={users} to profile pge element as a prop in the route
 
 

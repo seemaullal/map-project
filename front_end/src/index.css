@@ -50,22 +50,22 @@
   margin-bottom: 8px;
 }
 
-/* create new blog form */
-.CreateAccountForm, .LoginForm {
+/* forms */
+.CreateAccountForm, .LoginForm, .CreateStopForm {
   max-width: 400px;
   margin: 0 auto;
   text-align: center;
 }
-.CreateAccountForm label, .LoginForm label {
+.CreateAccountForm label, .LoginForm label, .CreateStopForm label {
   text-align: left;
   display: block;
 }
-.CreateAccountForm h2, .LoginForm h2 {
+.CreateAccountForm h2, .LoginForm h2, .CreateStopForm h2 {
   font-size: 20px;
   color: #f1356d;
   margin-bottom: 30px;
 }
-.CreateAccountForm input, .LoginForm input, .create textarea, .create select {
+.CreateAccountForm input, .LoginForm input, .CreateStopForm input, .CreateStopForm select, .create textarea, .create select {
   width: 100%;
   padding: 6px 10px;
   margin: 10px 0;
@@ -73,7 +73,7 @@
   box-sizing: border-box;
   display: block;
 }
-.CreateAccountForm button, .LoginForm button {
+.CreateAccountForm button, .LoginForm button, .CreateStopForm button {
   background: #f1356d;
   color: #fff;
   border: 0;
