@@ -54,3 +54,22 @@ model.db.session.commit()
 #         model.db.session.add(rating)
 
 # model.db.session.commit()
+
+with open("stops.json") as f:
+    stop_data = json.loads(f.read())
+
+# Create stops, store them in list 
+stops_in_db = []
+for stop in stop_data:
+    user, stop_name, stop_lat, stop_lng = (
+        stop["user"],
+        stop["stop_name"],
+        stop["stop_lat"],
+        stop["stop_lng"],
+    )
+
+    db_stop = crud.create_stop(user, stop_name, stop_lat, stop_lng)
+    stops_in_db.append(db_stop)
+
+model.db.session.add_all(stops_in_db)
+model.db.session.commit()
