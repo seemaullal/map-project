@@ -1,5 +1,6 @@
 """Models for road trip app."""
 
+from enum import unique
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 
@@ -93,16 +94,16 @@ class Stop(db.Model):
     stop_id = db.Column(db.Integer,
                         autoincrement=True,
                         primary_key=True)
-    stop_name = db.Column(db.String(50), nullable=False)
+    stop_name = db.Column(db.String(50), nullable=False, unique=True)
     stop_lat = db.Column(db.Float, nullable=False)
     stop_lng= db.Column(db.Float, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"))
 
     user = db.relationship("User", back_populates="stops")
-    reviews = db.relationship("Review", back_populates="stop")
-    stop_on_route = db.relationship("Stop_on_route", back_populates="stop")
-    stop_categories = db.relationship("Stop_category", back_populates="stop")
-    favorite_stops = db.relationship("Favorite_stop", back_populates="stop")
+    # reviews = db.relationship("Review", back_populates="stop")
+    # stop_on_route = db.relationship("Stop_on_route", back_populates="stop")
+    stop_category = db.relationship("Stop_category", back_populates="stop")
+    # favorite_stops = db.relationship("Favorite_stop", back_populates="stop")
 
     def __repr__(self):
         return f'<Stop stop_id={self.stop_id} stop_name={self.stop_name}>'
@@ -112,7 +113,8 @@ class Stop(db.Model):
                 'stop_name': self.stop_name,
                 'stop_lat': self.stop_lat,
                 'stop_lng': self.stop_lng,
-                'user_id': self.user_id}
+                'user': self.user.username,
+                'stop_category': self.stop_category.stop_category_name}
 
 
 class Stop_category(db.Model):
@@ -126,7 +128,7 @@ class Stop_category(db.Model):
     stop_category_name = db.Column(db.String(50), nullable=False)
     stop_id = db.Column(db.Integer, db.ForeignKey("stops.stop_id"))
 
-    stop = db.relationship("Stop", back_populates="stop_categories")
+    stop = db.relationship("Stop", back_populates="stop_category")
 
     def __repr__(self):
         return f'<Stop_category stop_category_id={self.stop_category_id} stop_category_name={self.stop_category_name}>'

@@ -20,7 +20,7 @@ with open("users.json") as f:
     user_data = json.loads(f.read())
 
 # Create users, store them in list so we can use them
-# to create fake spots/routes/reviews
+# to create fake stops/routes/reviews
 users_in_db = []
 for user in user_data:
     fname, lname, email, username, password, phone_num = (
