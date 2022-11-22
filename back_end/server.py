@@ -4,20 +4,21 @@ from flask import (Flask, render_template, request, flash, session,
                    redirect, Response, jsonify)
 from model import connect_to_db, db
 from model import User, Stop
-from jinja2 import StrictUndefined
 from flask_cors import CORS
 from flask_jwt_extended import create_access_token
 from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
 from flask_jwt_extended import JWTManager
 import crud
+import os 
+
 
 
 app = Flask(__name__)
 CORS(app)
 app.secret_key = 'dev'
 
-app.config["JWT_SECRET_KEY"] = "super-secret"  # Change this!
+app.config["JWT_SECRET_KEY"] = os.environ.get('JWT_SECRET')
 jwt = JWTManager(app)
 
 @app.route('/')
@@ -66,23 +67,31 @@ def create_new_user():
 def login_user():
     """Log in a user."""
 
-    email = request.json['email']
-    password = request.json['password']
+    email = request.json.get('email', None)
+    password = request.json.get('password', None)
 
-    user = crud.get_user_by_email(email)
+    if email != "test" or password != "test":
+        return jsonify({"message":"bad email or password"}), 401
 
-    if not user:
-        print(session)
-        Response.delete_cookie(email)
-        return jsonify({'message':'Please create an account.'})
-    elif user.password != password:
-        print(session)
-        Response.delete_cookie(email)
-        return jsonify({'message':'Incorrect password entered, please try again.'})
-    else:
-        session['user_email'] = user.email
-        print(session)
-        return jsonify({'message': 'Login succesful.'})
+    access_token = create_access_token(identity=email)
+
+    return jsonify(access_token=access_token)
+
+    # user = crud.get_user_by_email(email)
+
+    # if not user:
+    #     print(session)
+    #     Response.delete_cookie(email)
+    #     return jsonify({'message':'Please create an account.'}), 401
+    # elif user.password != password:
+    #     print(session)
+    #     Response.delete_cookie(email)
+    #     return jsonify({'message':'Incorrect password entered, please try again.'}), 401
+    # else:
+    #     session['user_email'] = user.email
+    #     print(session)
+    #     access_token = create_access_token(identity=email)
+    #     return jsonify(access_token=access_token)
 
 @app.route("/logout")
 def logout_user():

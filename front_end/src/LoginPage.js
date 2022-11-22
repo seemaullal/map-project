@@ -27,11 +27,20 @@ export default function LoginPage () {
         } 
 
         fetch('/login', requestOptions)
-            .then(response => response.json())
+            .then(response => {
+                if (response.status === 200) return response.json();
+                else alert("There has been an error");
+            })
             .then(data =>{console.log(data)})
-            .catch(error => console.log(error))
+            .catch(error => {
+                console.error("There was an error!!!", error);
+            })
 
         
+        // fetch('/login', requestOptions)
+        //     .then(response => response.json())
+        //     .then(data =>{console.log(data)})
+        //     .catch(error => console.log(error))
         console.log('handleSubmit triggered');
         console.log(inputs);
     }
