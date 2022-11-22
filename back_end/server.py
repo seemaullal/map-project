@@ -1,17 +1,24 @@
 """Server for movie ratings app."""
 
 from flask import (Flask, render_template, request, flash, session,
-                   redirect, jsonify)
+                   redirect, Response, jsonify)
 from model import connect_to_db, db
-from model import User
+from model import User, Stop
 from jinja2 import StrictUndefined
 from flask_cors import CORS
+from flask_jwt_extended import create_access_token
+from flask_jwt_extended import get_jwt_identity
+from flask_jwt_extended import jwt_required
+from flask_jwt_extended import JWTManager
 import crud
+
 
 app = Flask(__name__)
 CORS(app)
 app.secret_key = 'dev'
-app.jinja_env.undefined = StrictUndefined
+
+app.config["JWT_SECRET_KEY"] = "super-secret"  # Change this!
+jwt = JWTManager(app)
 
 @app.route('/')
 def home():
@@ -66,14 +73,25 @@ def login_user():
 
     if not user:
         print(session)
+        Response.delete_cookie(email)
         return jsonify({'message':'Please create an account.'})
     elif user.password != password:
         print(session)
+        Response.delete_cookie(email)
         return jsonify({'message':'Incorrect password entered, please try again.'})
     else:
         session['user_email'] = user.email
         print(session)
         return jsonify({'message': 'Login succesful.'})
+
+@app.route("/logout")
+def logout_user():
+    """Log user out."""
+
+    del session['user_email']
+    print(session)
+    
+    return jsonify({'message': 'Logout succesful.'})
 
 @app.route('/api/users')
 def all_users():
@@ -93,6 +111,24 @@ def a_user(user_id):
     print(type(user))
 
     return jsonify(user.to_dict())
+
+@app.route('/create-stop', methods = ['POST'])
+def create_new_stop():
+    """Create a new stop."""
+
+    user = request.json['user']
+    stop_category = request.json['stop_category']
+    stop_name = request.json['stop_name']
+    stop_lat = request.json['stop_lat']
+    stop_lng = request.json['stop_lng']
+
+    new_stop = Stop(user, stop_category, stop_name, 
+        stop_lat, stop_lng)
+
+    db.session.add(new_stop)
+    db.session.commit()
+
+    return jsonify(new_stop.to_dict())
 
 
 if __name__ == "__main__":

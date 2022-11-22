@@ -5,6 +5,7 @@ import CreateAccountPage from './CreateAccountPage';
 import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import LoginPage from './LoginPage';
+import Logout from './Logout';
 import CreateStopPage from './CreateStop';
 
 
@@ -34,6 +35,7 @@ function App() {
             <Route path="/" element={<Homepage />} /> 
             <Route path="/create-account" element={<CreateAccountPage />} />
             <Route path="/login" element={<LoginPage />} />
+            <Route path="/logout" element={<Logout />} />
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="/create-stop" element={<CreateStopPage />} />
           </Routes>

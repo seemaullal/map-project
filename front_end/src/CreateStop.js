@@ -1,4 +1,43 @@
+import { useState } from "react";
+
+
 export default function CreateStopPage () {
+    const [inputs, setInputs] = useState({});
+
+    const handleChange = (e) => {
+        const name = e.target.name;
+        const value = e.target.value;
+        setInputs(values => ({...values, [name]: value}))
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        // const body = {
+        //     user: inputs.user,
+        //     stop_category: inputs.stop_category,
+        //     stop_name: inputs.stop_name,
+        //     stop_lat: inputs.stop_lat,
+        //     stop_lng: inputs.stop_lng,
+        // }
+
+        // const requestOptions = {
+        //     method: 'POST',
+        //     headers: {
+        //         'content-type': 'application/json'
+        //     },
+        //     body: JSON.stringify(body)
+        // }
+
+        // fetch('/create-stop', requestOptions)
+        //     .then(response => response.json())
+        //     .then(data =>{console.log(data)})
+        //     .catch(error => console.log(error))
+
+        
+        console.log('handleSubmit triggered');
+        console.log(inputs);
+        alert('Stop created successfully');
+    }
     return ( 
         <div className="CreateStopPage">
             <h2>Create A Stop</h2>
@@ -8,18 +47,24 @@ export default function CreateStopPage () {
                     type='text' 
                     required 
                     name='stop-name'
+                    value={inputs.stop_name || ""}
+                    onChange={handleChange}
                 />
                 <label>Latitude:</label>
                 <input 
                     type='text' 
                     required 
-                    name='stop-lat' 
+                    name='stop-lat'
+                    value={inputs.stop_lat || ""}
+                    onChange={handleChange} 
                 />
                 <label>Longitude:</label>
                 <input 
                     type='text' 
                     required 
                     name='stop-lng' 
+                    value={inputs.stop_lng || ""}
+                    onChange={handleChange}
                 />
                 <label>Select a Stop Category:</label>
                 <select name='stop-ctegory' id='stop-category-select'>
@@ -35,9 +80,8 @@ export default function CreateStopPage () {
                     <option value='view-point'>View Point</option>
                     <option value='water-access'>Water Access</option>
                 </select>
-                <button>Create Stop</button>
+                <button onSubmit={handleSubmit}>Create Stop</button>
             </form>
-        
         </div>
      );
 }

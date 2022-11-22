@@ -9,6 +9,7 @@ const ProfilePage = (props) => {
             <h2>My Profile</h2>
             {/* <p>{users}</p> */}
             <Link to="/create-stop">Create a Stop</Link>
+            <Link to="/logout">Log Out</Link>
         </div>
      );
 }
