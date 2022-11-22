@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function LoginPage () {
     const [inputs, setInputs] = useState({});
     const token = sessionStorage.getItem("token");
-    // let navigate = useNavigate;
+    const navigate = useNavigate();
 
     const handleChange = (e) => {
         const name = e.target.name;
@@ -15,7 +15,6 @@ export default function LoginPage () {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // navigate('/profile');
         const body = {
             email: inputs.email,
             password: inputs.password,
@@ -38,11 +37,12 @@ export default function LoginPage () {
                 console.log("this came from the backend", data);
                 sessionStorage.setItem("token", data.access_token);
                 console.log(sessionStorage);
+                console.log('handleSubmit triggered');
+                navigate('/profile');
             })
             .catch(error => {
                 console.error("There was an error!!!", error);
-            })
-        console.log('handleSubmit triggered');
+            });
     }
 
     return ( 
