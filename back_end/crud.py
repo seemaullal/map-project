@@ -1,6 +1,7 @@
 """CRUD operations."""
 
-from model import db, User, Route, Review, Stop, connect_to_db
+from model import db, User, Stop, connect_to_db
+# from model import db, User, Route, Review, Stop, connect_to_db
 
 
 def create_user(fname, lname, email, username, password, phone_num):
@@ -38,7 +39,6 @@ stop_categories = ['Caverns', 'Climbing Access/Scrambling', 'Hiking Trail',
 def create_stop(user, stop_category, stop_name, stop_lat, stop_lng):
     """Create and return a new stop."""
 
-
     stop = Stop( 
     user=user,
     stop_category=stop_category,
@@ -48,34 +48,34 @@ def create_stop(user, stop_category, stop_name, stop_lat, stop_lng):
 
     return stop
 
-def create_route(user, num_stops, route_name, total_miles, total_time, 
-start_lat, start_lng, end_lat, end_lng):
-    """Create and return a new route."""
+# def create_route(user, num_stops, route_name, total_miles, total_time, 
+# start_lat, start_lng, end_lat, end_lng):
+#     """Create and return a new route."""
 
-    route = Route(
-        user=user,
-        num_stops=num_stops,
-        route_name=route_name,
-        total_miles=total_miles,
-        total_time=total_time,
-        start_lat=start_lat,
-        start_lng=start_lng,
-        end_lat=end_lat,
-        end_lng=end_lng
-    )
+#     route = Route(
+#         user=user,
+#         num_stops=num_stops,
+#         route_name=route_name,
+#         total_miles=total_miles,
+#         total_time=total_time,
+#         start_lat=start_lat,
+#         start_lng=start_lng,
+#         end_lat=end_lat,
+#         end_lng=end_lng
+#     )
 
-    return route
+#     return route
 
-def create_review(user, stop, rating, review_content):
-    """Create and return a new rating."""
+# def create_review(user, stop, rating, review_content):
+#     """Create and return a new rating."""
 
-    review = Review(
-    user=user, 
-    stop=stop, 
-    rating=rating, 
-    review_content=review_content)
+#     review = Review(
+#     user=user, 
+#     stop=stop, 
+#     rating=rating, 
+#     review_content=review_content)
 
-    return review
+#     return review
 
 
 

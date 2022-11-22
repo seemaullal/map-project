@@ -4,6 +4,7 @@ import os
 import json
 from random import choice, randint
 from datetime import datetime
+from model import User, Stop
 
 import crud as crud
 import model as model
@@ -55,22 +56,29 @@ model.db.session.commit()
 
 # model.db.session.commit()
 
-with open("stops.json") as f:
-    stop_data = json.loads(f.read())
+# with open("stops.json") as f:
+#     stop_data = json.loads(f.read())
+#     print(stop_data)
 
 # Create stops, store them in list 
-stops_in_db = []
-for stop in stop_data:
-    user, stop_category, stop_name, stop_lat, stop_lng = (
-        stop["user"],
-        stop["stop_category"],
-        stop["stop_name"],
-        stop["stop_lat"],
-        stop["stop_lng"],
-    )
+# stops_in_db = []
+# for stop in stop_data:
+#     user, stop_category, stop_name, stop_lat, stop_lng = (
+#         stop["user"],
+#         stop["stop_category"],
+#         stop["stop_name"],
+#         stop["stop_lat"],
+#         stop["stop_lng"],
+#     )
 
-    db_stop = crud.create_stop(user, stop_category, stop_name, stop_lat, stop_lng)
-    stops_in_db.append(db_stop)
+#     db_stop = crud.create_stop(user, stop_category, stop_name, stop_lat, stop_lng)
+#     stops_in_db.append(db_stop)
+# user1 = crud.get_user_by_id(1)
+# stop1 = Stop(user=user1, stop_category="National Park", stop_name="Zion National Park",
+#     stop_lat=37.302101449431134, stop_lng=-113.03503460966984)
 
-model.db.session.add_all(stops_in_db)
-model.db.session.commit()
+# model.db.session.add_all(stop1)
+# model.db.session.commit()
+
+# 37.302101449431134,
+# -113.03503460966984

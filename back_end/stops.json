@@ -1,0 +1,16 @@
+[
+    {
+        "user": 1,
+        "stop_category": "National Park",
+        "stop_name": "Zion National Park",
+        "stop_lat": 37.302101449431134,
+        "stop_lng": -113.03503460966984
+    },
+    {
+        "user": 1,
+        "stop_category": "Swimming Hole",
+        "stop_name": "Meadow Hot Spring",
+        "stop_lat": 38.91200237106272,
+        "stop_lng": -112.50882590655624  
+    } 
+]
