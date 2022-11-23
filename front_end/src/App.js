@@ -1,10 +1,10 @@
-import Navbar from './NavBar';
-import Homepage from './Homepage';
-import ProfilePage from './ProfilePage';
-import CreateAccountPage from './CreateAccountPage';
+import Navbar from './Components/NavBar';
+import Homepage from './Pages/Homepage';
+import ProfilePage from './Pages/ProfilePage';
+import CreateAccountPage from './Pages/CreateAccountPage';
 import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
-import LoginPage from './LoginPage';
+import LoginPage from './Pages/LoginPage';
 import Logout from './Logout';
 import CreateStopPage from './CreateStop';
 import injectContext from './Storage/appContext';
