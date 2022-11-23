@@ -21,7 +21,15 @@ const getState = ({ getStore, getActions, setStore }) => {
 			exampleFunction: () => {
 				getActions().changeColor(0, "green");
 			},
-
+			syncTokenFromSessionStore: () => {
+				const token = sessionStorage.getItem("token");
+				if (token && token !== "" && token !== undefined) setStore({ token: null });
+			},
+			logout: () => {
+				const token = sessionStorage.removeItem("token");
+				console.log("Logging out");
+				setStore({ token: null });
+			},
             login: async (inputs) => {
                 const body = {
                     email: inputs.email,

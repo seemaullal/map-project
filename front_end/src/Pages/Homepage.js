@@ -2,8 +2,11 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import StopList from './StopList';
+import { useContext } from 'react';
+import { Context } from '../Storage/appContext';
 
 const Homepage = () => {
+    const { store, actions } = useContext(Context);
     const [name, setName] = useState('Brooke');
     const [age, setAge] = useState(26);
 
@@ -39,7 +42,12 @@ const Homepage = () => {
         <div className="homepage">
             <h2>Homepage</h2>  
             <div className="links">
-                <Link to="/login">Login</Link> <br />
+                {!store.token ? (
+                    <Link to="/login">Login</Link> 
+                ) : (
+                    <button onClick={() => actions.logout()}>Log Out</button>
+                )}
+                <br />
                 <Link to="/create-account">Create Account</Link>
             </div>
             <p>{ name } is { age } years old</p>

@@ -1,7 +1,6 @@
 """CRUD operations."""
 
 from model import db, User, Stop, connect_to_db
-# from model import db, User, Route, Review, Stop, connect_to_db
 
 
 def create_user(fname, lname, email, username, password, phone_num):
@@ -36,17 +35,33 @@ stop_categories = ['Caverns', 'Climbing Access/Scrambling', 'Hiking Trail',
 'National Monument', 'National Park', 'Picnic Spot', 'Swimming Hole', 
 'Unique Find', 'View Point', 'Water Access']
 
-def create_stop(user, stop_category, stop_name, stop_lat, stop_lng):
+def create_stop(user_id, stop_category, stop_name, stop_lat, stop_lng):
     """Create and return a new stop."""
 
     stop = Stop( 
-    user=user,
+    user_id=user_id,
     stop_category=stop_category,
     stop_name=stop_name, 
     stop_lat=stop_lat,
     stop_lng=stop_lng)
 
     return stop
+
+def get_stops():
+    """Return all stops."""
+
+    return Stop.query.all()
+
+def get_stop_by_id(stop_id):
+    """Return a stop by its id."""
+
+    return Stop.query.get(stop_id)
+
+def get_stops_by_user(user_id):
+    """Return all stops created by a user."""
+
+    return Stop.query.filter(Stop.user_id == user_id).all()
+
 
 # def create_route(user, num_stops, route_name, total_miles, total_time, 
 # start_lat, start_lng, end_lat, end_lng):
