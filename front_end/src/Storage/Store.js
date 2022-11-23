@@ -26,7 +26,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				if (token && token !== "" && token !== undefined) setStore({ token: null });
 			},
 			logout: () => {
-				const token = sessionStorage.removeItem("token");
+				sessionStorage.removeItem("token");
 				console.log("Logging out");
 				setStore({ token: null });
 			},

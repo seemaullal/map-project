@@ -22,7 +22,6 @@ export default function LoginPage () {
             console.log(sessionStorage);
             console.log('handleSubmit triggered'); 
         })
-        actions.login(inputs);
     }
 
     return ( 
