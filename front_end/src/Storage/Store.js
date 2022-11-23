@@ -21,17 +21,17 @@ const getState = ({ getStore, getActions, setStore }) => {
 			exampleFunction: () => {
 				getActions().changeColor(0, "green");
 			},
-			syncTokenFromSessionStore: () => {
-				const token = sessionStorage.getItem("token");
-				if (token && token !== "" && token !== undefined) setStore({ token: null });
-			},
+			// syncTokenFromSessionStore: () => {
+			// 	const token = sessionStorage.getItem("token");
+			// 	if (token && token !== "" && token !== undefined) setStore({ token: null });
+			// },
 			logout: () => {
 				sessionStorage.removeItem("token");
 				console.log("Logging out");
 				setStore({ token: null });
 			},
             login: async (inputs) => {
-                const body = {
+            	const body = {
                     email: inputs.email,
                     password: inputs.password,
                 };  
@@ -47,7 +47,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                 try{
                     const response = await fetch('/login', requestOptions)   
                     if (response.status !== 200){
-                        alert("There has been an error");
+                        alert("The username or password entered is incorrect, please try again.");
                         return false;
                     } 
                  

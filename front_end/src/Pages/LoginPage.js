@@ -12,7 +12,7 @@ export default function LoginPage () {
     const handleChange = (e) => {
         const name = e.target.name;
         const value = e.target.value;
-        setInputs(values => ({...values, [name]: value}))
+        setInputs(values => ({...values, [name]: value}));
     }
 
     const handleSubmit = (e) => {
@@ -22,6 +22,7 @@ export default function LoginPage () {
             console.log(sessionStorage);
             console.log('handleSubmit triggered'); 
         })
+        // navigate('/profile'); 
     }
 
     return ( 

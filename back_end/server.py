@@ -70,37 +70,34 @@ def login_user():
     email = request.json.get('email', None)
     password = request.json.get('password', None)
 
-    if email != "test" or password != "test":
-        return jsonify({"message":"bad email or password"}), 401
+    # if email != "test" or password != "test":
+    #     return jsonify({"message":"bad email or password"}), 401
 
-    access_token = create_access_token(identity=email)
+    # access_token = create_access_token(identity=email)
 
-    return jsonify(access_token=access_token)
+    # return jsonify(access_token=access_token)
 
-    # user = crud.get_user_by_email(email)
+    user = crud.get_user_by_email(email)
 
-    # if not user:
-    #     print(session)
-    #     Response.delete_cookie(email)
-    #     return jsonify({'message':'Please create an account.'}), 401
-    # elif user.password != password:
-    #     print(session)
-    #     Response.delete_cookie(email)
-    #     return jsonify({'message':'Incorrect password entered, please try again.'}), 401
-    # else:
-    #     session['user_email'] = user.email
-    #     print(session)
-    #     access_token = create_access_token(identity=email)
-    #     return jsonify(access_token=access_token)
+    if not user:
+        # Response.delete_cookie(email)
+        return jsonify({'message':'Please create an account.'}), 401
+    elif user.password != password:
+        # Response.delete_cookie(email)
+        return jsonify({'message':'Incorrect password entered, please try again.'}), 401
+    else:
+        user_id = user.user_id
+        access_token = create_access_token(identity=email)
+        return jsonify(access_token=access_token, user_id=user_id)
 
-@app.route("/logout")
-def logout_user():
-    """Log user out."""
+# @app.route("/logout")
+# def logout_user():
+#     """Log user out."""
 
-    del session['user_email']
-    print(session)
+#     del session['user_email']
+#     print(session)
     
-    return jsonify({'message': 'Logout succesful.'})
+#     return jsonify({'message': 'Logout succesful.'})
 
 @app.route('/api/users')
 def all_users():
@@ -125,13 +122,13 @@ def a_user(user_id):
 def create_new_stop():
     """Create a new stop."""
 
-    user = request.json['user']
+    user_id = request.json['user_id']
     stop_category = request.json['stop_category']
     stop_name = request.json['stop_name']
     stop_lat = request.json['stop_lat']
     stop_lng = request.json['stop_lng']
 
-    new_stop = Stop(user, stop_category, stop_name, 
+    new_stop = Stop(user_id, stop_category, stop_name, 
         stop_lat, stop_lng)
 
     db.session.add(new_stop)
