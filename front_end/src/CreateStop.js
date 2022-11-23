@@ -12,75 +12,76 @@ export default function CreateStopPage () {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // const body = {
-        //     user: inputs.user,
-        //     stop_category: inputs.stop_category,
-        //     stop_name: inputs.stop_name,
-        //     stop_lat: inputs.stop_lat,
-        //     stop_lng: inputs.stop_lng,
-        // }
+        const body = {
+            user: inputs.user,
+            stop_category: inputs.stop_category,
+            stop_name: inputs.stop_name,
+            stop_lat: inputs.stop_lat,
+            stop_lng: inputs.stop_lng
+        }
 
-        // const requestOptions = {
-        //     method: 'POST',
-        //     headers: {
-        //         'content-type': 'application/json'
-        //     },
-        //     body: JSON.stringify(body)
-        // }
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(body)
+        }
 
-        // fetch('/create-stop', requestOptions)
-        //     .then(response => response.json())
-        //     .then(data =>{console.log(data)})
-        //     .catch(error => console.log(error))
+        fetch('/create-stop', requestOptions)
+            .then(response => response.json())
+            .then(data =>{console.log(data)})
+            .catch(error => console.log(error))
 
         
         console.log('handleSubmit triggered');
         console.log(inputs);
         alert('Stop created successfully');
+        console.log(body);
     }
     return ( 
-        <div className="CreateStopPage">
+        <div className="CreateStopPage" onSubmit={handleSubmit}>
             <h2>Create A Stop</h2>
             <form className="CreateStopForm">
                 <label>Stop Name:</label>
                 <input 
-                    type='text' 
+                    type="text" 
                     required 
-                    name='stop-name'
+                    name="stop_name"
                     value={inputs.stop_name || ""}
                     onChange={handleChange}
                 />
                 <label>Latitude:</label>
                 <input 
-                    type='text' 
+                    type="text" 
                     required 
-                    name='stop-lat'
+                    name="stop_lat"
                     value={inputs.stop_lat || ""}
                     onChange={handleChange} 
                 />
                 <label>Longitude:</label>
                 <input 
-                    type='text' 
+                    type="text"
                     required 
-                    name='stop-lng' 
+                    name="stop_lng" 
                     value={inputs.stop_lng || ""}
                     onChange={handleChange}
                 />
                 <label>Select a Stop Category:</label>
-                <select name='stop-ctegory' id='stop-category-select'>
-                    <option value='caverns'>Caverns</option>
-                    <option value='climbing-access'>Climbing Access/Scrambling</option>
-                    <option value='hiking-trail'>Hiking Trail</option>
-                    <option value='national-monument'>National Monument</option>
-                    <option value='national-park'>National Park</option>
-                    <option value='picnic-area'>Picnic Area</option>
-                    <option value='state-park'>State Park</option>
-                    <option value='swimming-hole'>Swimming Hole</option>
-                    <option value='unique-find'>Unique Find</option>
-                    <option value='view-point'>View Point</option>
-                    <option value='water-access'>Water Access</option>
+                <select name="stop-ctegory" id="stop-category-select">
+                    <option value="caverns">Caverns</option>
+                    <option value="climbing-access">Climbing Access/Scrambling</option>
+                    <option value="hiking-trail">Hiking Trail</option>
+                    <option value="national-monument">National Monument</option>
+                    <option value="national-park">National Park</option>
+                    <option value="picnic-area">Picnic Area</option>
+                    <option value="state-park">State Park</option>
+                    <option value="swimming-hole">Swimming Hole</option>
+                    <option value="unique-find">Unique Find</option>
+                    <option value="view-point">View Point</option>
+                    <option value="water-access">Water Access</option>
                 </select>
-                <button onSubmit={handleSubmit}>Create Stop</button>
+                <button>Create Stop</button>
             </form>
         </div>
      );
