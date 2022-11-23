@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import LoginPage from './LoginPage';
 import Logout from './Logout';
 import CreateStopPage from './CreateStop';
+import injectContext from './Storage/appContext';
 
 
 function App() {
@@ -45,7 +46,8 @@ function App() {
   );
 }
 
-export default App;
+
+export default injectContext(App);
 
 // add users={users} to profile pge element as a prop in the route
 
