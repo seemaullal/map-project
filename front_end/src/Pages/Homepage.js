@@ -1,7 +1,7 @@
 // passing in e as a param shows a bunch of attributes
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
-import StopList from './StopList';
+import StopList from './StopList.js';
 import { useContext } from 'react';
 import { Context } from '../Storage/appContext.js';
 // import { getMessage } from '../Storage/Store.js';

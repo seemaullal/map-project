@@ -11,6 +11,7 @@ const Navbar = () => {
             <h1>The Roadtrip App</h1>
             <div className="links">
                 <Link to="/">Homepage</Link>
+                <Link to="/all-stops">All Stops</Link>
                 <Link to="/profile" style={{
                     color: "white",
                     backgroundColor: "#f1356d",

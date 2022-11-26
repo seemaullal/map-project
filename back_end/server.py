@@ -99,15 +99,13 @@ def login_user():
     
 #     return jsonify({'message': 'Logout succesful.'})
 
-@app.route('/api/users')
-def all_users():
-    """View all users."""
+@app.route('/api/stops')
+def all_stops():
+    """View all stops."""
 
-    users = crud.get_users()
-    for user in users:
-        print(user)
+    stops = crud.get_stops()
 
-    return jsonify({user.user_id: user.to_dict() for user in users})
+    return jsonify({stop.stop_id: stop.to_dict() for stop in stops})
 
 @app.route('/api/user/<user_id>')
 def a_user(user_id):
