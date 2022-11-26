@@ -36,7 +36,6 @@ function App() {
             <Route path="/" element={<Homepage />} /> 
             <Route path="/create-account" element={<CreateAccountPage />} />
             <Route path="/login" element={<LoginPage />} />
-            <Route path="/logout" element={<Logout />} />
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="/create-stop" element={<CreateStopPage />} />
           </Routes>
