@@ -3,18 +3,23 @@ import { useState } from "react";
 
 export default function CreateStopPage () {
     const [inputs, setInputs] = useState({});
+    const [catChoice, setCatChoice] = useState(null)
 
     const handleChange = (e) => {
         const name = e.target.name;
         const value = e.target.value;
-        setInputs(values => ({...values, [name]: value}))
+        setInputs(values => ({...values, [name]: value}));
+    }
+
+    function selectDropdown(e) {
+        setCatChoice(e.target.value)
     }
 
     const handleSubmit = (e) => {
         e.preventDefault();
         const body = {
-            user: inputs.user,
-            stop_category: inputs.stop_category,
+            user_id: sessionStorage.user_id,
+            stop_category: catChoice,
             stop_name: inputs.stop_name,
             stop_lat: inputs.stop_lat,
             stop_lng: inputs.stop_lng
@@ -36,7 +41,6 @@ export default function CreateStopPage () {
         
         console.log('handleSubmit triggered');
         console.log(inputs);
-        alert('Stop created successfully');
         console.log(body);
     }
     return ( 
@@ -68,7 +72,7 @@ export default function CreateStopPage () {
                     onChange={handleChange}
                 />
                 <label>Select a Stop Category:</label>
-                <select name="stop-ctegory" id="stop-category-select">
+                <select name="stop_category" id="stop-category-select" value={catChoice} onChange={selectDropdown}>
                     <option value="caverns">Caverns</option>
                     <option value="climbing-access">Climbing Access/Scrambling</option>
                     <option value="hiking-trail">Hiking Trail</option>

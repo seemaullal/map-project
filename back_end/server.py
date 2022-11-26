@@ -128,13 +128,22 @@ def create_new_stop():
     stop_lat = request.json['stop_lat']
     stop_lng = request.json['stop_lng']
 
-    new_stop = Stop(user_id, stop_category, stop_name, 
-        stop_lat, stop_lng)
+    new_stop = crud.create_stop(user_id, stop_category, stop_name, stop_lat, stop_lng)
 
     db.session.add(new_stop)
     db.session.commit()
 
     return jsonify(new_stop.to_dict())
+
+@app.route("/hello", methods=["GET"])
+@jwt_required()
+def get_hello():
+
+    dictionary = {
+        "message": "hello world"
+    }
+    
+    return jsonify(dictionary)
 
 
 if __name__ == "__main__":

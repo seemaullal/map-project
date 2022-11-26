@@ -3,12 +3,17 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import StopList from './StopList';
 import { useContext } from 'react';
-import { Context } from '../Storage/appContext';
+import { Context } from '../Storage/appContext.js';
+// import { getMessage } from '../Storage/Store.js';
 
 const Homepage = () => {
     const { store, actions } = useContext(Context);
     const [name, setName] = useState('Brooke');
     const [age, setAge] = useState(26);
+
+    useEffect(() => {
+        actions.getMessage();
+    }, [])
 
     const handleClick = () => {
         setName('Rox');
@@ -50,6 +55,7 @@ const Homepage = () => {
                 <br />
                 <Link to="/create-account">Create Account</Link>
             </div>
+            <div>{store.message}</div>
             <p>{ name } is { age } years old</p>
             <button onClick={handleClick}>Click Me</button>
 
