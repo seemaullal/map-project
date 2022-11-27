@@ -132,6 +132,14 @@ def a_stop(stop_id):
 
     return jsonify(stop.to_dict())
 
+@app.route('/api/stops/<user_id>')
+def stops_by_user(user_id):
+    """View a user's stops."""
+
+    user_stops = crud.get_stops_by_user(user_id)
+
+    return jsonify({user_stop.stop_id: user_stop.to_dict() for user_stop in user_stops})
+
 @app.route('/api/user/<user_id>')
 def a_user(user_id):
     """View a user."""

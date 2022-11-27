@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import StopList from './StopList.js'
+import StopList from '../Components/StopList.js'
 
 // import DataFetching from '../Components/DataFetching';
 
