@@ -54,8 +54,8 @@ const getState = ({ getStore, getActions, setStore }) => {
                  
                     const data = await response.json();
                     console.log("this came from the backend", data);
-                    sessionStorage.setItem("token", data.access_token, "user_id", data.user_id);
-					// sessionStorage.setItem("user_id", data.user_id);
+                    sessionStorage.setItem("token", data.access_token);
+					sessionStorage.setItem("user_id", data.user_id);
                     setStore({ token: data.access_token, user_id: data.user_id });
                     return true;  
                 }
@@ -63,18 +63,18 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.error("There was a login error")
 				}
             },
-			getMessage: () => {
-				const store = getStore();
-				const opts = {
-					headers : {
-						"Authorization": "Bearer" + store.token
-					}
-				};
-				fetch("https://localhost:3000/hello", opts)
-					.then(response => response.json())
-					.then(data => setStore({ message: data.message }))
-					.catch(error => console.log("Error loading message from backend", error));	
-			},
+			// getMessage: () => {
+			// 	const store = getStore();
+			// 	const opts = {
+			// 		headers : {
+			// 			"Authorization": "Bearer" + store.token
+			// 		}
+			// 	};
+			// 	fetch("https://localhost:3000/hello", opts)
+			// 		.then(response => response.json())
+			// 		.then(data => setStore({ message: data.message }))
+			// 		.catch(error => console.log("Error loading message from backend", error));	
+			// },
 			changeColor: (index, color) => {
 				//get the store
 				const store = getStore();

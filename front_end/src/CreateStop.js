@@ -3,7 +3,7 @@ import { useState } from "react";
 
 export default function CreateStopPage () {
     const [inputs, setInputs] = useState({});
-    const [catChoice, setCatChoice] = useState(null)
+    const [catChoice, setCatChoice] = useState("")
 
     const handleChange = (e) => {
         const name = e.target.name;
@@ -35,7 +35,7 @@ export default function CreateStopPage () {
 
         fetch('/create-stop', requestOptions)
             .then(response => response.json())
-            .then(data =>{console.log(data)})
+            .then(data =>console.log(data))
             .catch(error => console.log(error))
 
         

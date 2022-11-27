@@ -104,6 +104,7 @@ def all_stops():
     """View all stops."""
 
     stops = crud.get_stops()
+    print(stops)
 
     return jsonify({stop.stop_id: stop.to_dict() for stop in stops})
 

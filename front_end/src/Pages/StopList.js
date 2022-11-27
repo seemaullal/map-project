@@ -1,16 +1,15 @@
-const StopList = ({ stops, title, handleDelete }) => {
-    // or access props by passing in props above then the next two lines
-    // const stops = props.stops;
-    // const title = props.title;
+const StopList = ({ obj, title }) => {
 
     return (
         <div className="stop-list">
             <h2>{ title }</h2>
-            {stops.map((stop) => (
-                 <div className="stop-preview" key={stop.id}>
-                    <h2>{ stop.name }</h2>
-                    <p>Created by { stop.user }</p>
-                    <button onClick={() => handleDelete(stop.id)}>Delete Stop</button>
+            {obj.map((obj) => (
+                 <div className="stop-preview" key={ obj.key }>
+                    <h2>{ obj.value.stop_name }</h2>
+                    <p>Category { obj.value.stop_category }</p>
+                    <p>Latitude { obj.value.stop_lat }</p>
+                    <p>Longitude { obj.value.stop_lng }</p>
+                    {/* <button onClick={() => handleDelete(stop.id)}>Delete Stop</button> */}
                 </div>
             ))}
         </div>
@@ -18,3 +17,4 @@ const StopList = ({ stops, title, handleDelete }) => {
 }
  
 export default StopList;
+
