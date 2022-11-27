@@ -46,7 +46,7 @@ def test_me():
 
 
 @app.route('/register', methods = ['POST'])
-def create_new_user():
+def create_user():
     """Create a new user."""
 
     fname = request.json['fname']
@@ -100,7 +100,7 @@ def login_user():
 #     return jsonify({'message': 'Logout succesful.'})
 
 @app.route('/create-stop', methods = ['POST'])
-def create_new_stop():
+def create_stop():
     """Create a new stop."""
 
     user_id = request.json['user_id']
@@ -117,20 +117,12 @@ def create_new_stop():
     return jsonify(new_stop.to_dict())
 
 @app.route('/api/stops')
-def all_stops():
+def view_all_stops():
     """View all stops."""
 
     stops = crud.get_stops()
 
     return jsonify({stop.stop_id: stop.to_dict() for stop in stops})
-
-@app.route('/api/stop/<stop_id>')
-def a_stop(stop_id):
-    """View a stop."""
-
-    stop = crud.get_stop_by_id(stop_id)
-
-    return jsonify(stop.to_dict())
 
 @app.route('/api/stops/<user_id>')
 def stops_by_user(user_id):
@@ -139,6 +131,25 @@ def stops_by_user(user_id):
     user_stops = crud.get_stops_by_user(user_id)
 
     return jsonify({user_stop.stop_id: user_stop.to_dict() for user_stop in user_stops})
+
+@app.route('/api/stops/<user_id>/<stop_id>', methods= ['GET'])
+def view_stop(user_id, stop_id):
+    """View a stop."""
+
+    user_stop = crud.get_stop_by_user(user_id,stop_id)
+
+    return jsonify(user_stop.to_dict())
+
+@app.route('/api/stop/<stop_id>', methods= ['DELETE'])
+def delete_stop(stop_id):
+    """Delete a stop."""
+
+    stop = crud.get_stop_by_id(stop_id)
+
+    db.session.delete(stop)
+    db.session.commit()
+
+    return jsonify({'message': 'Stop has been deleted.'})
 
 @app.route('/api/user/<user_id>')
 def a_user(user_id):

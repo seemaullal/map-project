@@ -62,6 +62,12 @@ def get_stops_by_user(user_id):
 
     return Stop.query.filter(Stop.user_id == user_id).all()
 
+def get_stop_by_user(user_id,stop_id):
+    """Return a stop created by a user."""
+
+    return Stop.query.filter(Stop.user_id == user_id, Stop.stop_id == stop_id).first()
+
+
 
 # def create_route(user, num_stops, route_name, total_miles, total_time, 
 # start_lat, start_lng, end_lat, end_lng):

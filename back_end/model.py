@@ -118,7 +118,7 @@ class Stop(db.Model):
                 'stop_lat': self.stop_lat,
                 'stop_lng': self.stop_lng,
                 'stop_category': self.stop_category,
-                'user': self.user.user_id}
+                'user_id': self.user.user_id}
                 # 'stop_category': self.stop_category.stop_category_name}
 
 
