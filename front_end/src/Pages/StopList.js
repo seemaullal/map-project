@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 const StopList = ({ obj, title }) => {
 
     return (
@@ -5,7 +7,8 @@ const StopList = ({ obj, title }) => {
             <h2>{ title }</h2>
             {obj.map((obj) => (
                  <div className="stop-preview" key={ obj.key }>
-                    <h2>{ obj.value.stop_name }</h2>
+                    <Link to={`/api/stop/${obj.value.stop_id}`}>{ obj.value.stop_name }</Link> 
+                    {/* <h2>{ obj.value.stop_name }</h2> */}
                     <p>Category { obj.value.stop_category }</p>
                     <p>Latitude { obj.value.stop_lat }</p>
                     <p>Longitude { obj.value.stop_lng }</p>
