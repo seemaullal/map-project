@@ -99,24 +99,6 @@ def login_user():
     
 #     return jsonify({'message': 'Logout succesful.'})
 
-@app.route('/api/stops')
-def all_stops():
-    """View all stops."""
-
-    stops = crud.get_stops()
-    print(stops)
-
-    return jsonify({stop.stop_id: stop.to_dict() for stop in stops})
-
-@app.route('/api/user/<user_id>')
-def a_user(user_id):
-    """View a user."""
-
-    user = crud.get_user_by_id(user_id)
-    print(type(user))
-
-    return jsonify(user.to_dict())
-
 @app.route('/create-stop', methods = ['POST'])
 def create_new_stop():
     """Create a new stop."""
@@ -133,6 +115,31 @@ def create_new_stop():
     db.session.commit()
 
     return jsonify(new_stop.to_dict())
+
+@app.route('/api/stops')
+def all_stops():
+    """View all stops."""
+
+    stops = crud.get_stops()
+
+    return jsonify({stop.stop_id: stop.to_dict() for stop in stops})
+
+@app.route('/api/stop/<stop_id>')
+def a_stop(stop_id):
+    """View a stop."""
+
+    stop = crud.get_stop_by_id(stop_id)
+
+    return jsonify(stop.to_dict())
+
+@app.route('/api/user/<user_id>')
+def a_user(user_id):
+    """View a user."""
+
+    user = crud.get_user_by_id(user_id)
+
+    return jsonify(user.to_dict())
+
 
 @app.route("/hello", methods=["GET"])
 @jwt_required()

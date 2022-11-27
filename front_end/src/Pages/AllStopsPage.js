@@ -21,15 +21,8 @@ const AllStopsPage = () => {
     return (
         <div className="stop-list">
             {obj && <StopList obj={obj} title="All Stops" />}
-            {/* <ul>
-                {obj.map(obj => (
-                   <li key={obj.key}>{obj.value.stop_name}</li>
-                ))}
-            </ul> */}
         </div>
     );
 }
 
-  
- 
 export default AllStopsPage;
