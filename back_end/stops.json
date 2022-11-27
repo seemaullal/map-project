@@ -12,5 +12,12 @@
         "stop_name": "Meadow Hot Spring",
         "stop_lat": 38.91200237106272,
         "stop_lng": -112.50882590655624  
-    } 
+    },
+    {
+        "user_id": 2,
+        "stop_category": "Water Access",
+        "stop_name": "Mesquite Ditch Boat Ramp",
+        "stop_lat": 36.810277,
+        "stop_lng": -114.007487
+    }
 ]

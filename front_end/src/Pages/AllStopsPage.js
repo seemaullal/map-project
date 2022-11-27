@@ -14,13 +14,11 @@ const AllStopsPage = () => {
             .catch(error => console.log(error));
     }, []);
 
-    const obj = Object.entries(stops).map(([key, value]) => ({key, value}))
-
-    console.log(obj)
+    const stopsObj = Object.entries(stops).map(([key, value]) => ({key, value}))
 
     return (
         <div className="stop-list">
-            {obj && <StopList obj={obj} title="All Stops" />}
+            {stopsObj && <StopList stopsObj={stopsObj} title="All Stops" />}
         </div>
     );
 }

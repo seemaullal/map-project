@@ -1,17 +1,27 @@
 import { Link } from 'react-router-dom';
-// import StopList from '../Components/StopList.js'
+import { useState, useEffect } from 'react';
+import StopList from '../Components/StopList.js'
 
-const ProfilePage = ({ obj }) => {
+const ProfilePage = () => {
 
-    console.log(obj)
-   
+    const [myStops, setMyStops] = useState([]);
+    
+    useEffect(() => {
+        const user_id = sessionStorage.user_id
 
+        fetch(`/api/stops/${user_id}`)
+            .then(response => response.json())
+            .then(data => {setMyStops(data)})
+            .catch(error => console.log(error));
+    }, []);
+
+    const stopsObj = Object.entries(myStops).map(([key, value]) => ({key, value}))
 
     return ( 
         <div className="ProfilePage">
             <h2>My Profile</h2>
             <Link to="/create-stop">Create a Stop</Link>
-            {/* {obj && <StopList obj={obj} title="All Stops" />} */}
+            {stopsObj && <StopList stopsObj={stopsObj} title="My Stops" />}
         </div>
      );
 }
