@@ -1,42 +1,62 @@
 [
     {
-    "rating": "3",
-    "review_content": "This spot was cool but was pretty hard to find and very busy."
+        "user_id": 1,
+        "stop_id": 1,
+        "rating": "3",
+        "content": "This spot was cool but very busy."
     },
     {
-    "rating": "1",
-    "review_content": "Stop didn't match description. There were tweakers and trash everywhere!"
+        "user_id": 4,
+        "stop_id": 2,
+        "rating": "1",
+        "content": "Stop didn't match reviews. There were tweakers and trash everywhere!"
     },
     {
-    "rating": "5",
-    "review_content": "Would recommend this place to everyone. There's no way you'll have a bad time if you come!"
+        "user_id": 1,
+        "stop_id": 6,
+        "rating": "5",
+        "content": "Would recommend this place to everyone. There's no way you'll have a bad time if you come!"
     },
     {
-    "rating": "5",
-    "review_content": "The best stop I've found on this app, hands down."
+        "user_id": 1,
+        "stop_id": 5,
+        "rating": "5",
+        "content": "The best stop I've found on this app, hands down."
     },
     {
-    "rating": "2",
-    "review_content": "Really creepy vibe at this place, sort of a seedy area. Watch your back."
+        "user_id": 8,
+        "stop_id": 2,
+        "rating": "2",
+        "content": "Really creepy vibe at this place, sort of a seedy area. Watch your back."
     },
     {
-    "rating": "3",
-    "review_content": "Pretty decent stop. There are a lot of places nearby for good food and ammenities."
+        "user_id": 8,
+        "stop_id": 3,
+        "rating": "3",
+        "content": "Pretty decent stop. There are a lot of places nearby for good food and ammenities."
     },
     {
-    "rating": "4",
-    "review_content": "Loved the view! The kids had a great time, we'll be back."
+        "user_id": 4,
+        "stop_id": 1,
+        "rating": "4",
+        "content": "Loved the view! The kids had a great time, we'll be back."
     },
     {
-    "rating": "4",
-    "review_content": "Had a really fun time here!"
+        "user_id": 7,
+        "stop_id": 5,
+        "rating": "4",
+        "content": "Had a really fun time here!"
     },
     {
-    "rating": "4",
-    "review_content": "Friend told me about this place and I wasn't dissapointed. Make sure to bring decent shoes though, paths are slippery in the rain."
+        "user_id": 3,
+        "stop_id": 2,
+        "rating": "4",
+        "content": "Friend told me about this place and I wasn't dissapointed. Make sure to bring decent shoes though, paths are slippery in the rain."
     },
     {
-    "rating": "3",
-    "review_content": "Not the best smelling place but there are plenty of picnic tables to enjoy the afternoon."
+        "user_id": 2,
+        "stop_id": 3,
+        "rating": "3",
+        "content": "Not the best smelling place but there are plenty of picnic tables to enjoy the afternoon."
     }
 ]

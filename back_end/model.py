@@ -25,7 +25,7 @@ class User(db.Model):
 
     # routes = db.relationship("Route", back_populates="user")
     stops = db.relationship("Stop", back_populates="user")
-    # reviews = db.relationship("Review", back_populates="user")
+    reviews = db.relationship("Review", back_populates="user")
     # favorite_stops = db.relationship("Favorite_stop", back_populates="user")
 
     def __repr__(self):
@@ -104,7 +104,7 @@ class Stop(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"))
 
     user = db.relationship("User", back_populates="stops")
-    # reviews = db.relationship("Review", back_populates="stop")
+    reviews = db.relationship("Review", back_populates="stop")
     # stop_on_route = db.relationship("Stop_on_route", back_populates="stop")
     # stop_category = db.relationship("Stop_category", back_populates="stop")
     # favorite_stops = db.relationship("Favorite_stop", back_populates="stop")
@@ -119,7 +119,6 @@ class Stop(db.Model):
                 'stop_lng': self.stop_lng,
                 'stop_category': self.stop_category,
                 'user_id': self.user.user_id}
-                # 'stop_category': self.stop_category.stop_category_name}
 
 
 # class Stop_category(db.Model):
@@ -139,24 +138,31 @@ class Stop(db.Model):
 #         return f'<Stop_category stop_category_id={self.stop_category_id} stop_category_name={self.stop_category_name}>'
 
 
-# class Review(db.Model):
-#     """A Review."""
+class Review(db.Model):
+    """A Review."""
 
-#     __tablename__ = "reviews"
+    __tablename__ = "reviews"
 
-#     review_id = db.Column(db.Integer,
-#                         autoincrement=True,
-#                         primary_key=True)
-#     rating = db.Column(db.Integer, nullable=False)
-#     review_content = db.Column(db.Text, nullable=False)
-#     user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"))
-#     stop_id = db.Column(db.Integer, db.ForeignKey("stops.stop_id"))
+    review_id = db.Column(db.Integer,
+                        autoincrement=True,
+                        primary_key=True)
+    rating = db.Column(db.Integer, nullable=False)
+    content = db.Column(db.Text)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"))
+    stop_id = db.Column(db.Integer, db.ForeignKey("stops.stop_id"))
 
-#     user = db.relationship("User", back_populates="reviews")
-#     stop = db.relationship("Stop", back_populates="reviews")
+    user = db.relationship("User", back_populates="reviews")
+    stop = db.relationship("Stop", back_populates="reviews")
 
-#     def __repr__(self):
-#         return f'<Review review_id={self.review_id} rating={self.rating}>'
+    def __repr__(self):
+        return f'<Review review_id={self.review_id} rating={self.rating}>'
+    
+    def to_dict(self):
+        return {'review_id': self.review_id,
+                'rating': self.rating,
+                'content': self.content,
+                'user_id': self.user.user_id,
+                'stop_id': self.stop.stop_id}
 
 
 # class Favorite_stop(db.Model):

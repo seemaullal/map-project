@@ -1,6 +1,6 @@
 """CRUD operations."""
 
-from model import db, User, Stop, connect_to_db
+from model import db, User, Stop, Review, connect_to_db
 
 
 def create_user(fname, lname, email, username, password, phone_num):
@@ -31,7 +31,7 @@ def get_user_by_email(email):
 
     return User.query.filter(User.email == email).first()
 
-stop_categories = ['Caverns', 'Climbing Access/Scrambling', 'Hiking Trail',
+stop_categories = ['Caverns', 'Climbing Access/Scrambling', 'Hiking',
 'National Monument', 'National Park', 'Picnic Spot', 'Swimming Hole', 
 'Unique Find', 'View Point', 'Water Access']
 
@@ -67,6 +67,26 @@ def get_stop_by_user(user_id,stop_id):
 
     return Stop.query.filter(Stop.user_id == user_id, Stop.stop_id == stop_id).first()
 
+def create_review(user_id, stop_id, rating, content):
+    """Create and return a new review by a user for a stop."""
+
+    review = Review(
+    user_id=user_id, 
+    stop_id=stop_id, 
+    rating=rating, 
+    content=content)
+
+    return review
+
+def get_reviews_by_user(user_id):
+    """Return all reviews created by a user."""
+
+    return Review.query.filter(Review.user_id == user_id).all()
+
+def get_reviews_by_stop(stop_id):
+    """Return all reviews for a stop."""
+
+    return Review.query.filter(Review.stop_id == stop_id).all()
 
 
 # def create_route(user, num_stops, route_name, total_miles, total_time, 
@@ -86,18 +106,6 @@ def get_stop_by_user(user_id,stop_id):
 #     )
 
 #     return route
-
-# def create_review(user, stop, rating, review_content):
-#     """Create and return a new rating."""
-
-#     review = Review(
-#     user=user, 
-#     stop=stop, 
-#     rating=rating, 
-#     review_content=review_content)
-
-#     return review
-
 
 
 if __name__ == "__main__":

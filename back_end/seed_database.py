@@ -4,7 +4,7 @@ import os
 import json
 from random import choice, randint
 from datetime import datetime
-from model import User, Stop
+from model import User, Stop, Review
 
 import crud as crud
 import model as model
@@ -58,7 +58,6 @@ model.db.session.commit()
 
 with open("../data/stops.json") as f:
     stop_data = json.loads(f.read())
-    print(stop_data)
 
 stops_in_db = []
 for stop in stop_data:
@@ -74,5 +73,25 @@ for stop in stop_data:
     stops_in_db.append(db_stop)
 
 model.db.session.add_all(stops_in_db)
+model.db.session.commit()
+
+
+with open("../data/reviews.json") as f:
+    review_data = json.loads(f.read())
+    print(review_data)
+
+reviews_in_db = []
+for review in review_data:
+    user_id, stop_id, rating, content = (
+        review["user_id"],
+        review["stop_id"],
+        review["rating"],
+        review["content"]
+    )
+
+    db_review = crud.create_review(user_id, stop_id, rating, content)
+    reviews_in_db.append(db_review)
+
+model.db.session.add_all(reviews_in_db)
 model.db.session.commit()
 
