@@ -12,13 +12,15 @@ const StopDetails = () => {
             .catch(error => console.log(error));
     }, [stop_id]); 
 
+    console.log(stop)
+
     return ( 
         <div className="StopPage">
             <article>
                 <h2>{ stop.stop_name }</h2>
                 <p>Stop Category: { stop.stop_category }</p>
-                <p>Stop Category: { stop.stop_lat }</p>
-                <p>Stop Category: { stop.stop_lng }</p>
+                <p>Stop Latitude: { stop.stop_lat }</p>
+                <p>Stop Longitude: { stop.stop_lng }</p>
             </article>
         </div>
      );

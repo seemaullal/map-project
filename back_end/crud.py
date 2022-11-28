@@ -88,6 +88,15 @@ def get_reviews_by_stop(stop_id):
 
     return Review.query.filter(Review.stop_id == stop_id).all()
 
+def join_reviews_stops():
+    stops = db.session.query(Stop,Review).join(Stop).order_by(Stop.stop_id).all()
+    print('STOPS:----------------------------------------------------------------', stops)
+
+    for stop, rev in stops:  # [(<Emp>, <Dept>), (<Emp>, <Dept>)]
+        return (stop.stop_name, rev.rating, rev.content)
+
+    return stops
+
 
 # def create_route(user, num_stops, route_name, total_miles, total_time, 
 # start_lat, start_lng, end_lat, end_lng):

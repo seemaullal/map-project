@@ -74,7 +74,7 @@ export default function CreateStopPage () {
                 <select name="stop_category" id="stop-category-select" value={catChoice} onChange={selectDropdown}>
                     <option value="caverns">Caverns</option>
                     <option value="climbing-access">Climbing Access/Scrambling</option>
-                    <option value="hiking-trail">Hiking Trail</option>
+                    <option value="hiking">Hiking</option>
                     <option value="national-monument">National Monument</option>
                     <option value="national-park">National Park</option>
                     <option value="picnic-area">Picnic Area</option>
