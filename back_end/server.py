@@ -124,7 +124,7 @@ def view_all_stops():
 
     return jsonify({stop.stop_id: stop.to_dict() for stop in stops})
 
-@app.route('/api/stops/<user_id>')
+@app.route('/api/<user_id>')
 def stops_by_user(user_id):
     """View a user's stops."""
 
@@ -140,7 +140,7 @@ def view_stop(stop_id):
 
     return jsonify(stop.to_dict())
 
-@app.route('/api/stop/<stop_id>', methods= ['DELETE'])
+@app.route('/api/stops/<stop_id>', methods= ['DELETE'])
 def delete_stop(stop_id):
     """Delete a stop."""
 

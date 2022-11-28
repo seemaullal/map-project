@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react'
 import StopList from '../Components/StopList.js'
 
-// import DataFetching from '../Components/DataFetching';
-
 const AllStopsPage = () => {
 
     const [stops, setStops] = useState([]);
@@ -16,9 +14,6 @@ const AllStopsPage = () => {
 
     const stopsObj = Object.entries(stops).map(([key, value]) => ({key, value}))
 
-    // for (const stop of stopsObj) {
-    //     console.log(stop.value.user_id)
-    // }
 
     return (
         <div className="stop-list">

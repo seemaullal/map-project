@@ -3,13 +3,12 @@ import { useState, useEffect } from 'react';
 import StopList from '../Components/StopList.js'
 
 const ProfilePage = () => {
-
     const [myStops, setMyStops] = useState([]);
     
     useEffect(() => {
         const user_id = sessionStorage.user_id
 
-        fetch(`/api/stops/${user_id}`)
+        fetch(`/api/${user_id}`)
             .then(response => response.json())
             .then(data => {setMyStops(data)})
             .catch(error => console.log(error));

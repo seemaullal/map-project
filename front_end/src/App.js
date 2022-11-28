@@ -8,7 +8,7 @@ import LoginPage from './Pages/LoginPage';
 import CreateStopPage from './CreateStop';
 import injectContext from './Storage/appContext';
 import AllStopsPage from './Pages/AllStopsPage';
-import StopDetails from './Pages/StopDetails';
+import StopDetails from './Pages/StopDetailsPage';
 
 
 function App() {
