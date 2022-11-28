@@ -9,6 +9,7 @@ import CreateStopPage from './Pages/CreateStopPage';
 import injectContext from './Storage/appContext';
 import AllStopsPage from './Pages/AllStopsPage';
 import StopDetails from './Pages/StopDetailsPage';
+import NotFound from './Components/NotFound';
 
 function App() {
   const [message, setMessage] = useState("");
@@ -34,6 +35,7 @@ function App() {
             <Route path="/create-stop" element={<CreateStopPage />} />
             <Route path="/stops" element={<AllStopsPage />} />
             <Route path="/stops/:stop_id" element={<StopDetails />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
       </div>
