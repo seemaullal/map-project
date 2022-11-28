@@ -136,6 +136,10 @@ def stops_by_user(user_id):
 def view_stop(stop_id):
     """View a stop."""
 
+    # stop = crud.get_stop_by_id(stop_id)
+    # reviews = crud.get_reviews_by_stop(stop_id)
+
+    # return jsonify(stop.to_dict(), {review.review_id: review.to_dict() for review in reviews})
     stop = crud.get_stop_by_id(stop_id)
 
     return jsonify(stop.to_dict())
@@ -151,6 +155,14 @@ def delete_stop(stop_id):
 
     return jsonify({'message': 'Stop has been deleted.'})
 
+@app.route('/api/stops/<stop_id>/reviews')
+def view_stop_reviews(stop_id):
+    """View a stop's reviews."""
+
+    stop_reviews = crud.get_reviews_by_stop(stop_id)
+
+    return jsonify({review.review_id: review.to_dict() for review in stop_reviews})
+
 @app.route('/api/user/<user_id>')
 def a_user(user_id):
     """View a user."""
@@ -160,15 +172,15 @@ def a_user(user_id):
     return jsonify(user.to_dict())
 
 
-@app.route("/hello", methods=["GET"])
-@jwt_required()
-def get_hello():
+# @app.route("/hello", methods=["GET"])
+# @jwt_required()
+# def get_hello():
 
-    dictionary = {
-        "message": "hello world"
-    }
+#     dictionary = {
+#         "message": "hello world"
+#     }
     
-    return jsonify(dictionary)
+#     return jsonify(dictionary)
 
 
 if __name__ == "__main__":

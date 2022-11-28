@@ -48,12 +48,12 @@ def create_stop(user_id, stop_category, stop_name, stop_lat, stop_lng):
     return stop
 
 def get_stops():
-    """Return all stops."""
+    """Return all stops as a list of stop objects."""
 
     return Stop.query.all()
 
 def get_stop_by_id(stop_id):
-    """Return a stop by its id."""
+    """Return a stop by its id as a stop object."""
 
     return Stop.query.get(stop_id)
 
@@ -84,18 +84,52 @@ def get_reviews_by_user(user_id):
     return Review.query.filter(Review.user_id == user_id).all()
 
 def get_reviews_by_stop(stop_id):
-    """Return all reviews for a stop."""
+    """Return all reviews for a stop as a list of Review objects."""
 
     return Review.query.filter(Review.stop_id == stop_id).all()
 
-def join_reviews_stops():
-    stops = db.session.query(Stop,Review).join(Stop).order_by(Stop.stop_id).all()
-    print('STOPS:----------------------------------------------------------------', stops)
+# def get_reviews_by_stop(stop_id):
+#     """Return all reviews for a stop."""
+#     "Returns only the last set of these values as a dict, with username"
 
-    for stop, rev in stops:  # [(<Emp>, <Dept>), (<Emp>, <Dept>)]
-        return (stop.stop_name, rev.rating, rev.content)
+#     stop_review_dict = {}
 
-    return stops
+#     reviews_for_stop = Review.query.filter(Review.stop_id == stop_id).all()
+
+#     for review in reviews_for_stop:
+#         stop_review_dict["review_id"] = review.review_id
+#         stop_review_dict["rating"] = review.rating
+#         stop_review_dict["user_id"] = review.user_id
+#         stop_review_dict["username"] = review.user.username
+#         stop_review_dict["stop_id"] = review.stop_id
+
+#     return stop_review_dict
+
+# def join_reviews_stops():
+#     # stops = db.session.query(Stop,Review).join(Stop).order_by(Stop.stop_id).all()
+#     # print('STOPS:----------------------------------------------------------------', stops)
+
+#     # for stop, rev in stops:  # [(<Emp>, <Dept>), (<Emp>, <Dept>)]
+#     #     return (stop.stop_name, rev.rating, rev.content)
+
+#     # return stops
+
+#     stops = db.session.query(Stop.stop_id, Stop.stop_name, Stop.stop_category,
+#                             Stop.stop_lat, Stop.stop_lng, Review.review_id, Review.rating, 
+#                             Review.content).join(Review).order_by(Stop.stop_id).all()
+#     print(stops,"===================================================")
+
+def stop_reviews(stop_id):
+    """Returns a lit of sqlalchemy rows with review information for a stop."""
+
+    return(db.session.query(Review.review_id, Review.rating, Review.content, Review.user_id)
+                .join(Stop)
+                .filter(Stop.stop_id == stop_id)
+                .group_by(Review.review_id)
+            ).all()
+
+
+
 
 
 # def create_route(user, num_stops, route_name, total_miles, total_time, 

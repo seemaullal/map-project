@@ -13,6 +13,7 @@ const AllStopsPage = () => {
     }, []);
 
     const stopsObj = Object.entries(stops).map(([key, value]) => ({key, value}))
+    console.log(stopsObj)
 
 
     return (
