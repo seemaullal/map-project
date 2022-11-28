@@ -110,7 +110,7 @@ class Stop(db.Model):
     # favorite_stops = db.relationship("Favorite_stop", back_populates="stop")
 
     def __repr__(self):
-        return f'<Stop stop_id={self.stop_id} stop_lat={self.stop_lat} stop_lng={self.stop_lng} stop_category={self.stop_category}>'
+        return f'<Stop stop_id={self.stop_id} stop_name={self.stop_name} stop_category={self.stop_category} user_id={self.user.user_id}>'
 
     def to_dict(self):
         return {'stop_id': self.stop_id,
@@ -155,7 +155,7 @@ class Review(db.Model):
     stop = db.relationship("Stop", back_populates="reviews")
 
     def __repr__(self):
-        return f'<Review review_id={self.review_id} rating={self.rating}>'
+        return f'<Review review_id={self.review_id} rating={self.rating} user_id={self.user.user_id} stop_id={self.stop.stop_id}>'
     
     def to_dict(self):
         return {'review_id': self.review_id,
