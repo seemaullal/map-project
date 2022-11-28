@@ -21,10 +21,10 @@ const ProfilePage = () => {
             <h2>My Profile</h2>
             <Link to="/create-stop">Create a Stop</Link>
             {stopsObj && <StopList stopsObj={stopsObj} title="My Stops" />}
-            {/* {stopsObj && <DeleteStop stopsObj={stopsObj} />} */}
         </div>
      );
 }
  
 export default ProfilePage;
+
 

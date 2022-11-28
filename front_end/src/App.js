@@ -5,11 +5,10 @@ import CreateAccountPage from './Pages/CreateAccountPage';
 import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import LoginPage from './Pages/LoginPage';
-import CreateStopPage from './CreateStop';
+import CreateStopPage from './Pages/CreateStopPage';
 import injectContext from './Storage/appContext';
 import AllStopsPage from './Pages/AllStopsPage';
 import StopDetails from './Pages/StopDetailsPage';
-
 
 function App() {
   const [message, setMessage] = useState("");
@@ -19,7 +18,6 @@ function App() {
       .then(response => response.json())
       .then(data => {setMessage(data.hello)})
   }, [])
-
 
   return (
     <Router>
@@ -42,7 +40,6 @@ function App() {
     </Router>
   );
 }
-
 
 export default injectContext(App);
 

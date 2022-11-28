@@ -1,6 +1,5 @@
 import { useState } from "react";
 
-
 export default function CreateStopPage () {
     const [inputs, setInputs] = useState({});
     const [catChoice, setCatChoice] = useState("")

@@ -1,18 +1,14 @@
 import { Link } from 'react-router-dom';
-import { useNavigate } from "react-router-dom";
 
 const StopList = ({ stopsObj, title }) => {
-    const navigate = useNavigate();
-  
+
     const handleDelete= (stopObj) => {
         const stop_id = stopObj.value.stop_id;
         fetch(`/api/stops/${stop_id}`, {
             method: 'DELETE'
         }).then(() => {
-            console.log('delete completed');
-            navigate('/profile'); 
+            console.log("deleted"); 
         })
-        navigate('/profile'); 
     }
 
     return (
@@ -36,6 +32,3 @@ const StopList = ({ stopsObj, title }) => {
 }
  
 export default StopList;
-
-
-
