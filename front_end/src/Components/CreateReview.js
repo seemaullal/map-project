@@ -9,6 +9,7 @@ const CreateReview = () => {
         const name = e.target.name;
         const value = e.target.content;
         setInputs(values => ({...values, [name]: value}));
+        console.log("change")
     }
 
     const handleSubmit = (e) => {
@@ -16,7 +17,6 @@ const CreateReview = () => {
         const body = {
             user_id: sessionStorage.user_id,
             stop_id: stop_id,
-            stop_name: inputs.stop_name,
             rating: inputs.rating,
             content: inputs.content
         }

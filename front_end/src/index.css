@@ -44,7 +44,7 @@
 .stop-preview:hover {
   box-shadow: 1px 3px 5px rgba(0,0,0,0.1);
 }
-.stop-preview h2, .StopPage h2, .CreateReviewForm h2{
+.stop-preview h2, .StopPage h2, .review-preview h2{
   font-size: 20px;
   color: #f1356d;
   margin-bottom: 8px;
@@ -59,7 +59,7 @@
   margin: 0 auto;
   text-align: center;
 }
-.CreateAccountForm label, .LoginForm label, .CreateStopForm label, .CreateReviewForm label{
+.CreateAccountForm label, .LoginForm label, .CreateStopForm label, .CreateReviewForm label, .CreateReviewForm button{
   text-align: left;
   display: block;
 }
@@ -68,7 +68,7 @@
   color: #f1356d;
   margin-bottom: 30px;
 }
-.CreateAccountForm input, .LoginForm input, .CreateStopForm input, .CreateStopForm select, .create textarea, .create select , CreateReviewForm input{
+.CreateAccountForm input, .LoginForm input, .CreateStopForm input, .CreateStopForm select, .create textarea, .create select{
   width: 100%;
   padding: 6px 10px;
   margin: 10px 0;
