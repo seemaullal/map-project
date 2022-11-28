@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import CreateReview from "../Components/CreateReview";
 import StopReviews from "../Components/StopReviews";
 
 const StopDetails = () => {
@@ -22,6 +23,8 @@ const StopDetails = () => {
                 <p>Stop Category: { stop.stop_category }</p>
                 <p>Stop Latitude: { stop.stop_lat }</p>
                 <p>Stop Longitude: { stop.stop_lng }</p>
+                <br></br>
+                <CreateReview />
                 <br></br>
                 <StopReviews />
             </article>

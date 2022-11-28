@@ -17,13 +17,14 @@ const StopReviews = () => {
     return ( 
         <div className="StopReviewDetails">
             <article>
-            {reviewsObj.map((reviewObj) => (
-                 <div className="review-preview" key={ reviewObj.key }>
-                        <br></br>
-                        <p>Rating: { reviewObj.value.rating }</p>
-                        <p>Review: { reviewObj.value.content }</p>
-                </div>
-            ))}
+            <h2>Reviews</h2>
+                {reviewsObj.map((reviewObj) => (
+                    <div className="review-preview" key={ reviewObj.key }>
+                            <p>Rating: { reviewObj.value.rating }</p>
+                            <p>{ reviewObj.value.content }</p>
+                            <br></br>
+                    </div>
+                ))}
             </article>
         </div>
      );

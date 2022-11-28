@@ -163,6 +163,22 @@ def view_stop_reviews(stop_id):
 
     return jsonify({review.review_id: review.to_dict() for review in stop_reviews})
 
+@app.route('/api/stops/<stop_id>/review', methods = ['POST'])
+def create_review():
+    """Create a new review for a stop."""
+
+    user_id = request.json['user_id']
+    stop_id = request.json['stop_id']
+    rating = request.json['rating']
+    content = request.json['content']
+
+    new_review = crud.create_review(user_id, stop_id, rating, content)
+
+    db.session.add(new_review)
+    db.session.commit()
+
+    return jsonify(new_review.to_dict())
+
 @app.route('/api/user/<user_id>')
 def a_user(user_id):
     """View a user."""
