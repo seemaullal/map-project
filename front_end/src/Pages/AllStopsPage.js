@@ -16,6 +16,10 @@ const AllStopsPage = () => {
 
     const stopsObj = Object.entries(stops).map(([key, value]) => ({key, value}))
 
+    // for (const stop of stopsObj) {
+    //     console.log(stop.value.user_id)
+    // }
+
     return (
         <div className="stop-list">
             {stopsObj && <StopList stopsObj={stopsObj} title="All Stops" />}

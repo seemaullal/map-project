@@ -8,6 +8,7 @@ import LoginPage from './Pages/LoginPage';
 import CreateStopPage from './CreateStop';
 import injectContext from './Storage/appContext';
 import AllStopsPage from './Pages/AllStopsPage';
+import StopDetails from './Pages/StopDetails';
 
 
 function App() {
@@ -19,12 +20,6 @@ function App() {
       .then(data => {setMessage(data.hello)})
   }, [])
 
-
-  // useEffect (() => {
-  //   fetch("/profile")
-  //     .then(response => response.json())
-  //     .then(data => {setUsers(data)})
-  // }, [])
 
   return (
     <Router>
@@ -39,7 +34,8 @@ function App() {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="/create-stop" element={<CreateStopPage />} />
-            <Route path="/all-stops" element={<AllStopsPage />} />
+            <Route path="/stops" element={<AllStopsPage />} />
+            <Route path="/stops/:stop_id" element={<StopDetails />} />
           </Routes>
         </div>
       </div>
@@ -50,6 +46,5 @@ function App() {
 
 export default injectContext(App);
 
-// add users={users} to profile pge element as a prop in the route
 
 
