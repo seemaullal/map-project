@@ -7,9 +7,8 @@ const CreateReview = () => {
 
     const handleChange = (e) => {
         const name = e.target.name;
-        const value = e.target.content;
+        const value = e.target.value;
         setInputs(values => ({...values, [name]: value}));
-        console.log("change")
     }
 
     const handleSubmit = (e) => {
@@ -20,6 +19,7 @@ const CreateReview = () => {
             rating: inputs.rating,
             content: inputs.content
         }
+        console.log(sessionStorage)
 
         const requestOptions = {
             method: 'POST',
