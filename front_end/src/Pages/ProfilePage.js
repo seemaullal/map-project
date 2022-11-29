@@ -20,6 +20,8 @@ const ProfilePage = () => {
         <div className="ProfilePage">
             <h2>My Profile</h2>
             <Link to="/create-stop">Create a Stop</Link>
+            <Link to="/create-route">Create a Route</Link>
+            <br></br>
             {stopsObj && <StopList stopsObj={stopsObj} title="My Stops" />}
         </div>
      );

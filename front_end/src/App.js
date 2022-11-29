@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import LoginPage from './Pages/LoginPage';
 import CreateStopPage from './Pages/CreateStopPage';
+import CreateRoutePage from './Pages/CreateRoutePage';
 import injectContext from './Storage/appContext';
 import AllStopsPage from './Pages/AllStopsPage';
 import StopDetails from './Pages/StopDetailsPage';
@@ -27,12 +28,14 @@ function App() {
         <Navbar />
         <div className="content">
           <Routes>
+            {/* <pre>{process.env.REACT_APP_NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}</pre> */}
             <Route path="/" element={<Homepage />} /> 
             <Route path="/test" element={<Homepage />} /> 
             <Route path="/create-account" element={<CreateAccountPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="/create-stop" element={<CreateStopPage />} />
+            <Route path="/create-route" element={<CreateRoutePage />} />
             <Route path="/stops" element={<AllStopsPage />} />
             <Route path="/stops/:stop_id" element={<StopDetails />} />
             <Route path="*" element={<NotFound />} />
