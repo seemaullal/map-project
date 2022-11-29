@@ -15,9 +15,8 @@ import os
 
 
 app = Flask(__name__)
-
+app.secret_key = 'dev'
 CORS(app)
-app.config["APP_SECRET_KEY"] = os.environ.get("APP_SECRET_KEY")
 app.config["JWT_SECRET_KEY"] = os.environ.get("JWT_SECRET")
 jwt = JWTManager(app)
 
