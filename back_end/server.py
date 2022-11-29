@@ -15,10 +15,10 @@ import os
 
 
 app = Flask(__name__)
-CORS(app)
-app.secret_key = 'dev'
 
-app.config["JWT_SECRET_KEY"] = os.environ.get('JWT_SECRET')
+CORS(app)
+app.config["APP_SECRET_KEY"] = os.environ.get("APP_SECRET_KEY")
+app.config["JWT_SECRET_KEY"] = os.environ.get("JWT_SECRET")
 jwt = JWTManager(app)
 
 @app.route('/')
