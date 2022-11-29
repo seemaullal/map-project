@@ -1,8 +1,11 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Map from "../Components/Map";
 
 export default function CreateStopPage () {
     const [inputs, setInputs] = useState({});
     const [catChoice, setCatChoice] = useState("")
+    const navigate = useNavigate();
 
     const handleChange = (e) => {
         const name = e.target.name;
@@ -34,7 +37,10 @@ export default function CreateStopPage () {
 
         fetch('/create-stop', requestOptions)
             .then(response => response.json())
-            .then(data =>console.log(data))
+            .then((data) => {
+                const stop_id= data.stop_id;
+                navigate(`/stops/${stop_id}`); 
+            })
             .catch(error => console.log(error))
 
         
@@ -45,6 +51,12 @@ export default function CreateStopPage () {
     return ( 
         <div className="CreateStopPage" onSubmit={handleSubmit}>
             <h2>Create A Stop</h2>
+            <p>Drop a pin on the map at approximate location or enter 
+                coordinates for your stop.
+            </p>
+            <div className="MapContent">
+                <Map />
+            </div>
             <form className="CreateStopForm">
                 <label>Stop Name:</label>
                 <input 
