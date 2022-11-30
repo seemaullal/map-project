@@ -123,6 +123,14 @@ def view_all_stops():
 
     return jsonify({stop.stop_id: stop.to_dict() for stop in stops})
 
+@app.route('/api/stops/map_data')
+def view_all_stops_on_map():
+    """View all stops."""
+
+    stops = crud.get_stops()
+
+    return jsonify({stop.stop_id: stop.to_dict() for stop in stops})
+
 @app.route('/api/<user_id>')
 def stops_by_user(user_id):
     """View a user's stops."""
