@@ -54,21 +54,21 @@
 }
 
 /* forms */
-.CreateAccountForm, .LoginForm, .CreateStopForm {
+.CreateAccountForm, .LoginForm, .CreateStopForm, .CreateRouteForm {
   max-width: 400px;
   margin: 0 auto;
   text-align: center;
 }
-.CreateAccountForm label, .LoginForm label, .CreateStopForm label, .CreateReviewForm label, .CreateReviewForm button{
+.CreateAccountForm label, .LoginForm label, .CreateStopForm label, .CreateReviewForm label, .CreateReviewForm button, .CreateRouteForm label{
   text-align: left;
   display: block;
 }
-.CreateAccountForm h2, .LoginForm h2, .CreateStopForm h2 {
+.CreateAccountForm h2, .LoginForm h2, .CreateStopForm h2, .CreateRouteForm h2{
   font-size: 20px;
   color: #f1356d;
   margin-bottom: 30px;
 }
-.CreateAccountForm input, .LoginForm input, .CreateStopForm input, .CreateStopForm select, .create textarea, .create select{
+.CreateAccountForm input, .LoginForm input, .CreateStopForm input, .CreateStopForm select, .create textarea, .create select, .CreateRouteForm input{
   width: 100%;
   padding: 6px 10px;
   margin: 10px 0;
@@ -76,7 +76,7 @@
   box-sizing: border-box;
   display: block;
 }
-.CreateAccountForm button, .LoginForm button, .CreateStopForm button, .CreateReviewForm button {
+.CreateAccountForm button, .LoginForm button, .CreateStopForm button, .CreateReviewForm button, .CreateRouteForm button {
   background: #f1356d;
   color: #fff;
   border: 0;

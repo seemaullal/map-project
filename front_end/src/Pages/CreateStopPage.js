@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Map from "../Components/Map";
+import StopMap from "../Components/StopMap";
 
-export default function CreateStopPage () {
+export default function CreateStopPage ({ stop_lat, stop_lng}) {
     const [inputs, setInputs] = useState({});
     const [catChoice, setCatChoice] = useState("")
     const navigate = useNavigate();
@@ -55,7 +55,7 @@ export default function CreateStopPage () {
                 coordinates for your stop.
             </p>
             <div className="MapContent">
-                <Map />
+                <StopMap />
             </div>
             <form className="CreateStopForm">
                 <label>Stop Name:</label>
