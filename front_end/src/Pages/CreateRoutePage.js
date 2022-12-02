@@ -1,5 +1,8 @@
 import RouteMap from "../Components/RouteMap.js";
 import { useState } from "react";
+import DistanceMatrix from "../Components/DistanceMatrix.js";
+
+
 
 const CreateRoutePage = () => {
     const [inputs, setInputs] = useState({});
@@ -12,31 +15,13 @@ const CreateRoutePage = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const body = {
-            user_id: sessionStorage.user_id,
-            start_lat: inputs.start_lat,
-            start_lng: inputs.start_lng,
-            end_lat: inputs.end_lat,
-            end_lng: inputs.end_lng
-        }
+        console.log(inputs);
+        // const body = {
+        //     user_id: sessionStorage.user_id,
+        //     start: inputs.start,
+        //     end: inputs.end
+        // }
 
-        const requestOptions = {
-            method: 'GET',
-            headers: {
-                'content-type': 'application/json'
-            },
-            body: JSON.stringify(body)
-        }
-
-        fetch('/create-route', requestOptions)
-            .then(response => response.json())
-            .then((data) => {
-                const route_id= data.route_id;
-            })
-            .catch(error => console.log(error))
-
-        
-        console.log('handleSubmit triggered');
     }
 
     return ( 
@@ -49,22 +34,23 @@ const CreateRoutePage = () => {
                 <input 
                     type='text' 
                     required 
-                    name='start_lat' 
-                    value={inputs.start_lat || ''}
+                    name='start' 
+                    value={inputs.start || ''}
                     onChange={handleChange}
                 />
                 <label>Final Destination:</label>
                 <input 
                     type='text' 
                     required 
-                    name='end_lat' 
-                    value={inputs.end_lat || ''}
+                    name='end' 
+                    value={inputs.end || ''}
                     onChange={handleChange}
                 />
-                <button onClick={handleSubmit}>Create Route</button>
+                <button onClick={handleSubmit}>Get Route</button>
             </form>
             <div className="MapContent">
                 <RouteMap />
+                <DistanceMatrix start={inputs.start} end={inputs.end} />
             </div>
         </div>
     );
