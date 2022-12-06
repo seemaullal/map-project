@@ -1,5 +1,6 @@
 import { GoogleMap, useLoadScript, MarkerF, InfoWindowF } from "@react-google-maps/api";
 import { useEffect, useState } from "react";
+import DistanceMatrix from "./DistanceMatrix";
 
 const RouteMap = () => {
     const [mapData, setMapData] =useState([]);
@@ -49,6 +50,7 @@ const RouteMap = () => {
                                 </div>
                             </InfoWindowF>) : null}
             </GoogleMap>
+            <DistanceMatrix isLoaded={isLoaded}/>
         </div>
     );
 }

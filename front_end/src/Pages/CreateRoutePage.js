@@ -2,8 +2,6 @@ import RouteMap from "../Components/RouteMap.js";
 import { useState } from "react";
 import DistanceMatrix from "../Components/DistanceMatrix.js";
 
-
-
 const CreateRoutePage = () => {
     const [inputs, setInputs] = useState({});
 
