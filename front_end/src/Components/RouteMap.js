@@ -1,5 +1,5 @@
 import { GoogleMap, useJsApiLoader, MarkerF, InfoWindowF } from "@react-google-maps/api";
-import { React, useEffect, useState } from "react";
+import { React, useCallback, useEffect, useRef, useState } from "react";
 import usePlacesAutocomplete, {getGeocode, getLatLng} from "use-places-autocomplete";
 import { Combobox, ComboboxInput, ComboboxPopover, ComboboxList, ComboboxOption} from "@reach/combobox";
 import "@reach/combobox/styles.css";
@@ -25,19 +25,25 @@ const RouteMap = () => {
     const stopsObj = Object.entries(mapData).map(([key, value]) => ({key, value}));
     // console.log(stopsObj);
 
-    // const mapRef = React.useRef();
-    // const onMapLoad = React.useCallback((map) => {
-    //     mapRef.current = map;
-    // }, []);
+    const mapRef = useRef();
+    const onMapLoad = useCallback((map) => {
+        mapRef.current = map;
+    }, []);
+
+    const panTo = useCallback(({lat, lng}) => {
+        mapRef.current.panTo({lat, lng});
+        mapRef.current.setZoom(14);
+    }, []);
 
     if (!isLoaded) return <div>Loading...</div>
     return ( 
         <div>
-            <StandaloneSearchBox />
+            <StandaloneSearchBox panTo={panTo} />
             <GoogleMap 
                 zoom={10} 
                 center={{lat:37.2982, lng: -113.0263}} 
                 mapContainerClassName="map-container"
+                onLoad={onMapLoad}
             >
                 {stopsObj.map((stopObj) => (
                     <MarkerF  
@@ -46,7 +52,6 @@ const RouteMap = () => {
                         onClick={() => {
                             setSelected(stopObj);
                         }}
-                        // onLoad={onMapLoad}
                     />
                     
                 ))}
@@ -67,7 +72,7 @@ const RouteMap = () => {
     );
 }
 
-function StandaloneSearchBox() {
+function StandaloneSearchBox({ panTo }) {
     const {
         ready, 
         value, 
@@ -87,13 +92,11 @@ function StandaloneSearchBox() {
                 try {
                     const results = await getGeocode({address});
                     const { lat, lng } = getLatLng(results[0]);
-                    console.log(results[0]);
-                    console.log(lat, lng)
+                    panTo({ lat, lng });
+                    console.log(lat, lng);
                 } catch(error) {
                     console.log("There was an error.");
                 }
-
-                // console.log(address);
             }}
         >
             <ComboboxInput 
