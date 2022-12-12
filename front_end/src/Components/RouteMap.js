@@ -1,12 +1,17 @@
-import { GoogleMap, useLoadScript, MarkerF, InfoWindowF } from "@react-google-maps/api";
-import { useEffect, useState } from "react";
-import DistanceMatrix from "./DistanceMatrix";
+import { GoogleMap, useJsApiLoader, MarkerF, InfoWindowF } from "@react-google-maps/api";
+import { React, useEffect, useState } from "react";
+import usePlacesAutocomplete, {getGeocode, getLatLng} from "use-places-autocomplete";
+import { Combobox, ComboboxInput, ComboboxPopover, ComboboxList, ComboboxOption} from "@reach/combobox";
+import "@reach/combobox/styles.css";
+// import DistanceMatrix from "./DistanceMatrix";
 
 const RouteMap = () => {
+    const api_library = ["places"]
     const [mapData, setMapData] =useState([]);
     const [selected, setSelected] = useState(null);
-    const { isLoaded } = useLoadScript({
-        googleMapsApiKey:process.env.REACT_APP_NEXT_PUBLIC_GOOGLE_MAPS_API_KEY
+    const { isLoaded } = useJsApiLoader({
+        googleMapsApiKey:process.env.REACT_APP_NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
+        libraries:api_library,
     });
    
     useEffect(() => {
@@ -18,11 +23,17 @@ const RouteMap = () => {
     }, []);
 
     const stopsObj = Object.entries(mapData).map(([key, value]) => ({key, value}));
-    console.log(stopsObj);
+    // console.log(stopsObj);
+
+    // const mapRef = React.useRef();
+    // const onMapLoad = React.useCallback((map) => {
+    //     mapRef.current = map;
+    // }, []);
 
     if (!isLoaded) return <div>Loading...</div>
     return ( 
         <div>
+            <StandaloneSearchBox />
             <GoogleMap 
                 zoom={10} 
                 center={{lat:37.2982, lng: -113.0263}} 
@@ -35,6 +46,7 @@ const RouteMap = () => {
                         onClick={() => {
                             setSelected(stopObj);
                         }}
+                        // onLoad={onMapLoad}
                     />
                     
                 ))}
@@ -50,8 +62,48 @@ const RouteMap = () => {
                                 </div>
                             </InfoWindowF>) : null}
             </GoogleMap>
-            <DistanceMatrix isLoaded={isLoaded}/>
+            {/* <DistanceMatrix isLoaded={isLoaded}/> */}
         </div>
+    );
+}
+
+function StandaloneSearchBox() {
+    const {
+        ready, 
+        value, 
+        suggestions : {status, data}, 
+        setValue, 
+        clearSuggestion} 
+        = usePlacesAutocomplete({
+        requestOptions: {
+            location: { lat: () => 37.2982, lng: () => -113.0263 },
+            radius: 50 * 1609.344,
+        },
+    });
+
+    return (
+        <Combobox 
+            onSelect={(address) => {
+                console.log(address);
+            }}
+        >
+            <ComboboxInput 
+                value={value} 
+                onChange={(e) => {
+                    setValue(e.target.value);
+                }} 
+                disabled={!ready}
+                placeholder="Enter an address"
+            />
+            <ComboboxPopover>
+                <ComboboxList>
+                    {status === "OK" && 
+                        data.map(({id, description}) => (
+                            <ComboboxOption key={id} value={description} />
+                        ))}
+                </ComboboxList>
+            </ComboboxPopover>
+        </Combobox>
     );
 }
  

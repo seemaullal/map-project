@@ -1,6 +1,6 @@
 import RouteMap from "../Components/RouteMap.js";
 import { useState } from "react";
-import DistanceMatrix from "../Components/DistanceMatrix.js";
+// import DistanceMatrix from "../Components/DistanceMatrix.js";
 
 const CreateRoutePage = () => {
     const [inputs, setInputs] = useState({});
@@ -48,7 +48,7 @@ const CreateRoutePage = () => {
             </form>
             <div className="MapContent">
                 <RouteMap />
-                <DistanceMatrix start={inputs.start} end={inputs.end} />
+                {/* <DistanceMatrix start={inputs.start} end={inputs.end} /> */}
             </div>
         </div>
     );
