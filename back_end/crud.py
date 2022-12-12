@@ -31,9 +31,9 @@ def get_user_by_email(email):
 
     return User.query.filter(User.email == email).first()
 
-stop_categories = ['Caverns', 'Climbing Access/Scrambling', 'Hiking',
-'National Monument', 'National Park', 'Picnic Spot', 'Swimming Hole', 
-'Unique Find', 'View Point', 'Water Access']
+stop_categories = ['Camping', 'Caverns', 'Climbing Access/Scrambling', 'Hiking',
+'Historic Site', 'National Monument', 'National Park', 'Picnic Area', 'State Park',
+'Swimming Hole', 'Unique Find', 'View Point', 'Water Access']
 
 def create_stop(user_id, stop_category, stop_name, stop_lat, stop_lng):
     """Create and return a new stop."""

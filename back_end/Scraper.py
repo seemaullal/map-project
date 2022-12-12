@@ -1,5 +1,5 @@
 from bs4 import BeautifulSoup
-import requests, csv
+import requests, csv, cloudinary
 
 def img_scraper(link):
 

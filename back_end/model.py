@@ -85,8 +85,8 @@ class User(db.Model):
 #     def __repr__(self):
 #         return f'<Stop_on_route stop_on_route_id={self.stop_on_route_id}>'
 
-stop_categories = ['Caverns', 'Climbing Access/Scrambling', 'Hiking Trail',
-'National Monument', 'National Park', 'Picnic Spot', 'Swimming Hole', 
+stop_categories = ['Camping', 'Caverns', 'Climbing Access/Scrambling', 'Historic Site'
+'National Monument', 'National Park', 'Picnic Area', 'State Park', 'Swimming Hole', 
 'Unique Find', 'View Point', 'Water Access']
 
 class Stop(db.Model):
@@ -97,7 +97,7 @@ class Stop(db.Model):
     stop_id = db.Column(db.Integer,
                         autoincrement=True,
                         primary_key=True)
-    stop_name = db.Column(db.String(50), nullable=False)
+    stop_name = db.Column(db.String(100), nullable=False)
     stop_lat = db.Column(db.Float, nullable=False)
     stop_lng= db.Column(db.Float, nullable=False)
     stop_category = db.Column(db.String, nullable=False)
@@ -106,7 +106,6 @@ class Stop(db.Model):
     user = db.relationship("User", back_populates="stops")
     reviews = db.relationship("Review", back_populates="stop")
     # stop_on_route = db.relationship("Stop_on_route", back_populates="stop")
-    # stop_category = db.relationship("Stop_category", back_populates="stop")
     # favorite_stops = db.relationship("Favorite_stop", back_populates="stop")
 
     def __repr__(self):
@@ -119,23 +118,6 @@ class Stop(db.Model):
                 'stop_lng': self.stop_lng,
                 'stop_category': self.stop_category,
                 'user_id': self.user.user_id}
-
-
-# class Stop_category(db.Model):
-#     """A Stop Category."""
-
-#     __tablename__ = "stop_categories"
-
-#     stop_category_id = db.Column(db.Integer,
-#                         autoincrement=True,
-#                         primary_key=True)
-#     stop_category_name = db.Column(db.String(50), nullable=False)
-#     stop_id = db.Column(db.Integer, db.ForeignKey("stops.stop_id"))
-
-#     stop = db.relationship("Stop", back_populates="stop_category")
-
-#     def __repr__(self):
-#         return f'<Stop_category stop_category_id={self.stop_category_id} stop_category_name={self.stop_category_name}>'
 
 
 class Review(db.Model):
