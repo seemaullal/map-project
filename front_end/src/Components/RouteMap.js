@@ -83,8 +83,17 @@ function StandaloneSearchBox() {
 
     return (
         <Combobox 
-            onSelect={(address) => {
-                console.log(address);
+            onSelect={async (address) => {
+                try {
+                    const results = await getGeocode({address});
+                    const { lat, lng } = getLatLng(results[0]);
+                    console.log(results[0]);
+                    console.log(lat, lng)
+                } catch(error) {
+                    console.log("There was an error.");
+                }
+
+                // console.log(address);
             }}
         >
             <ComboboxInput 
