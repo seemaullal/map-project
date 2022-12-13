@@ -14,7 +14,7 @@ const StopDetails = () => {
             .catch(error => console.log(error));
     }, [stop_id]); 
 
-    console.log(stop)
+    console.log(stop);
 
     return ( 
         <div className="StopPage">

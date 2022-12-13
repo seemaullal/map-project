@@ -18,7 +18,7 @@ const StopReviews = () => {
         <div className="StopReviewDetails">
             <article>
             <h2>Reviews</h2>
-            {/* { (!reviewsObj) && "Be the first to leave a review!" } */}
+                {(reviewsObj.length === 0) && "Be the first to leave a review!" }
                 {reviewsObj.map((reviewObj) => (
                     <div className="review-preview" key={ reviewObj.key }>
                             <p>Rating: { reviewObj.value.rating }</p>

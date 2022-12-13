@@ -19,7 +19,7 @@ const CreateReview = () => {
             rating: inputs.rating,
             content: inputs.content
         }
-        console.log(sessionStorage)
+        console.log(sessionStorage);
 
         const requestOptions = {
             method: 'POST',

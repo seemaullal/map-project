@@ -10,6 +10,7 @@ export default function CreateStopPage ({ stop_lat, stop_lng }) {
     let [catChoice, setCatChoice] = useState("");
     let [marker, setMarker] = useState([]);
 
+    const center = {lat: 37.733795, lng: -122.446747};
     const { isLoaded } = useJsApiLoader({
         googleMapsApiKey:process.env.REACT_APP_NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
         libraries,
@@ -61,7 +62,8 @@ export default function CreateStopPage ({ stop_lat, stop_lng }) {
             <div className="MapContent">
                 <GoogleMap 
                     zoom={10} 
-                    center={{lat: 39.828856, lng: -98.577291}} 
+                    // center={marker.lat ? (center) : } 
+                    center={center} 
                     mapContainerClassName="map-container"
                     onClick={(e) => {
                         marker = {
@@ -110,7 +112,7 @@ export default function CreateStopPage ({ stop_lat, stop_lng }) {
                         console.log(catChoice);
                     }}
                 >
-                    <option value="camping" aria-selected>Camping</option>
+                    <option value="camping">Camping</option>
                     <option value="caverns">Caverns</option>
                     <option value="climbing-access/scrambling">Climbing Access/Scrambling</option>
                     <option value="hiking">Hiking</option>
