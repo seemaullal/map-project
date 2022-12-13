@@ -15,6 +15,8 @@ export default function CreateStopPage ({ stop_lat, stop_lng }) {
         libraries,
     });
 
+    // const [center, setCenter] = useState("");
+
     const handleChange = (e) => {
         const name = e.target.name;
         const value = e.target.value;
@@ -61,14 +63,18 @@ export default function CreateStopPage ({ stop_lat, stop_lng }) {
     return ( 
         <div className="CreateStopPage" onSubmit={handleSubmit}>
             <h2>Create A Stop</h2>
-            <p>Drop a pin on the map at approximate location or enter 
-                coordinates for your stop.
-            </p>
+            <p>Drop a pin on the map at approximate location of your stop.</p>
             <div className="MapContent">
                 <GoogleMap 
                     zoom={10} 
-                    center={{lat:37.2982, lng: -113.0263}} 
+                    center={{lat: 39.828856, lng: -98.577291}} 
                     mapContainerClassName="map-container"
+                    // onCenterChanged={() => {
+                    //     center = {
+                    //         lat: marker.lat(),
+                    //         lng: marker.lng()
+                    //     };
+                    // }}
                     onClick={(e) => {
                         marker = {
                             lat: e.latLng.lat(),
