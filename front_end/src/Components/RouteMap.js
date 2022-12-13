@@ -5,14 +5,13 @@ import { Combobox, ComboboxInput, ComboboxPopover, ComboboxList, ComboboxOption}
 import "@reach/combobox/styles.css";
 // import DistanceMatrix from "./DistanceMatrix";
 
-const libraries = ['places']
+// const libraries = ['places']
 const RouteMap = () => {
-    // const api_library = ["places"]
+    const [libraries] = useState(['places']);
     const [mapData, setMapData] =useState([]);
     const [selected, setSelected] = useState(null);
     const { isLoaded } = useJsApiLoader({
         googleMapsApiKey:process.env.REACT_APP_NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
-        // libraries:api_library,
         libraries,
     });
    

@@ -1,14 +1,15 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { GoogleMap, useJsApiLoader, MarkerF } from "@react-google-maps/api";
-// import StopMap from "../Components/StopMap";
 
-const libraries = ['places'];
+// const libraries = ['places'];
 export default function CreateStopPage ({ stop_lat, stop_lng }) {
+    const [libraries] = useState(['places']);
+    const navigate = useNavigate();
     const [inputs, setInputs] = useState({});
     const [catChoice, setCatChoice] = useState("");
     let [marker, setMarker] = useState([]);
-    const navigate = useNavigate();
+
     const { isLoaded } = useJsApiLoader({
         googleMapsApiKey:process.env.REACT_APP_NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
         libraries,
@@ -75,8 +76,6 @@ export default function CreateStopPage ({ stop_lat, stop_lng }) {
                     //     });
                     //     console.log(marker);
                     //     console.log(marker.lat, marker.lng);
-                    //     // const stop_lat = marker.lat;
-                    //     // const stop_lng = marker.lng;
                     // }}
                     onClick={(e) => {
                         marker = {
