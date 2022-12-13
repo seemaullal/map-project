@@ -10,6 +10,7 @@ const RouteMap = () => {
     const [libraries] = useState(['places']);
     const [mapData, setMapData] =useState([]);
     const [selected, setSelected] = useState(null);
+    const center = {lat: 37.733795, lng: -122.446747};
     const { isLoaded } = useJsApiLoader({
         googleMapsApiKey:process.env.REACT_APP_NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
         libraries,
@@ -41,8 +42,8 @@ const RouteMap = () => {
         <div>
             <StandaloneSearchBox panTo={panTo} />
             <GoogleMap 
-                zoom={10} 
-                center={{lat:37.2982, lng: -113.0263}} 
+                zoom={11} 
+                center={center} 
                 mapContainerClassName="map-container"
                 onLoad={onMapLoad}
             >
