@@ -1,12 +1,13 @@
-import { GoogleMap, useLoadScript, MarkerF } from "@react-google-maps/api";
+import { GoogleMap, useJsApiLoader, MarkerF } from "@react-google-maps/api";
 import { useState } from "react";
 // import CreateStopPage from "../Pages/CreateStopPage";
 
 const Map = () => {
-    const { isLoaded } = useLoadScript({
+    const { isLoaded } = useJsApiLoader({
         googleMapsApiKey:process.env.REACT_APP_NEXT_PUBLIC_GOOGLE_MAPS_API_KEY
     });
     let [marker, setMarker] = useState([]);
+
 
     if (!isLoaded) return <div>Loading...</div>
     return ( 

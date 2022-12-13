@@ -1,11 +1,18 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import StopMap from "../Components/StopMap";
+import { GoogleMap, useJsApiLoader, MarkerF } from "@react-google-maps/api";
+// import StopMap from "../Components/StopMap";
 
-export default function CreateStopPage ({ stop_lat, stop_lng}) {
+const libraries = ['places'];
+export default function CreateStopPage ({ stop_lat, stop_lng }) {
     const [inputs, setInputs] = useState({});
-    const [catChoice, setCatChoice] = useState("")
+    const [catChoice, setCatChoice] = useState("");
+    let [marker, setMarker] = useState([]);
     const navigate = useNavigate();
+    const { isLoaded } = useJsApiLoader({
+        googleMapsApiKey:process.env.REACT_APP_NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
+        libraries,
+    });
 
     const handleChange = (e) => {
         const name = e.target.name;
@@ -14,7 +21,7 @@ export default function CreateStopPage ({ stop_lat, stop_lng}) {
     }
 
     function selectDropdown(e) {
-        setCatChoice(e.target.value)
+        setCatChoice(e.target.value);
     }
 
     const handleSubmit = (e) => {
@@ -23,8 +30,8 @@ export default function CreateStopPage ({ stop_lat, stop_lng}) {
             user_id: sessionStorage.user_id,
             stop_category: catChoice,
             stop_name: inputs.stop_name,
-            stop_lat: inputs.stop_lat,
-            stop_lng: inputs.stop_lng
+            stop_lat: marker.lat,
+            stop_lng: marker.lng,
         }
 
         const requestOptions = {
@@ -48,6 +55,8 @@ export default function CreateStopPage ({ stop_lat, stop_lng}) {
         console.log(inputs);
         console.log(body);
     }
+
+    if (!isLoaded) return <div>Loading...</div>
     return ( 
         <div className="CreateStopPage" onSubmit={handleSubmit}>
             <h2>Create A Stop</h2>
@@ -55,7 +64,30 @@ export default function CreateStopPage ({ stop_lat, stop_lng}) {
                 coordinates for your stop.
             </p>
             <div className="MapContent">
-                <StopMap />
+                <GoogleMap 
+                    zoom={10} 
+                    center={{lat:37.2982, lng: -113.0263}} 
+                    mapContainerClassName="map-container"
+                    // onClick={(e) => {
+                    //     setMarker({
+                    //         lat: e.latLng.lat(),
+                    //         lng: e.latLng.lng()
+                    //     });
+                    //     console.log(marker);
+                    //     console.log(marker.lat, marker.lng);
+                    //     // const stop_lat = marker.lat;
+                    //     // const stop_lng = marker.lng;
+                    // }}
+                    onClick={(e) => {
+                        marker = {
+                            lat: e.latLng.lat(),
+                            lng: e.latLng.lng()};
+                        setMarker(marker);
+                        console.log(marker);
+                    }}
+                >
+                    <MarkerF position={{ lat: marker.lat, lng: marker.lng }} />
+                </GoogleMap>
             </div>
             <form className="CreateStopForm">
                 <label>Stop Name:</label>
@@ -71,7 +103,7 @@ export default function CreateStopPage ({ stop_lat, stop_lng}) {
                     type="text" 
                     required 
                     name="stop_lat"
-                    value={inputs.stop_lat || ""}
+                    value={marker.lat || ""}
                     onChange={handleChange} 
                 />
                 <label>Longitude:</label>
@@ -79,11 +111,12 @@ export default function CreateStopPage ({ stop_lat, stop_lng}) {
                     type="text"
                     required 
                     name="stop_lng" 
-                    value={inputs.stop_lng || ""}
+                    value={marker.lng || ""}
                     onChange={handleChange}
                 />
                 <label>Select a Stop Category:</label>
                 <select name="stop_category" id="stop-category-select" value={catChoice} onChange={selectDropdown}>
+                    <option value="camping">Camping</option>
                     <option value="caverns">Caverns</option>
                     <option value="climbing-access">Climbing Access/Scrambling</option>
                     <option value="hiking">Hiking</option>
