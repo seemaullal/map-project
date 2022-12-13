@@ -2,12 +2,12 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { GoogleMap, useJsApiLoader, MarkerF } from "@react-google-maps/api";
 
-// const libraries = ['places'];
+
 export default function CreateStopPage ({ stop_lat, stop_lng }) {
     const [libraries] = useState(['places']);
     const navigate = useNavigate();
     const [inputs, setInputs] = useState({});
-    const [catChoice, setCatChoice] = useState("");
+    let [catChoice, setCatChoice] = useState("");
     let [marker, setMarker] = useState([]);
 
     const { isLoaded } = useJsApiLoader({
@@ -15,16 +15,10 @@ export default function CreateStopPage ({ stop_lat, stop_lng }) {
         libraries,
     });
 
-    // const [center, setCenter] = useState("");
-
     const handleChange = (e) => {
         const name = e.target.name;
         const value = e.target.value;
         setInputs(values => ({...values, [name]: value}));
-    }
-
-    function selectDropdown(e) {
-        setCatChoice(e.target.value);
     }
 
     const handleSubmit = (e) => {
@@ -63,18 +57,12 @@ export default function CreateStopPage ({ stop_lat, stop_lng }) {
     return ( 
         <div className="CreateStopPage" onSubmit={handleSubmit}>
             <h2>Create A Stop</h2>
-            <p>Drop a pin on the map at approximate location of your stop.</p>
+            <p>Click the map to drop a pin at approximate location of your stop.</p>
             <div className="MapContent">
                 <GoogleMap 
                     zoom={10} 
                     center={{lat: 39.828856, lng: -98.577291}} 
                     mapContainerClassName="map-container"
-                    // onCenterChanged={() => {
-                    //     center = {
-                    //         lat: marker.lat(),
-                    //         lng: marker.lng()
-                    //     };
-                    // }}
                     onClick={(e) => {
                         marker = {
                             lat: e.latLng.lat(),
@@ -112,10 +100,19 @@ export default function CreateStopPage ({ stop_lat, stop_lng }) {
                     onChange={handleChange}
                 />
                 <label>Select a Stop Category:</label>
-                <select name="stop_category" id="stop-category-select" value={catChoice} onChange={selectDropdown}>
-                    <option value="camping">Camping</option>
+                <select 
+                    name="stop_category" 
+                    id="stop-category-select" 
+                    value={catChoice} 
+                    onChange={(e) => {
+                        catChoice = e.target.value;
+                        setCatChoice(catChoice);
+                        console.log(catChoice);
+                    }}
+                >
+                    <option value="camping" aria-selected>Camping</option>
                     <option value="caverns">Caverns</option>
-                    <option value="climbing-access">Climbing Access/Scrambling</option>
+                    <option value="climbing-access/scrambling">Climbing Access/Scrambling</option>
                     <option value="hiking">Hiking</option>
                     <option value="national-monument">National Monument</option>
                     <option value="national-park">National Park</option>
