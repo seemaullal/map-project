@@ -69,14 +69,6 @@ export default function CreateStopPage ({ stop_lat, stop_lng }) {
                     zoom={10} 
                     center={{lat:37.2982, lng: -113.0263}} 
                     mapContainerClassName="map-container"
-                    // onClick={(e) => {
-                    //     setMarker({
-                    //         lat: e.latLng.lat(),
-                    //         lng: e.latLng.lng()
-                    //     });
-                    //     console.log(marker);
-                    //     console.log(marker.lat, marker.lng);
-                    // }}
                     onClick={(e) => {
                         marker = {
                             lat: e.latLng.lat(),
@@ -85,7 +77,7 @@ export default function CreateStopPage ({ stop_lat, stop_lng }) {
                         console.log(marker);
                     }}
                 >
-                    <MarkerF position={{ lat: marker.lat, lng: marker.lng }} />
+                    {marker.lat ? (<MarkerF position={{ lat: marker.lat, lng: marker.lng }} />) : null}
                 </GoogleMap>
             </div>
             <form className="CreateStopForm">
