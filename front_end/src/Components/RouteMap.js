@@ -2,70 +2,71 @@ import { GoogleMap, DirectionsService, DirectionsRenderer, useJsApiLoader, Marke
 import { React, useCallback, useEffect, useRef, useState } from "react";
 
 export default function RouteMap () {
-    // const [libraries] = useState(['places', 'directions']);
+    const [inputs, setInputs] = useState({});
     const { isLoaded } = useJsApiLoader({
         googleMapsApiKey:process.env.REACT_APP_NEXT_PUBLIC_GOOGLE_MAPS_API_KEY
     });
     const [state, setState] = useState({
-        response: null,
+        response: {},
         travelMode: 'DRIVING',
-        origin: '637 Madrone Avenue, Sunnyvale, CA, 94085',
-        destination: '60 Sereno Circle, Oakland, CA, '
+        origin: '',
+        destination: '',
+        // origin: '637 Madrone Avenue, Sunnyvale, CA, 94085',
+        // destination: '60 Sereno Circle, Oakland, CA, 94619',
     });
-//     this.state = {
-//       response: null,
-//       travelMode: 'DRIVING',
-//       origin: '',
-//       destination: ''
-//     }
 
   function directionsCallback (response) {
-    console.log(response)
+      console.log(response);
 
     if (response !== null) {
       if (response.status === 'OK') {
           setState(() => ({response}));
-        // this.setState(
-        //   () => ({
-        //     response
-        //   })
-        // )
+          console.log("state:",state);
+          console.log(state.origin);
+          console.log(state.destination);
       } else {
-        console.log('response: ', response)
+        console.log('response: ', response);
       }
     }
   }
 
-  function checkDriving ({ target: { checked } }) {
-    return true
-    //   this.setState(
-    //     () => ({
-    //       travelMode: 'DRIVING'
-    //     })
-    //   )
-  }
-
-  function getOrigin (ref) {
-    state.origin = ref
-  }
-
-  function getDestination (ref) {
-    state.destination = ref
-  }
-
-//   function onClick () {
-//     if (origin.value !== '' && destination.value !== '') {
-//       setState(
-//         () => ({
-//           origin: origin.value,
-//           destination: destination.value
-//         })
-//       )
-//     }
+//   function checkDriving ({ target: { checked } }) {
+//       checked &&
+//         setState(() => ({travelMode: 'DRIVING'}));
 //   }
 
+  const handleChange = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+    setInputs(values => ({...values, [name]: value}));
+    // console.log(inputs);
+    }
+
+//   function getOrigin (ref) {
+//       state.origin = ref
+//   }
+
+//   function getDestination (ref) {
+//     state.destination = ref
+//   }
+
+  function onClick () {
+    console.log("in onCLick");
+    if (inputs.origin !== '' && inputs.destination !== '') {
+    setState(
+        () => ({
+        origin: inputs.origin,
+        destination: inputs.destination,
+        travelMode: 'DRIVING'
+        })
+    );
+    console.log(state.origin);
+    console.log(state.destination);
+    }
+  }
+
   function onMapClick (...args) {
-    console.log('onClick args: ', args)
+    console.log('onClick args: ', args);
   }
 
   if (!isLoaded) return <div>Loading...</div>
@@ -79,7 +80,19 @@ export default function RouteMap () {
               <div className='form-group'>
                 <label htmlFor='ORIGIN'>Origin</label>
                 <br />
-                <input id='ORIGIN' className='form-control' type='text' ref={getOrigin} />
+                <input 
+                    id='ORIGIN' 
+                    className='form-control' 
+                    type='text' 
+                    // onClick={(e) => {
+                    //     origin = e.target.value;
+                    //     setState(state.origin);
+                    //     console.log(state);
+                    // }} 
+                    name='origin'
+                    value={inputs.origin || ""}
+                    onChange={handleChange}
+                />
               </div>
             </div>
 
@@ -87,13 +100,25 @@ export default function RouteMap () {
               <div className='form-group'>
                 <label htmlFor='DESTINATION'>Destination</label>
                 <br />
-                <input id='DESTINATION' className='form-control' type='text' ref={getDestination} />
+                <input 
+                    id='DESTINATION' 
+                    className='form-control' 
+                    type='text' 
+                    // onChange={(e) => {
+                    //     destination = e.target.value;
+                    //     setState(state.destination);
+                    //     console.log(state);
+                    // }} 
+                    name='destination'
+                    value={inputs.destination || ""}
+                    onChange={handleChange}
+                />
               </div>
             </div>
           </div>
 
           <div className='d-flex flex-wrap'>
-            <div className='form-group custom-control custom-radio mr-4'>
+            {/* <div className='form-group custom-control custom-radio mr-4'>
               <input
                 id='DRIVING'
                 className='custom-control-input'
@@ -103,11 +128,11 @@ export default function RouteMap () {
                 onChange={checkDriving}
               />
               <label className='custom-control-label' htmlFor='DRIVING'>Driving</label>
-            </div>
+            </div> */}
 
           </div>
             {/* onClick={onClick} below in button attributes */}
-          <button className='btn btn-primary' type='button'>
+          <button className='btn btn-primary' type='button' onClick={onClick}>
             Build Route
           </button>
         </div>
@@ -119,10 +144,10 @@ export default function RouteMap () {
               height: '400px',
               width: '100%'
             }}
-            zoom={2}
+            zoom={10}
             center={{
-              lat: 0,
-              lng: -180
+                lat: 37.733795, 
+                lng: -122.446747
             }}
             // optional
             onClick={onMapClick}
@@ -145,13 +170,14 @@ export default function RouteMap () {
                   options={{ 
                     destination: state.destination,
                     origin: state.origin,
-                    travelMode: state.travelMode
+                    travelMode: 'DRIVING'
                   }}
                   // required
                   callback={directionsCallback}
                   // optional
                   onLoad={directionsService => {
-                    console.log('DirectionsService onLoad directionsService: ', directionsService)
+                    console.log('DirectionsService onLoad directionsService: ', directionsService);
+                    console.log(state.destination);
                   }}
                   // optional
                   onUnmount={directionsService => {
@@ -170,7 +196,8 @@ export default function RouteMap () {
                   }}
                   // optional
                   onLoad={directionsRenderer => {
-                    console.log('DirectionsRenderer onLoad directionsRenderer: ', directionsRenderer)
+                    console.log('DirectionsRenderer onLoad directionsRenderer: ', directionsRenderer);
+                    console.log(state);
                   }}
                   // optional
                   onUnmount={directionsRenderer => {
@@ -185,10 +212,6 @@ export default function RouteMap () {
     )
   
 }
-
-// const DirectionsComponent = <ScriptLoaded>
-//   <Directions />
-// </ScriptLoaded>
 
 
 // import { GoogleMap, useJsApiLoader, MarkerF, InfoWindowF } from "@react-google-maps/api";
