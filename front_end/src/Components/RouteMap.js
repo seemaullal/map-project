@@ -1,10 +1,17 @@
 import { GoogleMap, DirectionsService, DirectionsRenderer, useJsApiLoader, MarkerF, InfoWindowF } from "@react-google-maps/api";
 import { React, useCallback, useEffect, useRef, useState } from "react";
 
-function RouteMap (props) {
-//   constructor (props) {
-//     super(props)
-
+export default function RouteMap () {
+    // const [libraries] = useState(['places', 'directions']);
+    const { isLoaded } = useJsApiLoader({
+        googleMapsApiKey:process.env.REACT_APP_NEXT_PUBLIC_GOOGLE_MAPS_API_KEY
+    });
+    const [state, setState] = useState({
+        response: null,
+        travelMode: 'DRIVING',
+        origin: '637 Madrone Avenue, Sunnyvale, CA, 94085',
+        destination: '60 Sereno Circle, Oakland, CA, '
+    });
 //     this.state = {
 //       response: null,
 //       travelMode: 'DRIVING',
@@ -12,12 +19,12 @@ function RouteMap (props) {
 //       destination: ''
 //     }
 
-
   function directionsCallback (response) {
     console.log(response)
 
     if (response !== null) {
       if (response.status === 'OK') {
+          setState(() => ({response}));
         // this.setState(
         //   () => ({
         //     response
@@ -39,29 +46,29 @@ function RouteMap (props) {
   }
 
   function getOrigin (ref) {
-    this.origin = ref
+    state.origin = ref
   }
 
-//   getDestination (ref) {
-//     this.destination = ref
-//   }
+  function getDestination (ref) {
+    state.destination = ref
+  }
 
-//   onClick () {
-//     if (this.origin.value !== '' && this.destination.value !== '') {
-//       this.setState(
+//   function onClick () {
+//     if (origin.value !== '' && destination.value !== '') {
+//       setState(
 //         () => ({
-//           origin: this.origin.value,
-//           destination: this.destination.value
+//           origin: origin.value,
+//           destination: destination.value
 //         })
 //       )
 //     }
 //   }
 
-//   onMapClick (...args) {
-//     console.log('onClick args: ', args)
-//   }
+  function onMapClick (...args) {
+    console.log('onClick args: ', args)
+  }
 
-  
+  if (!isLoaded) return <div>Loading...</div>
     return (
       <div className='map'>
         <div className='map-settings'>
@@ -72,7 +79,7 @@ function RouteMap (props) {
               <div className='form-group'>
                 <label htmlFor='ORIGIN'>Origin</label>
                 <br />
-                <input id='ORIGIN' className='form-control' type='text' ref={this.getOrigin} />
+                <input id='ORIGIN' className='form-control' type='text' ref={getOrigin} />
               </div>
             </div>
 
@@ -80,7 +87,7 @@ function RouteMap (props) {
               <div className='form-group'>
                 <label htmlFor='DESTINATION'>Destination</label>
                 <br />
-                <input id='DESTINATION' className='form-control' type='text' ref={this.getDestination} />
+                <input id='DESTINATION' className='form-control' type='text' ref={getDestination} />
               </div>
             </div>
           </div>
@@ -92,37 +99,33 @@ function RouteMap (props) {
                 className='custom-control-input'
                 name='travelMode'
                 type='radio'
-                checked={this.state.travelMode === 'DRIVING'}
-                onChange={this.checkDriving}
+                checked={state.travelMode === 'DRIVING'}
+                onChange={checkDriving}
               />
               <label className='custom-control-label' htmlFor='DRIVING'>Driving</label>
             </div>
 
           </div>
-
-          <button className='btn btn-primary' type='button' onClick={this.onClick}>
+            {/* onClick={onClick} below in button attributes */}
+          <button className='btn btn-primary' type='button'>
             Build Route
           </button>
         </div>
 
         <div className='map-container'>
           <GoogleMap
-            // required
             id='direction-example'
-            // required
             mapContainerStyle={{
               height: '400px',
               width: '100%'
             }}
-            // required
             zoom={2}
-            // required
             center={{
               lat: 0,
               lng: -180
             }}
             // optional
-            onClick={this.onMapClick}
+            onClick={onMapClick}
             // optional
             onLoad={map => {
               console.log('DirectionsRenderer onLoad map: ', map)
@@ -134,18 +137,18 @@ function RouteMap (props) {
           >
             {
               (
-                this.state.destination !== '' &&
-                this.state.origin !== ''
+                state.destination !== '' &&
+                state.origin !== ''
               ) && (
                 <DirectionsService
                   // required
                   options={{ 
-                    destination: this.state.destination,
-                    origin: this.state.origin,
-                    travelMode: this.state.travelMode
+                    destination: state.destination,
+                    origin: state.origin,
+                    travelMode: state.travelMode
                   }}
                   // required
-                  callback={this.directionsCallback}
+                  callback={directionsCallback}
                   // optional
                   onLoad={directionsService => {
                     console.log('DirectionsService onLoad directionsService: ', directionsService)
@@ -159,11 +162,11 @@ function RouteMap (props) {
             }
 
             {
-              this.state.response !== null && (
+              state.response !== null && (
                 <DirectionsRenderer
                   // required
                   options={{ 
-                    directions: this.state.response
+                    directions: state.response
                   }}
                   // optional
                   onLoad={directionsRenderer => {
@@ -186,7 +189,7 @@ function RouteMap (props) {
 // const DirectionsComponent = <ScriptLoaded>
 //   <Directions />
 // </ScriptLoaded>
-export default RouteMap;
+
 
 // import { GoogleMap, useJsApiLoader, MarkerF, InfoWindowF } from "@react-google-maps/api";
 // import { React, useCallback, useEffect, useRef, useState } from "react";
