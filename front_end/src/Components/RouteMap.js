@@ -7,7 +7,7 @@ export default function RouteMap () {
         googleMapsApiKey:process.env.REACT_APP_NEXT_PUBLIC_GOOGLE_MAPS_API_KEY
     });
     const [state, setState] = useState({
-        response: {},
+        response: null,
         travelMode: 'DRIVING',
         origin: '',
         destination: '',
