@@ -11,7 +11,6 @@ export default function RouteMap () {
         travelMode: 'DRIVING',
         origin: '',
         destination: '',
-        // origin: '637 Madrone Avenue, Sunnyvale, CA, 94085',
         // destination: '60 Sereno Circle, Oakland, CA, 94619',
     });
 
@@ -30,25 +29,12 @@ export default function RouteMap () {
     }
   }
 
-//   function checkDriving ({ target: { checked } }) {
-//       checked &&
-//         setState(() => ({travelMode: 'DRIVING'}));
-//   }
-
   const handleChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
     setInputs(values => ({...values, [name]: value}));
     // console.log(inputs);
     }
-
-//   function getOrigin (ref) {
-//       state.origin = ref
-//   }
-
-//   function getDestination (ref) {
-//     state.destination = ref
-//   }
 
   function onClick () {
     console.log("in onCLick");
@@ -84,11 +70,6 @@ export default function RouteMap () {
                     id='ORIGIN' 
                     className='form-control' 
                     type='text' 
-                    // onClick={(e) => {
-                    //     origin = e.target.value;
-                    //     setState(state.origin);
-                    //     console.log(state);
-                    // }} 
                     name='origin'
                     value={inputs.origin || ""}
                     onChange={handleChange}
@@ -104,11 +85,6 @@ export default function RouteMap () {
                     id='DESTINATION' 
                     className='form-control' 
                     type='text' 
-                    // onChange={(e) => {
-                    //     destination = e.target.value;
-                    //     setState(state.destination);
-                    //     console.log(state);
-                    // }} 
                     name='destination'
                     value={inputs.destination || ""}
                     onChange={handleChange}
@@ -116,22 +92,6 @@ export default function RouteMap () {
               </div>
             </div>
           </div>
-
-          <div className='d-flex flex-wrap'>
-            {/* <div className='form-group custom-control custom-radio mr-4'>
-              <input
-                id='DRIVING'
-                className='custom-control-input'
-                name='travelMode'
-                type='radio'
-                checked={state.travelMode === 'DRIVING'}
-                onChange={checkDriving}
-              />
-              <label className='custom-control-label' htmlFor='DRIVING'>Driving</label>
-            </div> */}
-
-          </div>
-            {/* onClick={onClick} below in button attributes */}
           <button className='btn btn-primary' type='button' onClick={onClick}>
             Build Route
           </button>
@@ -149,13 +109,10 @@ export default function RouteMap () {
                 lat: 37.733795, 
                 lng: -122.446747
             }}
-            // optional
             onClick={onMapClick}
-            // optional
             onLoad={map => {
               console.log('DirectionsRenderer onLoad map: ', map)
             }}
-            // optional
             onUnmount={map => {
               console.log('DirectionsRenderer onUnmount map: ', map)
             }}
@@ -166,13 +123,11 @@ export default function RouteMap () {
                 state.origin !== ''
               ) && (
                 <DirectionsService
-                  // required
                   options={{ 
                     destination: state.destination,
                     origin: state.origin,
                     travelMode: 'DRIVING'
                   }}
-                  // required
                   callback={directionsCallback}
                   // optional
                   onLoad={directionsService => {
@@ -190,7 +145,6 @@ export default function RouteMap () {
             {
               state.response !== null && (
                 <DirectionsRenderer
-                  // required
                   options={{ 
                     directions: state.response
                   }}

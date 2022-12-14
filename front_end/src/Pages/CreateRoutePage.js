@@ -46,10 +46,9 @@ const CreateRoutePage = () => {
                 />
                 <button onClick={handleSubmit}>Get Route</button>
             </form>
-            <div className="MapContent">
-                <RouteMap />
-                {/* <DistanceMatrix start={inputs.start} end={inputs.end} /> */}
-            </div>
+            <p>Enter origin and destination addresses to receive your route.</p>
+            <RouteMap />
+            {/* <DistanceMatrix start={inputs.start} end={inputs.end} /> */}
         </div>
     );
 }
