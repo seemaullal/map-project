@@ -41,6 +41,7 @@ export default function RouteMap () {
     if (inputs.origin !== '' && inputs.destination !== '') {
     setState(
         () => ({
+        response: state.response,
         origin: inputs.origin,
         destination: inputs.destination,
         travelMode: 'DRIVING'
@@ -129,6 +130,8 @@ export default function RouteMap () {
                     travelMode: 'DRIVING'
                   }}
                   callback={directionsCallback}
+                //   if map keeps rerendering
+                //   callback={(e) => directionsCallback(e)}
                   // optional
                   onLoad={directionsService => {
                     console.log('DirectionsService onLoad directionsService: ', directionsService);
