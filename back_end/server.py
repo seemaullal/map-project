@@ -131,7 +131,7 @@ def view_all_stops_on_map():
 
     return jsonify({stop.stop_id: stop.to_dict() for stop in stops})
 
-@app.route('/api/<user_id>')
+@app.route('/api/<user_id>/stops')
 def stops_by_user(user_id):
     """View a user's stops."""
 
@@ -193,6 +193,14 @@ def a_user(user_id):
     user = crud.get_user_by_id(user_id)
 
     return jsonify(user.to_dict())
+
+@app.route('/api/user/<user_id>/reviews')
+def view_user_reviews(user_id):
+    """View a user's reviews."""
+
+    user_reviews = crud.get_reviews_by_user(user_id)
+
+    return jsonify({user_review.review_id: user_review.to_dict() for user_review in user_reviews})
 
 
 # @app.route("/hello", methods=["GET"])
