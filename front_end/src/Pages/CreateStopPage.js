@@ -1,12 +1,16 @@
-import { useState } from "react";
+import { useState, useCallback, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { GoogleMap, useJsApiLoader, MarkerF } from "@react-google-maps/api";
+import usePlacesAutocomplete, {getGeocode, getLatLng} from "use-places-autocomplete";
+import { Combobox, ComboboxInput, ComboboxPopover, ComboboxList, ComboboxOption} from "@reach/combobox";
+import "@reach/combobox/styles.css";
 
 const center = {
     lat: 37.733795, 
     lng: -122.446747
 };
 export default function CreateStopPage ({ stop_lat, stop_lng }) {
+    const mapRef = useRef();
     const [libraries] = useState(['places']);
     const navigate = useNavigate();
     const [inputs, setInputs] = useState({});
@@ -24,6 +28,15 @@ export default function CreateStopPage ({ stop_lat, stop_lng }) {
         const value = e.target.value;
         setInputs(values => ({...values, [name]: value}));
     }
+
+    const onMapLoad = useCallback((map) => {
+        mapRef.current = map;
+    }, []);
+
+    const panTo = useCallback(({lat, lng}) => {
+        mapRef.current.panTo({lat, lng});
+        mapRef.current.setZoom(12);
+    }, []);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -63,6 +76,7 @@ export default function CreateStopPage ({ stop_lat, stop_lng }) {
             <h2>Create A Stop</h2>
             <p>Click the map to drop a pin at approximate location of your stop.</p>
             <div className="MapContent">
+                <StandaloneSearchBox panTo={panTo} />
                 <GoogleMap 
                     zoom={10} 
                     // center={marker.lat ? (center) : } 
@@ -75,6 +89,7 @@ export default function CreateStopPage ({ stop_lat, stop_lng }) {
                         setMarker(marker);
                         console.log(marker);
                     }}
+                    onLoad={onMapLoad}
                 >
                     {marker.lat ? (<MarkerF position={{ lat: marker.lat, lng: marker.lng }} />) : null}
                 </GoogleMap>
@@ -132,5 +147,54 @@ export default function CreateStopPage ({ stop_lat, stop_lng }) {
             </form>
         </div>
      );
+}
+
+function StandaloneSearchBox({ panTo }) {
+    const {
+        ready, 
+        value, 
+        suggestions : {status, data}, 
+        setValue, 
+        clearSuggestions} 
+        = usePlacesAutocomplete({
+        requestOptions: {
+            location: { lat: () => 37.2982, lng: () => -113.0263 },
+            radius: 50 * 1609.344,
+        },
+    });
+
+    return (
+        <Combobox 
+            onSelect={async (address) => {
+                setValue(address, false);
+                clearSuggestions();
+                try {
+                    const results = await getGeocode({address});
+                    const { lat, lng } = getLatLng(results[0]);
+                    panTo({ lat, lng });
+                    console.log(lat, lng);
+                } catch(error) {
+                    console.log("There was an error.");
+                }
+            }}
+        >
+            <ComboboxInput 
+                value={value} 
+                onChange={(e) => {
+                    setValue(e.target.value);
+                }} 
+                disabled={!ready}
+                placeholder="Enter an address"
+            />
+            <ComboboxPopover>
+                <ComboboxList>
+                    {status === "OK" && 
+                        data.map(({id, description}) => (
+                            <ComboboxOption key={id} value={description} />
+                        ))}
+                </ComboboxList>
+            </ComboboxPopover>
+        </Combobox>
+    );
 }
  

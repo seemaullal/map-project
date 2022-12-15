@@ -278,20 +278,20 @@ function DirectionsAccordion ({ directionsOptions }) {
     // const stopsObj = Object.entries(mapData).map(([key, value]) => ({key, value}));
     // // console.log(stopsObj);
 
-//     const mapRef = useRef();
-//     const onMapLoad = useCallback((map) => {
-//         mapRef.current = map;
-//     }, []);
+    // const mapRef = useRef();
+    // const onMapLoad = useCallback((map) => {
+    //     mapRef.current = map;
+    // }, []);
 
-//     const panTo = useCallback(({lat, lng}) => {
-//         mapRef.current.panTo({lat, lng});
-//         mapRef.current.setZoom(14);
-//     }, []);
+    // const panTo = useCallback(({lat, lng}) => {
+    //     mapRef.current.panTo({lat, lng});
+    //     mapRef.current.setZoom(14);
+    // }, []);
 
 //     if (!isLoaded) return <div>Loading...</div>
 //     return ( 
 //         <div>
-//             <StandaloneSearchBox panTo={panTo} />
+            // <StandaloneSearchBox panTo={panTo} />
 //             <GoogleMap 
 //                 zoom={11} 
 //                 center={center} 
