@@ -1,5 +1,5 @@
-import { GoogleMap, DirectionsService, DirectionsRenderer, useJsApiLoader, MarkerF, InfoWindowF } from "@react-google-maps/api";
-import { React, useCallback, useEffect, useRef, useState } from "react";
+import { GoogleMap, DirectionsService, DirectionsRenderer, DistanceMatrixService, useJsApiLoader, MarkerF, InfoWindowF } from "@react-google-maps/api";
+import { React, useCallback, useEffect, useState } from "react";
 import {
     Accordion,
     AccordionItem,
@@ -67,6 +67,7 @@ export default function RouteMap () {
         setDirectionsOptions( () => ({
             response: directionsOptions.response,
             origin: inputs.origin,
+            // origin: {query: inputs.origin},
             destination: inputs.destination,
             travelMode: 'DRIVING'
         }));
@@ -195,7 +196,14 @@ export default function RouteMap () {
                 /> 
               )
             }
-
+             <DistanceMatrixService 
+                options={{
+                    destinations: [directionsOptions.destination, '1 Zion Park Blvd. Springdale , UT'],
+                    origins: [directionsOptions.origin],
+                    travelMode: 'DRIVING',
+                }}
+                callback = {(response) => {console.log('DMS:',response)}}
+            />
             {
               directionsOptions.response !== null && (
                 <DirectionsRenderer
@@ -253,8 +261,6 @@ function DirectionsAccordion ({ directionsOptions }) {
 // import { GoogleMap, useJsApiLoader, MarkerF, InfoWindowF } from "@react-google-maps/api";
 // import { React, useCallback, useEffect, useRef, useState } from "react";
 // import usePlacesAutocomplete, {getGeocode, getLatLng} from "use-places-autocomplete";
-// import { Combobox, ComboboxInput, ComboboxPopover, ComboboxList, ComboboxOption} from "@reach/combobox";
-// import "@reach/combobox/styles.css";
 // // import DistanceMatrix from "./DistanceMatrix";
 
 // const RouteMap = () => {
@@ -321,55 +327,6 @@ function DirectionsAccordion ({ directionsOptions }) {
             // </GoogleMap>
 //             {/* <DistanceMatrix isLoaded={isLoaded}/> */}
 //         </div>
-//     );
-// }
-
-// function StandaloneSearchBox({ panTo }) {
-//     const {
-//         ready, 
-//         value, 
-//         suggestions : {status, data}, 
-//         setValue, 
-//         clearSuggestions} 
-//         = usePlacesAutocomplete({
-//         requestOptions: {
-//             location: { lat: () => 37.2982, lng: () => -113.0263 },
-//             radius: 50 * 1609.344,
-//         },
-//     });
-
-//     return (
-//         <Combobox 
-//             onSelect={async (address) => {
-//                 setValue(address, false);
-//                 clearSuggestions();
-//                 try {
-//                     const results = await getGeocode({address});
-//                     const { lat, lng } = getLatLng(results[0]);
-//                     panTo({ lat, lng });
-//                     console.log(lat, lng);
-//                 } catch(error) {
-//                     console.log("There was an error.");
-//                 }
-//             }}
-//         >
-//             <ComboboxInput 
-//                 value={value} 
-//                 onChange={(e) => {
-//                     setValue(e.target.value);
-//                 }} 
-//                 disabled={!ready}
-//                 placeholder="Enter an address"
-//             />
-//             <ComboboxPopover>
-//                 <ComboboxList>
-//                     {status === "OK" && 
-//                         data.map(({id, description}) => (
-//                             <ComboboxOption key={id} value={description} />
-//                         ))}
-//                 </ComboboxList>
-//             </ComboboxPopover>
-//         </Combobox>
 //     );
 // }
  
