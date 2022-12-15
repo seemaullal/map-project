@@ -97,7 +97,9 @@ export default function RouteMap () {
           <button className='btn btn-primary' type='button' onClick={onClick}>
             Build Route
           </button>
-          <DirectionsAccordion directionsOptions={directionsOptions}/>
+          {directionsOptions.response !== null && (
+              <DirectionsAccordion directionsOptions={directionsOptions}/>
+          )}
         </div>
 
         <div className='map-container'>
@@ -143,10 +145,9 @@ export default function RouteMap () {
                   onUnmount={directionsService => {
                     console.log('DirectionsService onUnmount directionsService: ', directionsService)
                   }}
-                />
+                /> 
               )
             }
-
             {
               directionsOptions.response !== null && (
                 <DirectionsRenderer
@@ -173,7 +174,6 @@ export default function RouteMap () {
 }
 
 function DirectionsAccordion ({ directionsOptions }) {
-
     const origin_address = directionsOptions.response.request.origin.query;
     const destination_address = directionsOptions.response.request.destination.query;
 
