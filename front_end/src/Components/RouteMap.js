@@ -9,10 +9,24 @@ import {
 import "@reach/accordion/styles.css";
 
 export default function RouteMap () {
+    const [mapData, setMapData] =useState([]);
+    const [selected, setSelected] = useState(null);
     const [inputs, setInputs] = useState({});
     const { isLoaded } = useJsApiLoader({
         googleMapsApiKey:process.env.REACT_APP_NEXT_PUBLIC_GOOGLE_MAPS_API_KEY
     });
+
+    useEffect(() => {
+        fetch('/api/stops/map_data')
+            .then((response) => response.json())
+            .then((data) => {
+                setMapData(data);
+            });
+    }, []);
+
+    const stopsObj = Object.entries(mapData).map(([key, value]) => ({key, value}));
+    // console.log(stopsObj);
+
     const [directionsOptions, setDirectionsOptions] = useState({
         response: null,
         travelMode: 'DRIVING',
@@ -122,6 +136,26 @@ export default function RouteMap () {
               console.log('DirectionsRenderer onUnmount map: ', map)
             }}
           >
+                              {stopsObj.map((stopObj) => (
+                    <MarkerF  
+                        key={stopObj.key}
+                        position={{ lat: stopObj.value.stop_lat, lng: stopObj.value.stop_lng}} 
+                        onClick={() => {
+                            setSelected(stopObj);
+                        }}
+                    />
+                ))}
+                {selected ? (<InfoWindowF
+                                position={{ lat: selected.value.stop_lat, lng: selected.value.stop_lng }} 
+                                onCloseClick={() => {
+                                    setSelected(null);
+                                }}
+                            >
+                                <div>
+                                    <h2>{selected.value.stop_name}</h2>
+                                    <p>Category: {selected.value.stop_category}</p>
+                                </div>
+                            </InfoWindowF>) : null}
             {
               (
                 directionsOptions.destination !== '' &&
@@ -211,24 +245,24 @@ function DirectionsAccordion ({ directionsOptions }) {
 
 // const RouteMap = () => {
 //     const [libraries] = useState(['places']);
-//     const [mapData, setMapData] =useState([]);
-//     const [selected, setSelected] = useState(null);
+    // const [mapData, setMapData] =useState([]);
+    // const [selected, setSelected] = useState(null);
 //     const center = {lat: 37.733795, lng: -122.446747};
 //     const { isLoaded } = useJsApiLoader({
 //         googleMapsApiKey:process.env.REACT_APP_NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
 //         libraries,
 //     });
    
-//     useEffect(() => {
-//         fetch('/api/stops/map_data')
-//             .then((response) => response.json())
-//             .then((data) => {
-//                 setMapData(data);
-//             });
-//     }, []);
+    // useEffect(() => {
+    //     fetch('/api/stops/map_data')
+    //         .then((response) => response.json())
+    //         .then((data) => {
+    //             setMapData(data);
+    //         });
+    // }, []);
 
-//     const stopsObj = Object.entries(mapData).map(([key, value]) => ({key, value}));
-//     // console.log(stopsObj);
+    // const stopsObj = Object.entries(mapData).map(([key, value]) => ({key, value}));
+    // // console.log(stopsObj);
 
 //     const mapRef = useRef();
 //     const onMapLoad = useCallback((map) => {
@@ -250,27 +284,27 @@ function DirectionsAccordion ({ directionsOptions }) {
 //                 mapContainerClassName="map-container"
 //                 onLoad={onMapLoad}
 //             >
-//                 {stopsObj.map((stopObj) => (
-//                     <MarkerF  
-//                         key={stopObj.key}
-//                         position={{ lat: stopObj.value.stop_lat, lng: stopObj.value.stop_lng}} 
-//                         onClick={() => {
-//                             setSelected(stopObj);
-//                         }}
-//                     />
-//                 ))}
-//                 {selected ? (<InfoWindowF
-//                                 position={{ lat: selected.value.stop_lat, lng: selected.value.stop_lng }} 
-//                                 onCloseClick={() => {
-//                                     setSelected(null);
-//                                 }}
-//                             >
-//                                 <div>
-//                                     <h2>{selected.value.stop_name}</h2>
-//                                     <p>Category: {selected.value.stop_category}</p>
-//                                 </div>
-//                             </InfoWindowF>) : null}
-//             </GoogleMap>
+                // {stopsObj.map((stopObj) => (
+                //     <MarkerF  
+                //         key={stopObj.key}
+                //         position={{ lat: stopObj.value.stop_lat, lng: stopObj.value.stop_lng}} 
+                //         onClick={() => {
+                //             setSelected(stopObj);
+                //         }}
+                //     />
+                // ))}
+                // {selected ? (<InfoWindowF
+                //                 position={{ lat: selected.value.stop_lat, lng: selected.value.stop_lng }} 
+                //                 onCloseClick={() => {
+                //                     setSelected(null);
+                //                 }}
+                //             >
+                //                 <div>
+                //                     <h2>{selected.value.stop_name}</h2>
+                //                     <p>Category: {selected.value.stop_category}</p>
+                //                 </div>
+                //             </InfoWindowF>) : null}
+            // </GoogleMap>
 //             {/* <DistanceMatrix isLoaded={isLoaded}/> */}
 //         </div>
 //     );
