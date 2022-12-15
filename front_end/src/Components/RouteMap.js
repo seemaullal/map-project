@@ -1,6 +1,5 @@
 import { GoogleMap, DirectionsService, DirectionsRenderer, useJsApiLoader, MarkerF, InfoWindowF } from "@react-google-maps/api";
 import { React, useCallback, useEffect, useRef, useState } from "react";
-// import "@reach/accordion";
 import {
     Accordion,
     AccordionItem,
@@ -29,7 +28,7 @@ export default function RouteMap () {
     if (response !== null) {
       if (response.status === 'OK') {
         setDirectionsOptions(() => ({response}));
-          console.log("directionsOptions:", setDirectionsOptions);
+          console.log("directionsOptions:", directionsOptions);
         //   console.log(directionsOptions.origin);
       } else {
         console.log('response: ', response);
@@ -44,24 +43,21 @@ export default function RouteMap () {
     }
 
   function onClick () {
-    console.log("in onClick");
     if (inputs.origin !== '' && inputs.destination !== '') {
-        setDirectionsOptions(
-        () => ({
-        response: directionsOptions.response,
-        origin: inputs.origin,
-        destination: inputs.destination,
-        travelMode: 'DRIVING'
-        })
-    );
-    console.log(directionsOptions.origin);
-    console.log(directionsOptions.destination);
+        setDirectionsOptions( () => ({
+            response: directionsOptions.response,
+            origin: inputs.origin,
+            destination: inputs.destination,
+            travelMode: 'DRIVING'
+        }));
     }
   }
 
   function onMapClick (...args) {
     console.log('onClick args: ', args);
   }
+
+  console.log(directionsOptions);
 
   if (!isLoaded) return <div>Loading...</div>
     return (
@@ -178,7 +174,9 @@ export default function RouteMap () {
   
 }
 
-function DirectionsAccordion () {
+function DirectionsAccordion ({ directionsOptions }) {
+
+    console.log(directionsOptions);
 
     return (
         <div className="DirectionsAccordion">
