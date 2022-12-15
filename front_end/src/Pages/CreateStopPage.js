@@ -2,7 +2,10 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { GoogleMap, useJsApiLoader, MarkerF } from "@react-google-maps/api";
 
-
+const center = {
+    lat: 37.733795, 
+    lng: -122.446747
+};
 export default function CreateStopPage ({ stop_lat, stop_lng }) {
     const [libraries] = useState(['places']);
     const navigate = useNavigate();
@@ -10,7 +13,7 @@ export default function CreateStopPage ({ stop_lat, stop_lng }) {
     let [catChoice, setCatChoice] = useState("");
     let [marker, setMarker] = useState([]);
 
-    const center = {lat: 37.733795, lng: -122.446747};
+    // const center = {lat: 37.733795, lng: -122.446747};
     const { isLoaded } = useJsApiLoader({
         googleMapsApiKey:process.env.REACT_APP_NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
         libraries,
