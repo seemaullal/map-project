@@ -17,17 +17,10 @@ export default function CreateStopPage ({ stop_lat, stop_lng }) {
     let [catChoice, setCatChoice] = useState("");
     let [marker, setMarker] = useState([]);
 
-    // const center = {lat: 37.733795, lng: -122.446747};
     const { isLoaded } = useJsApiLoader({
         googleMapsApiKey:process.env.REACT_APP_NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
         libraries,
     });
-
-    const handleChange = (e) => {
-        const name = e.target.name;
-        const value = e.target.value;
-        setInputs(values => ({...values, [name]: value}));
-    }
 
     const onMapLoad = useCallback((map) => {
         mapRef.current = map;
@@ -37,6 +30,12 @@ export default function CreateStopPage ({ stop_lat, stop_lng }) {
         mapRef.current.panTo({lat, lng});
         mapRef.current.setZoom(12);
     }, []);
+
+    const handleChange = (e) => {
+        const name = e.target.name;
+        const value = e.target.value;
+        setInputs(values => ({...values, [name]: value}));
+    }
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -79,7 +78,6 @@ export default function CreateStopPage ({ stop_lat, stop_lng }) {
                 <StandaloneSearchBox panTo={panTo} />
                 <GoogleMap 
                     zoom={10} 
-                    // center={marker.lat ? (center) : } 
                     center={center} 
                     mapContainerClassName="map-container"
                     onClick={(e) => {
@@ -159,7 +157,7 @@ function StandaloneSearchBox({ panTo }) {
         = usePlacesAutocomplete({
         requestOptions: {
             location: { lat: () => 37.2982, lng: () => -113.0263 },
-            radius: 50 * 1609.344,
+            radius: 50 * 1600,
         },
     });
 

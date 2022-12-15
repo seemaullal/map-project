@@ -1,9 +1,13 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 
-const CreateReview = () => {
+const CreateReview = ({ onQuery }) => {
     let { stop_id } = useParams(); 
     const [inputs, setInputs] = useState({});
+
+    const handleInput = (e) => {
+        onQuery(e.target.value);
+    }
 
     const handleChange = (e) => {
         const name = e.target.name;
@@ -51,6 +55,7 @@ const CreateReview = () => {
                         name="rating"
                         value={inputs.rating || ""}
                         onChange={handleChange}
+                        onInput={handleInput}
                     />
                     <label>Review</label>
                     <input 
@@ -59,11 +64,11 @@ const CreateReview = () => {
                         name="content"
                         value={inputs.content || ""}
                         onChange={handleChange} 
+                        onInput={handleInput}
                     />
                     <button>Create Review</button>
                 </form>
         </div>
-
     );
 }
  

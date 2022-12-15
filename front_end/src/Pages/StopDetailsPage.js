@@ -6,6 +6,7 @@ import StopReviews from "../Components/StopReviews";
 const StopDetails = () => {
     let { stop_id } = useParams(); 
     const [stop, setStop] = useState([]); 
+    const [query, setQuery] = useState("");
 
     useEffect(() => {
         fetch(`/api/stops/${stop_id}`) 
@@ -24,9 +25,9 @@ const StopDetails = () => {
                 <p>Stop Latitude: { stop.stop_lat }</p>
                 <p>Stop Longitude: { stop.stop_lng }</p>
                 <br></br>
-                <CreateReview />
+                <CreateReview onQuery={setQuery}/>
                 <br></br>
-                <StopReviews />
+                <StopReviews query={query}/>
             </article>
         </div>
      );
