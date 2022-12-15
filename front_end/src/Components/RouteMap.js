@@ -196,14 +196,21 @@ export default function RouteMap () {
                 /> 
               )
             }
-             <DistanceMatrixService 
-                options={{
-                    destinations: [directionsOptions.destination, '1 Zion Park Blvd. Springdale , UT'],
-                    origins: [directionsOptions.origin],
-                    travelMode: 'DRIVING',
-                }}
-                callback = {(response) => {console.log('DMS:',response)}}
-            />
+            {
+              (
+                directionsOptions.destination !== '' &&
+                directionsOptions.origin !== ''
+              ) && (
+                <DistanceMatrixService 
+                  options={{
+                      destinations: [directionsOptions.destination, {lat:37.297817, lng:-113.028770}],
+                      origins: [directionsOptions.origin],
+                      travelMode: 'DRIVING',
+                  }}
+                  callback = {(response) => {console.log('DMS:',response)}}
+                />
+              )
+            }
             {
               directionsOptions.response !== null && (
                 <DirectionsRenderer
