@@ -40,10 +40,18 @@ export default function RouteMap () {
         destination: '',
     });
 
+    // const [distanceMatrixOptions, setDistanceMatrixOptions] = useState({
+    //     response: null,
+    //     travelMode: 'DRIVING',
+    //     origins: [],
+    //     destinations: [],
+    //     waypoints: []
+    // });
+
   function directionsCallback (response) {
-      console.log(response);
-      console.log(response.request);
-      console.log(response.request.destination);
+      // console.log(response);
+      // console.log(response.request);
+      // console.log(response.request.destination);
 
     if (response !== null) {
       if (response.status === 'OK') {
@@ -55,6 +63,20 @@ export default function RouteMap () {
       }
     }
   }
+  // function distanceMatrixCallback (response) {
+  //     // console.log(response);
+  //     // console.log(response.request);
+  //     // console.log(response.request.destination);
+
+  //   if (response !== null) {
+  //     if (response.status === 'OK') {
+  //       setDistanceMatrixOptions(() => ({response}));
+  //         console.log("distanceMatrixOptions:", distanceMatrixOptions);
+  //     } else {
+  //       console.log('response: ', response);
+  //     }
+  //   }
+  // }
 
   const handleChange = (e) => {
     const name = e.target.name;
@@ -69,8 +91,21 @@ export default function RouteMap () {
             origin: inputs.origin,
             // origin: {query: inputs.origin},
             destination: inputs.destination,
-            travelMode: 'DRIVING'
+            travelMode: 'DRIVING',
+            waypoints: [
+              {
+                location: { lat:37.0791782514, lng:-112.114693431},
+                stopover: true,
+              }]
         }));
+        // setDistanceMatrixOptions( () => ({
+        //   response: distanceMatrixOptions.response,
+        //   origins: [inputs.origin],
+        //   destinations: [inputs.destination],
+        //   travelMode: 'DRIVING'
+        // }));
+      console.log(directionsOptions);
+      // console.log(distanceMatrixOptions);
     }
   }
 
@@ -122,9 +157,9 @@ export default function RouteMap () {
           <button className='btn btn-primary' type='button' onClick={onClick}>
             Build Route
           </button>
-          {directionsOptions.response !== null && (
+          {/* {directionsOptions.response !== null && (
               <DirectionsAccordion directionsOptions={directionsOptions}/>
-          )}
+          )} */}
         </div>
 
         <div className='map-container'>
@@ -144,7 +179,7 @@ export default function RouteMap () {
               console.log('DirectionsRenderer onUnmount map: ', map)
             }}
           >
-            {stopsObj.map((stopObj) => (
+            {/* {stopsObj.map((stopObj) => (
                 <MarkerF  
                     key={stopObj.key}
                     position={{ lat: stopObj.value.stop_lat, lng: stopObj.value.stop_lng}} 
@@ -164,11 +199,11 @@ export default function RouteMap () {
                                 <div>
                                     <h2>{selected.value.stop_name}</h2>
                                     <p>Category: {selected.value.stop_category}</p>
-                                    <button>Add to Route</button>
+                                    <button onClick={addStopToRoute}>Add to Route</button>
                                 </div>
                             </InfoWindowF>
                         ) : null
-            }
+            } */}
 
             {
               (
@@ -179,24 +214,47 @@ export default function RouteMap () {
                   options={{ 
                     destination: directionsOptions.destination,
                     origin: directionsOptions.origin,
-                    travelMode: 'DRIVING'
+                    travelMode: 'DRIVING',
+                    waypoints: directionsOptions.waypoints
                   }}
                   callback={directionsCallback}
                 //   if map keeps rerendering
-                //   callback={(e) => directionsCallback(e)}
-                  // optional
+                  // callback={(e) => directionsCallback(e)}
                   onLoad={directionsService => {
                     console.log('DirectionsService onLoad directionsService: ', directionsService);
-                    console.log(directionsOptions.destination);
+                    // console.log(directionsOptions.destination);
                   }}
-                  // optional
                   onUnmount={directionsService => {
                     console.log('DirectionsService onUnmount directionsService: ', directionsService)
                   }}
                 /> 
               )
             }
-            {
+            {/* {
+              (
+                directionsOptions.destination !== '' &&
+                directionsOptions.origin !== ''
+              ) && (
+                <DirectionsService
+                  options={{ 
+                    destination: directionsOptions.destination,
+                    origin: '1 Zion Park Blvd. Springdale , UT 84767',
+                    travelMode: 'DRIVING'
+                  }}
+                  callback={directionsCallback}
+                //   if map keeps rerendering
+                  // callback={(e) => directionsCallback(e)}
+                  onLoad={directionsService => {
+                    console.log('DirectionsService onLoad directionsService: ', directionsService);
+                    // console.log(directionsOptions.destination);
+                  }}
+                  onUnmount={directionsService => {
+                    console.log('DirectionsService onUnmount directionsService: ', directionsService)
+                  }}
+                /> 
+              )
+            } */}
+            {/* {
               (
                 directionsOptions.destination !== '' &&
                 directionsOptions.origin !== ''
@@ -204,25 +262,33 @@ export default function RouteMap () {
                 <DistanceMatrixService 
                   options={{
                       destinations: [directionsOptions.destination, {lat:37.297817, lng:-113.028770}],
-                      origins: [directionsOptions.origin],
+                      origins: [directionsOptions.origin, {lat:37.297817, lng:-113.028770}],
                       travelMode: 'DRIVING',
                   }}
-                  callback = {(response) => {console.log('DMS:',response)}}
+                  // callback = {(response) => {console.log('DMS:',response)}}
+                  callback = {(response) => {
+                    setDistanceMatrixOptions( () => ({
+                      response: response,
+                      origins: response.originAddresses,
+                      destinations: [inputs.destination],
+                      travelMode: 'DRIVING'
+                    }));
+                    console.log('DMS:',response);
+                    console.log('distanceMatrixOptions:', distanceMatrixOptions)
+                  }}
                 />
               )
-            }
+            } */}
             {
               directionsOptions.response !== null && (
                 <DirectionsRenderer
                   options={{ 
                     directions: directionsOptions.response
                   }}
-                  // optional
                   onLoad={directionsRenderer => {
                     console.log('DirectionsRenderer onLoad directionsRenderer: ', directionsRenderer);
                     console.log(directionsOptions);
                   }}
-                  // optional
                   onUnmount={directionsRenderer => {
                     console.log('DirectionsRenderer onUnmount directionsRenderer: ', directionsRenderer)
                   }}
@@ -236,33 +302,33 @@ export default function RouteMap () {
   
 }
 
-function DirectionsAccordion ({ directionsOptions }) {
-    const origin_address = directionsOptions.response.request.origin.query;
-    const destination_address = directionsOptions.response.request.destination.query;
+// function DirectionsAccordion ({ directionsOptions }) {
+//     const origin_address = directionsOptions.response.request.origin.query;
+//     const destination_address = directionsOptions.response.request.destination.query;
 
-    return (
-        <div className="DirectionsAccordion">
-            <Accordion collapsible multiple>
-                <AccordionItem>
-                    <h3>
-                        <AccordionButton>Origin</AccordionButton>
-                    </h3>
-                    <AccordionPanel>
-                        { origin_address }
-                    </AccordionPanel>
-                </AccordionItem>
-                <AccordionItem>
-                    <h3>
-                        <AccordionButton>Destination</AccordionButton>
-                    </h3>
-                    <AccordionPanel>
-                        { destination_address }
-                    </AccordionPanel>
-                </AccordionItem>
-            </Accordion>
-        </div>
-    )
-}
+//     return (
+//         <div className="DirectionsAccordion">
+//             <Accordion collapsible multiple>
+//                 <AccordionItem>
+//                     <h3>
+//                         <AccordionButton>Origin</AccordionButton>
+//                     </h3>
+//                     <AccordionPanel>
+//                         { origin_address }
+//                     </AccordionPanel>
+//                 </AccordionItem>
+//                 <AccordionItem>
+//                     <h3>
+//                         <AccordionButton>Destination</AccordionButton>
+//                     </h3>
+//                     <AccordionPanel>
+//                         { destination_address }
+//                     </AccordionPanel>
+//                 </AccordionItem>
+//             </Accordion>
+//         </div>
+//     )
+// }
 
 
 // import { GoogleMap, useJsApiLoader, MarkerF, InfoWindowF } from "@react-google-maps/api";
