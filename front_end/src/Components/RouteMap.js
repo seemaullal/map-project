@@ -1,28 +1,36 @@
 import { GoogleMap, DirectionsService, DirectionsRenderer, useJsApiLoader, MarkerF, InfoWindowF } from "@react-google-maps/api";
 import { React, useCallback, useEffect, useRef, useState } from "react";
+// import "@reach/accordion";
+import {
+    Accordion,
+    AccordionItem,
+    AccordionButton,
+    AccordionPanel,
+  } from "@reach/accordion";
+import "@reach/accordion/styles.css";
 
 export default function RouteMap () {
     const [inputs, setInputs] = useState({});
     const { isLoaded } = useJsApiLoader({
         googleMapsApiKey:process.env.REACT_APP_NEXT_PUBLIC_GOOGLE_MAPS_API_KEY
     });
-    const [state, setState] = useState({
+    const [directionsOptions, setDirectionsOptions] = useState({
         response: null,
         travelMode: 'DRIVING',
         origin: '',
         destination: '',
-        // destination: '60 Sereno Circle, Oakland, CA, 94619',
     });
 
   function directionsCallback (response) {
       console.log(response);
+      console.log(response.request);
+      console.log(response.request.destination);
 
     if (response !== null) {
       if (response.status === 'OK') {
-          setState(() => ({response}));
-          console.log("state:",state);
-          console.log(state.origin);
-          console.log(state.destination);
+        setDirectionsOptions(() => ({response}));
+          console.log("directionsOptions:", setDirectionsOptions);
+        //   console.log(directionsOptions.origin);
       } else {
         console.log('response: ', response);
       }
@@ -33,22 +41,21 @@ export default function RouteMap () {
     const name = e.target.name;
     const value = e.target.value;
     setInputs(values => ({...values, [name]: value}));
-    // console.log(inputs);
     }
 
   function onClick () {
-    console.log("in onCLick");
+    console.log("in onClick");
     if (inputs.origin !== '' && inputs.destination !== '') {
-    setState(
+        setDirectionsOptions(
         () => ({
-        response: state.response,
+        response: directionsOptions.response,
         origin: inputs.origin,
         destination: inputs.destination,
         travelMode: 'DRIVING'
         })
     );
-    console.log(state.origin);
-    console.log(state.destination);
+    console.log(directionsOptions.origin);
+    console.log(directionsOptions.destination);
     }
   }
 
@@ -99,6 +106,7 @@ export default function RouteMap () {
         </div>
 
         <div className='map-container'>
+            <DirectionsAccordion />
           <GoogleMap
             id='direction-example'
             mapContainerStyle={{
@@ -120,13 +128,13 @@ export default function RouteMap () {
           >
             {
               (
-                state.destination !== '' &&
-                state.origin !== ''
+                directionsOptions.destination !== '' &&
+                directionsOptions.origin !== ''
               ) && (
                 <DirectionsService
                   options={{ 
-                    destination: state.destination,
-                    origin: state.origin,
+                    destination: directionsOptions.destination,
+                    origin: directionsOptions.origin,
                     travelMode: 'DRIVING'
                   }}
                   callback={directionsCallback}
@@ -135,7 +143,7 @@ export default function RouteMap () {
                   // optional
                   onLoad={directionsService => {
                     console.log('DirectionsService onLoad directionsService: ', directionsService);
-                    console.log(state.destination);
+                    console.log(directionsOptions.destination);
                   }}
                   // optional
                   onUnmount={directionsService => {
@@ -146,15 +154,15 @@ export default function RouteMap () {
             }
 
             {
-              state.response !== null && (
+              directionsOptions.response !== null && (
                 <DirectionsRenderer
                   options={{ 
-                    directions: state.response
+                    directions: directionsOptions.response
                   }}
                   // optional
                   onLoad={directionsRenderer => {
                     console.log('DirectionsRenderer onLoad directionsRenderer: ', directionsRenderer);
-                    console.log(state);
+                    console.log(directionsOptions);
                   }}
                   // optional
                   onUnmount={directionsRenderer => {
@@ -168,6 +176,36 @@ export default function RouteMap () {
       </div>
     )
   
+}
+
+function DirectionsAccordion () {
+
+    return (
+        <div className="DirectionsAccordion">
+            <Accordion collapsible multiple>
+                <AccordionItem>
+                    <h3>
+                        <AccordionButton>Origin</AccordionButton>
+                    </h3>
+                    <AccordionPanel>
+                    Integer ad iaculis semper aenean nibh quisque hac eget volutpat, at
+                    dui sem accumsan cras congue mi varius egestas interdum, molestie
+                    blandit sociosqu sodales diam metus erat venenatis.
+                    </AccordionPanel>
+                </AccordionItem>
+                <AccordionItem>
+                    <h3>
+                        <AccordionButton>Destination</AccordionButton>
+                    </h3>
+                    <AccordionPanel>
+                    Hendrerit faucibus litora justo aliquet inceptos gravida felis vel
+                    aenean, natoque fermentum nostra tempus ornare nam diam est, neque
+                    risus aliquam sapien vestibulum sociis integer eros.
+                    </AccordionPanel>
+                </AccordionItem>
+            </Accordion>
+        </div>
+    )
 }
 
 
