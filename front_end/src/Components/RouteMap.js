@@ -57,8 +57,6 @@ export default function RouteMap () {
     console.log('onClick args: ', args);
   }
 
-  console.log(directionsOptions);
-
   if (!isLoaded) return <div>Loading...</div>
     return (
       <div className='map'>
@@ -99,10 +97,10 @@ export default function RouteMap () {
           <button className='btn btn-primary' type='button' onClick={onClick}>
             Build Route
           </button>
+          <DirectionsAccordion directionsOptions={directionsOptions}/>
         </div>
 
         <div className='map-container'>
-            <DirectionsAccordion />
           <GoogleMap
             id='direction-example'
             mapContainerStyle={{
@@ -176,7 +174,8 @@ export default function RouteMap () {
 
 function DirectionsAccordion ({ directionsOptions }) {
 
-    console.log(directionsOptions);
+    const origin_address = directionsOptions.response.request.origin.query;
+    const destination_address = directionsOptions.response.request.destination.query;
 
     return (
         <div className="DirectionsAccordion">
@@ -186,9 +185,7 @@ function DirectionsAccordion ({ directionsOptions }) {
                         <AccordionButton>Origin</AccordionButton>
                     </h3>
                     <AccordionPanel>
-                    Integer ad iaculis semper aenean nibh quisque hac eget volutpat, at
-                    dui sem accumsan cras congue mi varius egestas interdum, molestie
-                    blandit sociosqu sodales diam metus erat venenatis.
+                        { origin_address }
                     </AccordionPanel>
                 </AccordionItem>
                 <AccordionItem>
@@ -196,9 +193,7 @@ function DirectionsAccordion ({ directionsOptions }) {
                         <AccordionButton>Destination</AccordionButton>
                     </h3>
                     <AccordionPanel>
-                    Hendrerit faucibus litora justo aliquet inceptos gravida felis vel
-                    aenean, natoque fermentum nostra tempus ornare nam diam est, neque
-                    risus aliquam sapien vestibulum sociis integer eros.
+                        { destination_address }
                     </AccordionPanel>
                 </AccordionItem>
             </Accordion>
