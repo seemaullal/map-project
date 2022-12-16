@@ -42,6 +42,7 @@ export default function RouteMap () {
         travelMode: 'DRIVING',
         origin: '',
         destination: '',
+        waypoints: {}
     });
 
     // const [distanceMatrixOptions, setDistanceMatrixOptions] = useState({
@@ -91,7 +92,7 @@ export default function RouteMap () {
   function onClick () {
     if (selected) {
       let selectedWaypoints = [];
-      const selectedWaypoint = {
+      let selectedWaypoint = {
         location: {
           lat: selected.value.stop_lat,
           lng: selected.value.stop_lng
