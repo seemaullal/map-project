@@ -32,6 +32,10 @@ export default function RouteMap () {
 
     const stopsObj = Object.entries(mapData).map(([key, value]) => ({key, value}));
     // console.log(stopsObj);
+    const [stopObj, setStopObj] = useState({
+      key: '',
+      value: {}
+    });
 
     const [directionsOptions, setDirectionsOptions] = useState({
         response: null,
@@ -85,18 +89,44 @@ export default function RouteMap () {
     }
 
   function onClick () {
-    if (inputs.origin !== '' && inputs.destination !== '') {
+    if (selected) {
+      let selectedWaypoints = [];
+      const selectedWaypoint = {
+        location: {
+          lat: selected.value.stop_lat,
+          lng: selected.value.stop_lng
+        },
+        stopover: true,
+      };
+      console.log(selectedWaypoint);
+      selectedWaypoints.push(selectedWaypoint);
+      console.log(selectedWaypoints);
+      setDirectionsOptions( () => ({
+        response: directionsOptions.response,
+        origin: inputs.origin,
+        destination: inputs.destination,
+        travelMode: 'DRIVING',
+        waypoints: selectedWaypoints
+        // waypoints: [
+        //   {
+        //     location:  {lat: selected.value.stop_lat, lng: selected.value.stop_lng},
+        //     stopover: true,
+        //   }]
+      }));
+    }
+    else if (!selected && inputs.origin !== '' && inputs.destination !== '') {
+      console.log('ROUTE 1');
         setDirectionsOptions( () => ({
             response: directionsOptions.response,
             origin: inputs.origin,
             // origin: {query: inputs.origin},
             destination: inputs.destination,
             travelMode: 'DRIVING',
-            waypoints: [
-              {
-                location: { lat:37.0791782514, lng:-112.114693431},
-                stopover: true,
-              }]
+            // waypoints: [
+            //   {
+            //     location:  {lat: 38.91200237, lng: -112.5088259},
+            //     stopover: true,
+            //   }]
         }));
         // setDistanceMatrixOptions( () => ({
         //   response: distanceMatrixOptions.response,
@@ -107,10 +137,17 @@ export default function RouteMap () {
       console.log(directionsOptions);
       // console.log(distanceMatrixOptions);
     }
+
   }
 
-  function addStopToRoute () {
-
+  function addStopToRoute (stopObj) {
+    // console.log(stopObj);
+    // setStopObj( () => ({
+    //   key: selected.key,
+    //   value: selected.value
+    // }));
+    // console.log(stopObj);
+    console.log('after button clicked:',selected);
   }
 
   function onMapClick (...args) {
@@ -179,18 +216,20 @@ export default function RouteMap () {
               console.log('DirectionsRenderer onUnmount map: ', map)
             }}
           >
-            {/* {stopsObj.map((stopObj) => (
+            {stopsObj.map((stopObj) => (
                 <MarkerF  
                     key={stopObj.key}
                     position={{ lat: stopObj.value.stop_lat, lng: stopObj.value.stop_lng}} 
                     onClick={() => {
                         setSelected(stopObj);
+                        console.log(stopObj);
                     }}
                     visible={true}
                 />
             ))}
             {selected ? (
                             <InfoWindowF
+                                selected={selected}
                                 position={{ lat: selected.value.stop_lat, lng: selected.value.stop_lng }} 
                                 onCloseClick={() => {
                                     setSelected(null);
@@ -199,11 +238,12 @@ export default function RouteMap () {
                                 <div>
                                     <h2>{selected.value.stop_name}</h2>
                                     <p>Category: {selected.value.stop_category}</p>
-                                    <button onClick={addStopToRoute}>Add to Route</button>
+                                    {/* <button onClick={(stobObj) => {addStopToRoute(stopObj)}}>Add to Route</button> */}
+                                    <button onClick={onClick}>Add to Route</button>
                                 </div>
                             </InfoWindowF>
                         ) : null
-            } */}
+            }
 
             {
               (
@@ -278,33 +318,42 @@ export default function RouteMap () {
   
 }
 
-// function DirectionsAccordion ({ directionsOptions }) {
-//     const origin_address = directionsOptions.response.request.origin.query;
-//     const destination_address = directionsOptions.response.request.destination.query;
+function DirectionsAccordion ({ directionsOptions }) {
+    const origin_address = directionsOptions.response.request.origin.query;
+    const destination_address = directionsOptions.response.request.destination.query;
+    // const waypoint_coords = directionsOptions.response.request.waypoints[0].location;
 
-//     return (
-//         <div className="DirectionsAccordion">
-//             <Accordion collapsible multiple>
-//                 <AccordionItem>
-//                     <h3>
-//                         <AccordionButton>Origin</AccordionButton>
-//                     </h3>
-//                     <AccordionPanel>
-//                         { origin_address }
-//                     </AccordionPanel>
-//                 </AccordionItem>
-//                 <AccordionItem>
-//                     <h3>
-//                         <AccordionButton>Destination</AccordionButton>
-//                     </h3>
-//                     <AccordionPanel>
-//                         { destination_address }
-//                     </AccordionPanel>
-//                 </AccordionItem>
-//             </Accordion>
-//         </div>
-//     )
-// }
+    return (
+        <div className="DirectionsAccordion">
+            <Accordion collapsible multiple>
+                <AccordionItem>
+                    <h3>
+                        <AccordionButton>Origin</AccordionButton>
+                    </h3>
+                    <AccordionPanel>
+                        { origin_address }
+                    </AccordionPanel>
+                </AccordionItem>
+                {/* <AccordionItem>
+                    <h3>
+                        <AccordionButton>Origin</AccordionButton>
+                    </h3>
+                    <AccordionPanel>
+                        { waypoint_coords }
+                    </AccordionPanel>
+                </AccordionItem> */}
+                <AccordionItem>
+                    <h3>
+                        <AccordionButton>Destination</AccordionButton>
+                    </h3>
+                    <AccordionPanel>
+                        { destination_address }
+                    </AccordionPanel>
+                </AccordionItem>
+            </Accordion>
+        </div>
+    )
+}
 
 
 // import { GoogleMap, useJsApiLoader, MarkerF, InfoWindowF } from "@react-google-maps/api";
