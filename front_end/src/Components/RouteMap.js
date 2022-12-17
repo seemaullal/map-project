@@ -32,40 +32,54 @@ export default function RouteMap () {
 
     const stopsObj = Object.entries(mapData).map(([key, value]) => ({key, value}));
     // console.log(stopsObj);
-    const [stopObj, setStopObj] = useState({
-      key: '',
-      value: {}
-    });
 
-    const [directionsOptions, setDirectionsOptions] = useState({
-        response: null,
-        travelMode: 'DRIVING',
-        origin: '',
-        destination: '',
-        waypoints: {}
-    });
-
-    // const [distanceMatrixOptions, setDistanceMatrixOptions] = useState({
+    // const [directionsOptions, setDirectionsOptions] = useState({
     //     response: null,
     //     travelMode: 'DRIVING',
-    //     origins: [],
-    //     destinations: [],
+    //     origin: '',
+    //     destination: '',
     //     waypoints: []
     // });
+    const [directionsOptions, setDirectionsOptions] = useState({
+        geocoded_waypoints: [],
+        request: {
+          destination: {
+            query: ''
+          },
+          origin: {
+            query: ''
+          },
+          travelMode: 'DRIVING',
+          waypoints: []
+        },
+        routes: [],
+        status: 'OK'
+    });
+    // const [directionsOptions, setDirectionsOptions] = useState(null);
 
-  function directionsCallback (response) {
-      // console.log(response);
-      // console.log(response.request);
-      // console.log(response.request.destination);
+    
 
-    if (response !== null) {
-      if (response.status === 'OK') {
-        setDirectionsOptions(() => ({response}));
+  function directionsCallback (directionsOptions) {
+      // console.log('directionsCallback:', response);
+      // console.log('directionsCallback:', response.request);
+      // console.log('directionsCallback:', response.request.destination);
+      // console.log('directionsCallback:', response.request.destination.query);
+      console.log('directionsCallback:', directionsOptions);
+      console.log('directionsCallback:', directionsOptions.request);
+      console.log('directionsCallback:', directionsOptions.request.destination);
+      console.log('directionsCallback:', directionsOptions.request.destination.query);
+
+      // if (response !== null) {
+      if (directionsOptions !== null) {
+      // if (response.status === 'OK') {
+        // {setDirectionsOptions( (prev) => ({...prev, response}));
+        // setDirectionsOptions( (prev) => ({...prev, directionsOptions}));
+        setDirectionsOptions(() => ({directionsOptions}));
           console.log("directionsOptions:", directionsOptions);
-        //   console.log(directionsOptions.origin);
-      } else {
-        console.log('response: ', response);
-      }
+          // console.log("directionsOptions:", response);
+      // } else {
+      //   console.log('response: ', response);
+      // }
     }
   }
   // function distanceMatrixCallback (response) {
@@ -91,7 +105,6 @@ export default function RouteMap () {
 
   function onClick () {
     if (selected) {
-      let selectedWaypoints = [];
       let selectedWaypoint = {
         location: {
           lat: selected.value.stop_lat,
@@ -100,55 +113,40 @@ export default function RouteMap () {
         stopover: true,
       };
       console.log(selectedWaypoint);
-      selectedWaypoints.push(selectedWaypoint);
-      console.log(selectedWaypoints);
-      setDirectionsOptions( () => ({
-        response: directionsOptions.response,
-        origin: inputs.origin,
-        destination: inputs.destination,
-        travelMode: 'DRIVING',
-        waypoints: selectedWaypoints
-        // waypoints: [
+      setDirectionsOptions( (prev) => {
+        console.log('prev:', prev.waypoints);
+        console.log('prev:', prev.response.waypoints);
+        return {
+        ...prev,
+        waypoints: [...prev.waypoints, selectedWaypoint]
+        //  waypoints: [
         //   {
         //     location:  {lat: selected.value.stop_lat, lng: selected.value.stop_lng},
         //     stopover: true,
         //   }]
-      }));
+      }});
     }
     else if (!selected && inputs.origin !== '' && inputs.destination !== '') {
-      console.log('ROUTE 1');
+        console.log('ROUTE 1');
         setDirectionsOptions( () => ({
-            response: directionsOptions.response,
-            origin: inputs.origin,
-            // origin: {query: inputs.origin},
-            destination: inputs.destination,
+          geocoded_waypoints: [],
+          request: {
+            destination: {
+              query: inputs.destination
+            },
+            origin: {
+              query: inputs.origin
+
+            },
             travelMode: 'DRIVING',
-            // waypoints: [
-            //   {
-            //     location:  {lat: 38.91200237, lng: -112.5088259},
-            //     stopover: true,
-            //   }]
+            waypoints: []
+          },
+          routes: [],
+          status: 'OK'
         }));
-        // setDistanceMatrixOptions( () => ({
-        //   response: distanceMatrixOptions.response,
-        //   origins: [inputs.origin],
-        //   destinations: [inputs.destination],
-        //   travelMode: 'DRIVING'
-        // }));
-      console.log(directionsOptions);
-      // console.log(distanceMatrixOptions);
+        console.log("is else if dO:", directionsOptions);
     }
 
-  }
-
-  function addStopToRoute (stopObj) {
-    // console.log(stopObj);
-    // setStopObj( () => ({
-    //   key: selected.key,
-    //   value: selected.value
-    // }));
-    // console.log(stopObj);
-    console.log('after button clicked:',selected);
   }
 
   function onMapClick (...args) {
@@ -210,14 +208,14 @@ export default function RouteMap () {
             zoom={10}
             center={center}
             onClick={onMapClick}
-            onLoad={map => {
-              console.log('DirectionsRenderer onLoad map: ', map)
-            }}
-            onUnmount={map => {
-              console.log('DirectionsRenderer onUnmount map: ', map)
-            }}
+          //   onLoad={map => {
+          //     console.log('DirectionsRenderer onLoad map: ', map)
+          //   }}
+          //   onUnmount={map => {
+          //     console.log('DirectionsRenderer onUnmount map: ', map)
+          //   }}
           >
-            {stopsObj.map((stopObj) => (
+            {/* {stopsObj.map((stopObj) => (
                 <MarkerF  
                     key={stopObj.key}
                     position={{ lat: stopObj.value.stop_lat, lng: stopObj.value.stop_lng}} 
@@ -240,75 +238,54 @@ export default function RouteMap () {
                                     <h2>{selected.value.stop_name}</h2>
                                     <p>Category: {selected.value.stop_category}</p>
                                     {/* <button onClick={(stobObj) => {addStopToRoute(stopObj)}}>Add to Route</button> */}
-                                    <button onClick={onClick}>Add to Route</button>
+                                    {/* <button onClick={onClick}>Add to Route</button>
                                 </div>
                             </InfoWindowF>
                         ) : null
+            } */} 
+        
+            {
+              (
+                directionsOptions.request.destination !== '' &&
+                directionsOptions.request.origin !== ''
+              ) && (
+              // directionsOptions && (
+                <DirectionsService
+                  options={{ 
+                    destination: directionsOptions.request.destination,
+                    origin: directionsOptions.request.origin,
+                    travelMode: 'DRIVING',
+                    waypoints: directionsOptions.request.waypoints
+                  }}
+                  callback={directionsCallback}
+                  onLoad={directionsService => {
+                    // console.log('DirectionsService onLoad directionsService: ', directionsService);
+                    console.log('DirectionsService:', directionsOptions);
+                  }}
+                  // onUnmount={directionsService => {
+                  //   console.log('DirectionsService onUnmount directionsService: ', directionsService)
+                  // }}
+                /> 
+              )
             }
 
             {
               (
-                directionsOptions.destination !== '' &&
-                directionsOptions.origin !== ''
-              ) && (
-                <DirectionsService
-                  options={{ 
-                    destination: directionsOptions.destination,
-                    origin: directionsOptions.origin,
-                    travelMode: 'DRIVING',
-                    waypoints: directionsOptions.waypoints
-                  }}
-                  callback={directionsCallback}
-                //   if map keeps rerendering
-                  // callback={(e) => directionsCallback(e)}
-                  onLoad={directionsService => {
-                    console.log('DirectionsService onLoad directionsService: ', directionsService);
-                    // console.log(directionsOptions.destination);
-                  }}
-                  onUnmount={directionsService => {
-                    console.log('DirectionsService onUnmount directionsService: ', directionsService)
-                  }}
-                /> 
-              )
-            }
-            {/* {
-              (
-                directionsOptions.destination !== '' &&
-                directionsOptions.origin !== ''
-              ) && (
-                <DistanceMatrixService 
-                  options={{
-                      destinations: [directionsOptions.destination, {lat:37.297817, lng:-113.028770}],
-                      origins: [directionsOptions.origin, {lat:37.297817, lng:-113.028770}],
-                      travelMode: 'DRIVING',
-                  }}
-                  // callback = {(response) => {console.log('DMS:',response)}}
-                  callback = {(response) => {
-                    setDistanceMatrixOptions( () => ({
-                      response: response,
-                      origins: response.originAddresses,
-                      destinations: [inputs.destination],
-                      travelMode: 'DRIVING'
-                    }));
-                    console.log('DMS:',response);
-                    console.log('distanceMatrixOptions:', distanceMatrixOptions)
-                  }}
-                />
-              )
-            } */}
-            {
-              directionsOptions.response !== null && (
+                directionsOptions.request.destination !== '' &&
+                directionsOptions.request.origin !== ''
+              ) 
+               && (
                 <DirectionsRenderer
-                  options={{ 
-                    directions: directionsOptions.response
+                  options={{
+                    directions: directionsOptions
                   }}
                   onLoad={directionsRenderer => {
-                    console.log('DirectionsRenderer onLoad directionsRenderer: ', directionsRenderer);
-                    console.log(directionsOptions);
+                    // console.log('DirectionsRenderer onLoad directionsRenderer: ', directionsRenderer);
+                    console.log('DirectionsRenderer:', directionsOptions);
                   }}
-                  onUnmount={directionsRenderer => {
-                    console.log('DirectionsRenderer onUnmount directionsRenderer: ', directionsRenderer)
-                  }}
+                  // onUnmount={directionsRenderer => {
+                  //   console.log('DirectionsRenderer onUnmount directionsRenderer: ', directionsRenderer)
+                  // }}
                 />
               )
             }
@@ -356,77 +333,71 @@ function DirectionsAccordion ({ directionsOptions }) {
     )
 }
 
+// Seema and Anika's Edits:
 
-// import { GoogleMap, useJsApiLoader, MarkerF, InfoWindowF } from "@react-google-maps/api";
-// import { React, useCallback, useEffect, useRef, useState } from "react";
-// import usePlacesAutocomplete, {getGeocode, getLatLng} from "use-places-autocomplete";
-// // import DistanceMatrix from "./DistanceMatrix";
+// const [directionsOptions, setDirectionsOptions] = useState({
+//   response: null,
+//   travelMode: 'DRIVING',
+//   origin: '',
+//   destination: '',
+//   waypoints: {}
+// });
 
-// const RouteMap = () => {
-//     const [libraries] = useState(['places']);
-    // const [mapData, setMapData] =useState([]);
-    // const [selected, setSelected] = useState(null);
-//     const center = {lat: 37.733795, lng: -122.446747};
-//     const { isLoaded } = useJsApiLoader({
-//         googleMapsApiKey:process.env.REACT_APP_NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
-//         libraries,
-//     });
-   
-    // useEffect(() => {
-    //     fetch('/api/stops/map_data')
-    //         .then((response) => response.json())
-    //         .then((data) => {
-    //             setMapData(data);
-    //         });
-    // }, []);
+// function directionsCallback (response) {
+//   // console.log(response);
+//   // console.log(response.request);
+//   // console.log(response.request.destination);
 
-    // const stopsObj = Object.entries(mapData).map(([key, value]) => ({key, value}));
-    // // console.log(stopsObj);
-
-    // const mapRef = useRef();
-    // const onMapLoad = useCallback((map) => {
-    //     mapRef.current = map;
-    // }, []);
-
-    // const panTo = useCallback(({lat, lng}) => {
-    //     mapRef.current.panTo({lat, lng});
-    //     mapRef.current.setZoom(14);
-    // }, []);
-
-//     if (!isLoaded) return <div>Loading...</div>
-//     return ( 
-//         <div>
-            // <StandaloneSearchBox panTo={panTo} />
-//             <GoogleMap 
-//                 zoom={11} 
-//                 center={center} 
-//                 mapContainerClassName="map-container"
-//                 onLoad={onMapLoad}
-//             >
-                // {stopsObj.map((stopObj) => (
-                //     <MarkerF  
-                //         key={stopObj.key}
-                //         position={{ lat: stopObj.value.stop_lat, lng: stopObj.value.stop_lng}} 
-                //         onClick={() => {
-                //             setSelected(stopObj);
-                //         }}
-                //     />
-                // ))}
-                // {selected ? (<InfoWindowF
-                //                 position={{ lat: selected.value.stop_lat, lng: selected.value.stop_lng }} 
-                //                 onCloseClick={() => {
-                //                     setSelected(null);
-                //                 }}
-                //             >
-                //                 <div>
-                //                     <h2>{selected.value.stop_name}</h2>
-                //                     <p>Category: {selected.value.stop_category}</p>
-                //                 </div>
-                //             </InfoWindowF>) : null}
-            // </GoogleMap>
-//             {/* <DistanceMatrix isLoaded={isLoaded}/> */}
-//         </div>
-//     );
+//   if (response !== null) {
+//   if (response.status === 'OK') {
+//     setDirectionsOptions((prev) => ({...prev, response}));
+//     // setDirectionsOptions(() => ({response}));
+//       // console.log("directionsOptions:", directionsOptions);
+//     //   console.log(directionsOptions.origin);
+//   } else {
+//     console.log('response: ', response);
+//   }
+//   }
 // }
- 
-// export default RouteMap;
+
+// function onClick () {
+//   if (selected) {
+//     let selectedWaypoint = {
+//       location: {
+//         lat: selected.value.stop_lat,
+//         lng: selected.value.stop_lng
+//       },
+//       stopover: true,
+//     };
+//     console.log(selectedWaypoint);
+//     setDirectionsOptions( (prev) => {
+//       console.log('prev:', prev);
+//       return {
+//       ...prev,
+//       waypoints: [...prev.waypoints, selectedWaypoint]
+//       //  waypoints: [
+//       //   {
+//       //     location:  {lat: selected.value.stop_lat, lng: selected.value.stop_lng},
+//       //     stopover: true,
+//       //   }]
+//     }});
+//   }
+//   else if (!selected && inputs.origin !== '' && inputs.destination !== '') {
+//     console.log('ROUTE 1');
+//       setDirectionsOptions( () => ({
+//           response: directionsOptions.response,
+//           origin: inputs.origin,
+//           // origin: {query: inputs.origin},
+//           destination: inputs.destination,
+//           travelMode: 'DRIVING',
+//           waypoints: {}
+//           // waypoints: [
+//           //   {
+//           //     location:  {lat: 38.91200237, lng: -112.5088259},
+//           //     stopover: true,
+//           //   }]
+//       }));
+//     console.log(directionsOptions);
+//   }
+
+
