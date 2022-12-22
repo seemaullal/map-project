@@ -197,9 +197,9 @@ export default function RouteMap() {
         <button className="btn btn-primary" type="button" onClick={onClick}>
           Build Route
         </button>
-        {directionsOptions.response !== null && (
+        {/* {directionsOptions.response !== null && (
           <DirectionsAccordion directionsOptions={directionsOptions} />
-        )}
+        )} */}
       </div>
 
       <div className="map-container">
