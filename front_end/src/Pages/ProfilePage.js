@@ -1,34 +1,37 @@
-import { Link } from 'react-router-dom';
-import { useState, useEffect } from 'react';
-import StopList from '../Components/StopList.js'
-import MyReviews from '../Components/MyReviews.js'
+import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import StopList from "../Components/StopList.js";
+// import MyReviews from '../Components/MyReviews.js'
 
 const ProfilePage = () => {
-    const [myStops, setMyStops] = useState([]);
-    
-    useEffect(() => {
-        const user_id = sessionStorage.user_id
+  const [myStops, setMyStops] = useState([]);
 
-        fetch(`/api/${user_id}/stops`)
-            .then(response => response.json())
-            .then(data => {setMyStops(data)})
-            .catch(error => console.log(error));
-    }, []);
+  useEffect(() => {
+    const user_id = sessionStorage.user_id;
 
-    const stopsObj = Object.entries(myStops).map(([key, value]) => ({key, value}))
+    fetch(`/api/${user_id}/stops`)
+      .then((response) => response.json())
+      .then((data) => {
+        setMyStops(data);
+      })
+      .catch((error) => console.log(error));
+  }, []);
 
-    return ( 
-        <div className="ProfilePage">
-            <h2>My Profile</h2>
-            <Link to="/create-stop">Create a Stop</Link>
-            <Link to="/create-route">Create a Route</Link>
-            <br></br>
-            {stopsObj && <StopList stopsObj={stopsObj} title="My Stops" />}
-            <MyReviews />
-        </div>
-     );
-}
- 
+  const stopsObj = Object.entries(myStops).map(([key, value]) => ({
+    key,
+    value,
+  }));
+
+  return (
+    <div className="ProfilePage">
+      <h2>My Profile</h2>
+      <Link to="/create-stop">Create a Stop</Link>
+      <Link to="/create-route">Create a Route</Link>
+      <br></br>
+      {stopsObj && <StopList stopsObj={stopsObj} title="My Stops" />}
+      {/* <MyReviews /> */}
+    </div>
+  );
+};
+
 export default ProfilePage;
-
-
