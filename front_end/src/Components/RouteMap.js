@@ -4,8 +4,8 @@ import {
   DirectionsRenderer,
   // DistanceMatrixService,
   useJsApiLoader,
-  // MarkerF,
-  // InfoWindowF,
+  MarkerF,
+  InfoWindowF,
 } from "@react-google-maps/api";
 import { React, useEffect, useState, useRef } from "react";
 import {
@@ -59,7 +59,7 @@ export default function RouteMap() {
   //     waypoints: []
   // });
   const [directionsOptions, setDirectionsOptions] = useState({
-    geocoded_waypoints: [],
+    waypoints: [],
     request: {
       destination: {
         query: "",
@@ -98,6 +98,10 @@ export default function RouteMap() {
   //   }
   // }
 
+  function addStopToRoute(stopObj) {
+    console.log("after button clicked:", selected);
+  }
+
   const handleChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
@@ -105,6 +109,7 @@ export default function RouteMap() {
   };
 
   function onClick(obj) {
+    renderCounter.current = 0;
     console.log("onClick object", obj);
     if (selected) {
       let selectedWaypoint = {
@@ -116,26 +121,29 @@ export default function RouteMap() {
       };
       console.log(selectedWaypoint);
       setDirectionsOptions((prev) => {
-        console.log("prev:", prev.waypoints);
-        console.log("prev:", prev.response.waypoints);
+        console.log("prev:", prev);
         return {
           ...prev,
+          request: {
+            ...prev.request,
+            waypoints: [...prev.request.waypoints, selectedWaypoint],
+          },
           // waypoints: [...prev.waypoints, selectedWaypoint],
-          waypoints: [
-            {
-              location: {
-                lat: selected.value.stop_lat,
-                lng: selected.value.stop_lng,
-              },
-              stopover: true,
-            },
-          ],
+          // waypoints: [
+          //   {
+          //     location: {
+          //       lat: selected.value.stop_lat,
+          //       lng: selected.value.stop_lng,
+          //     },
+          //     stopover: true,
+          //   },
+          // ],
         };
       });
     } else if (!selected && inputs.origin !== "" && inputs.destination !== "") {
       console.log("ROUTE 1");
       setDirectionsOptions(() => ({
-        geocoded_waypoints: [],
+        waypoints: [],
         request: {
           destination: {
             query: inputs.destination,
@@ -219,34 +227,45 @@ export default function RouteMap() {
             console.log("DirectionsRenderer onUnmount map: ", map);
           }}
         >
-          {/* {stopsObj.map((stopObj) => (
-                <MarkerF
-                    key={stopObj.key}
-                    position={{ lat: stopObj.value.stop_lat, lng: stopObj.value.stop_lng}}
-                    onClick={() => {
-                        setSelected(stopObj);
-                        console.log(stopObj);
-                    }}
-                    visible={true}
-                />
-            ))}
-            {selected ? (
-                            <InfoWindowF
-                                selected={selected}
-                                position={{ lat: selected.value.stop_lat, lng: selected.value.stop_lng }}
-                                onCloseClick={() => {
-                                    setSelected(null);
-                                }}
-                            >
-                                <div>
-                                    <h2>{selected.value.stop_name}</h2>
-                                    <p>Category: {selected.value.stop_category}</p>
-                                    {/* <button onClick={(stobObj) => {addStopToRoute(stopObj)}}>Add to Route</button> */}
-          {/* <button onClick={onClick}>Add to Route</button>
-                                </div>
-                            </InfoWindowF>
-                        ) : null
-            } */}
+          {stopsObj.map((stopObj) => (
+            <MarkerF
+              key={stopObj.key}
+              position={{
+                lat: stopObj.value.stop_lat,
+                lng: stopObj.value.stop_lng,
+              }}
+              onClick={() => {
+                setSelected(stopObj);
+                console.log(stopObj);
+              }}
+              visible={true}
+            />
+          ))}
+          {selected ? (
+            <InfoWindowF
+              selected={selected}
+              position={{
+                lat: selected.value.stop_lat,
+                lng: selected.value.stop_lng,
+              }}
+              onCloseClick={() => {
+                setSelected(null);
+              }}
+            >
+              <div>
+                <h2>{selected.value.stop_name}</h2>
+                <p>Category: {selected.value.stop_category}</p>
+                <button
+                  onClick={(stopObj) => {
+                    onClick(stopObj);
+                  }}
+                >
+                  Add to Route
+                </button>
+                <button onClick={onClick}>Add to Route</button>
+              </div>
+            </InfoWindowF>
+          ) : null}
 
           {directionsOptions.request?.destination &&
             directionsOptions.request?.origin && (
